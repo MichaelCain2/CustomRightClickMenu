@@ -7,7 +7,7 @@ cache: yarn
 branches:
   only:
   - master
-  - travis-test
+  - travis-selenium
 stages:
 # - build
 - test
