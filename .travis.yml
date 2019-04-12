@@ -70,7 +70,7 @@ script:
 - ls ~/
 - netstat -tupln
 - ~/chromedriver &
-- "./scripts/get_build_artifacts.sh || travis_wait yarn pretest"
+- travis_wait yarn pretest"
 - "./scripts/do_test.sh $TEST"
 
 # jobs:
