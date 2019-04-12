@@ -8,11 +8,11 @@ branches:
   only:
   - master
   - travis-selenium
-stages:
-# - build
-- test
-- name: deploy website
-  if: branch = master
+# stages:
+# # - build
+# - test
+# - name: deploy website
+#   if: branch = master
   
 env:
   matrix:
@@ -72,18 +72,18 @@ script:
 - "./scripts/get_build_artifacts.sh || travis_wait yarn pretest"
 - "./scripts/do_test.sh $TEST"
 
-jobs:
-  include:
-  # - stage: build
-  #   script:
-  #   - yarn pretest
-  #   - ./scripts/set_build_artifacts.sh || echo "Failed to upload build artifacts"
-  - stage: deploy website
-    script: 
-      - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then 
-        ./scripts/is_latest_commit.sh && sh ./scripts/deploy-website.sh || echo "Not latest commit, not deploying" ;
-        fi
-    env: TEST=none
+# jobs:
+#   include:
+#   # - stage: build
+#   #   script:
+#   #   - yarn pretest
+#   #   - ./scripts/set_build_artifacts.sh || echo "Failed to upload build artifacts"
+#   - stage: deploy website
+#     script: 
+#       - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then 
+#         ./scripts/is_latest_commit.sh && sh ./scripts/deploy-website.sh || echo "Not latest commit, not deploying" ;
+#         fi
+#     env: TEST=none
 notifications:
   email:
     on_success: change
