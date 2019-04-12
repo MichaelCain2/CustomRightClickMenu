@@ -9,7 +9,8 @@ const PORT: number = 1250;
 //Set to false to test remotely even when running it locally
 const TEST_LOCAL_DEFAULT = true;
 const TEST_LOCAL: boolean = hasSetting('remote') || !!process.env.TRAVIS ? 
-	false : TEST_LOCAL_DEFAULT;
+	// TODO: change true to false
+	true : TEST_LOCAL_DEFAULT;
 const TEST_EXTENSION = hasSetting('test-extension');
 const TIME_MODIFIER = 1.2;
 const LOCAL_URL = 'http://localhost:9515';
@@ -62,6 +63,7 @@ import * as chromeExtensionData from './UI/drivers/chrome-extension';
 import * as operaExtensionData from './UI/drivers/opera-extension';
 import * as edgeExtensionData from './UI/drivers/edge-extension';
 import * as defaultExtensionData from './UI/drivers/default';
+import * as chromeDriver from 'selenium-webdriver/chrome';
 import * as webdriver from 'selenium-webdriver';
 import * as path from 'path';
 import * as chai from 'chai';
@@ -386,7 +388,9 @@ before('Driver connect', async function() {
 				}`
 			})(),
 			'browserstack.local': !TEST_EXTENSION
-		}}).merge(additionalCapabilities));
+		}}).merge(additionalCapabilities).merge(new chromeDriver.Options().headless().addArguments(
+			'--disable-gpu'
+		)));
 	if (TEST_LOCAL) {
 		driver = unBuilt.forBrowser('Chrome').build();
 	} else {
