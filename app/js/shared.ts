@@ -1,3 +1,5 @@
+/// <reference path="promiseType.ts" />
+
 import { Polymer } from '../../tools/definitions/polymer';
 
 declare const BrowserAPI: BrowserAPI;
