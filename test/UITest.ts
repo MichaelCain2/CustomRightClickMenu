@@ -375,30 +375,32 @@ before('Driver connect', async function() {
 		'--disable-default-apps'
 	);
 	chromeOptions.setChromeBinaryPath('/usr/bin/google-chrome-stable');
+	const dc = new webdriver.Capabilities({...browserCapabilities, ...{
+		project: 'Custom Right-Click Menu',
+		build: `${(
+			await tryReadManifest('app/manifest.json') ||
+			await tryReadManifest('app/manifest.chrome.json')
+		).version} - ${await getGitHash()}`,
+		name: (() => {
+			if (process.env.TRAVIS) {
+				// Travis
+				return `${process.env.TEST} attempt ${process.env.ATTEMPTS}`;
+			}
+			// Local
+			return `local:${
+				browserCapabilities.browserName
+			} ${
+				browserCapabilities.browser_version || 'latest'
+			}`
+		})(),
+		'browserstack.local': !TEST_EXTENSION,
+	}}).merge(additionalCapabilities).merge(chromeOptions.toCapabilities());
 	const unBuilt = new webdriver.Builder()
 		.usingServer(url)
-		.withCapabilities(new webdriver.Capabilities({...browserCapabilities, ...{
-			project: 'Custom Right-Click Menu',
-			build: `${(
-				await tryReadManifest('app/manifest.json') ||
-				await tryReadManifest('app/manifest.chrome.json')
-			).version} - ${await getGitHash()}`,
-			name: (() => {
-				if (process.env.TRAVIS) {
-					// Travis
-					return `${process.env.TEST} attempt ${process.env.ATTEMPTS}`;
-				}
-				// Local
-				return `local:${
-					browserCapabilities.browserName
-				} ${
-					browserCapabilities.browser_version || 'latest'
-				}`
-			})(),
-			'browserstack.local': !TEST_EXTENSION
-		}}).merge(additionalCapabilities).merge(chromeOptions));
+		.withCapabilities(dc);
 	if (TEST_LOCAL) {
-		driver = unBuilt.forBrowser('Chrome').build();
+		driver = chromeDriver.Driver.createSession(dc);
+		// driver = unBuilt.forBrowser('Chrome').build();
 	} else {
 		driver = unBuilt.build();
 	}
