@@ -10,9 +10,9 @@ type StringifedFunction<RETVAL> = string & {
 }
 
 export declare class TypedWebdriver extends webdriver.WebDriver {
-	executeScript<T>(script: StringifedFunction<T>): webdriver.promise.Promise<T>;
-	executeScript<T>(script: string, ...var_args: any[]): webdriver.promise.Promise<T>;
-	executeScript<T>(script: Function, ...var_args: any[]): webdriver.promise.Promise<T>;
+	executeScript<T>(script: StringifedFunction<T>): Promise<T>;
+	executeScript<T>(script: string, ...var_args: any[]): Promise<T>;
+	executeScript<T>(script: Function, ...var_args: any[]): Promise<T>;
 }
 
 export interface ExecutedScript {
@@ -126,10 +126,10 @@ export interface BrowserstackCapabilities {
 	'browserstack.networkLogs'?: boolean;
 }
 
-export function wait<T>(time: number, resolveParam: T): webdriver.promise.Promise<T>;
-export function wait<T>(time: number): webdriver.promise.Promise<any>;
-export function wait<T>(time: number, resolveParam?: T): webdriver.promise.Promise<T> {
-	return new webdriver.promise.Promise((resolve) => {
+export function wait<T>(time: number, resolveParam: T): Promise<T>;
+export function wait<T>(time: number): Promise<any>;
+export function wait<T>(time: number, resolveParam?: T): Promise<T> {
+	return new Promise((resolve) => {
 		setTimeout(() => {
 			if (resolveParam) {
 				resolve(resolveParam);
@@ -176,9 +176,9 @@ function isThennable(value: any): value is Promise<any> {
 	return value && typeof value === "object" && typeof value.then === "function";
 }
 
-export function waitFor<T>(condition: () => webdriver.promise.Promise<false|T>|Promise<false|T>|false|T, interval: number, 
-	max: number): webdriver.promise.Promise<T> {
-		return new webdriver.promise.Promise<T>((resolve, reject) => {
+export function waitFor<T>(condition: () => Promise<false|T>|Promise<false|T>|false|T, interval: number, 
+	max: number): Promise<T> {
+		return new Promise<T>((resolve, reject) => {
 			let totalTime = 0;
 			let stop: boolean = false;
 			const fn = async () => {
@@ -307,8 +307,8 @@ export function inlineAsyncFn<T extends {
 		return str as StringifiedCallbackFunction<number, U>;
 	}
 
-export function executeAsyncScript<T>(script: StringifiedCallbackFunction<number, T>): webdriver.promise.Promise<T> {
-	return new webdriver.promise.Promise<T>(async (resolve, reject) => {
+export function executeAsyncScript<T>(script: StringifiedCallbackFunction<number, T>): Promise<T> {
+	return new Promise<T>(async (resolve, reject) => {
 		const asyncIndex = await driver.executeScript(script);
 		const descr = await waitFor(async () => {
 			const result = await driver.executeScript(inlineFn((REPLACE) => {
@@ -335,8 +335,8 @@ export function executeAsyncScript<T>(script: StringifiedCallbackFunction<number
 	});
 }
 
-export function getCRM<T extends CRM.Node[] = CRM.Tree>(): webdriver.promise.Promise<T> {
-	return new webdriver.promise.Promise<T>((resolve) => { 
+export function getCRM<T extends CRM.Node[] = CRM.Tree>(): Promise<T> {
+	return new Promise<T>((resolve) => { 
 		driver.executeScript(inlineFn(() => {
 			return JSON.stringify(window.app.settings.crm);
 		})).then((str: EncodedString<T>) => {
@@ -368,8 +368,8 @@ export async function waitForEditor() {
 	}, 25, 60000 * TIME_MODIFIER);
 }
 
-export function saveDialog(dialog: FoundElement): webdriver.promise.Promise<void> {
-	return new webdriver.promise.Promise<void>(async (resolve) => {
+export function saveDialog(dialog: FoundElement): Promise<void> {
+	return new Promise<void>(async (resolve) => {
 		await waitForEditor();
 		await dialog.findElement(webdriver.By.id('saveButton')).click();
 		resolve(null);
@@ -377,8 +377,8 @@ export function saveDialog(dialog: FoundElement): webdriver.promise.Promise<void
 }
 
 export type DialogType = 'link'|'script'|'divider'|'menu'|'stylesheet';
-export function getDialog(type: DialogType): webdriver.promise.Promise<FoundElement> {
-	return new webdriver.promise.Promise<FoundElement>(async (resolve) => {
+export function getDialog(type: DialogType): Promise<FoundElement> {
+	return new Promise<FoundElement>(async (resolve) => {
 		const el = await findElement(webdriver.By.tagName('crm-app'))
 			.findElement(webdriver.By.tagName('crm-edit-page'))
 			.findElement(webdriver.By.tagName(`${type}-edit`));
@@ -388,10 +388,14 @@ export function getDialog(type: DialogType): webdriver.promise.Promise<FoundElem
 	});
 }
 
+export function isPromise(value: any): value is Promise<any> {
+	return typeof value === 'object' && 'then' in value;
+}
+
 function generatePromiseChain<T>(data: T[],
-	fn: (data: T) => webdriver.promise.Promise<any>,
+	fn: (data: T) => PromiseLike<any>,
 	index: number,
-	resolve: webdriver.promise.IFulfilledCallback<{}>) {
+	resolve: (value: Object) => any) {
 		if (index !== data.length) {
 			fn(data[index]).then(() => {
 				generatePromiseChain(data, fn, index + 1, resolve);
@@ -401,64 +405,66 @@ function generatePromiseChain<T>(data: T[],
 		}
 	}
 
+type IFulfilledCallback<T> = (value: T) => any|PromiseLike<T>;
+type IRejectedCallback = (err: any) => any;
+
 export function forEachPromise<T>(data: T[],
-	fn: (data: T) => webdriver.promise.Promise<any>): 
-	webdriver.promise.Promise<any> {
-		return new webdriver.promise.Promise((resolve) => {
+	fn: (data: T) => PromiseLike<any>): 
+	Promise<any> {
+		return new Promise((resolve) => {
 			generatePromiseChain(data, fn, 0, resolve);
 		});
 	}
 
-type Resolver<T> = (onFulfilled: webdriver.promise.IFulfilledCallback<T>, 
-	onRejected: webdriver.promise.IRejectedCallback) => void;
+type Resolver<T> = (onFulfilled: IFulfilledCallback<T>, 
+	onRejected: IRejectedCallback) => void;
 
-class PromiseContainer<T> implements webdriver.promise.IThenable<T> {
-	_promise: webdriver.promise.Promise<T>;
+class PromiseWrapper<T> implements PromiseLike<T> {
+	private _promise: Promise<T>;
 
-	constructor(resolver?: Resolver<T>, opt_flow?: webdriver.promise.ControlFlow) {
-		this._promise = new webdriver.promise.Promise<T>(resolver, opt_flow);
+	constructor(resolver?: Resolver<T>) {
+		this._promise = new Promise(resolver);
 	}
 
-	then<R>(opt_callback?: (value: T) => Promise<R>, 
-		opt_errback?: (error: any) => any): webdriver.promise.Promise<R>;
-	then<R>(opt_callback?: (value: T) => R, 
-		opt_errback?: (error: any) => any): webdriver.promise.Promise<R>;
-	then<R>(opt_callback?: (value: T) => Promise<R>|R, 
-		opt_errback?: (error: any) => any): webdriver.promise.Promise<R> {
-			return this._promise.then(opt_callback, opt_errback) as any;
-		}
-
-	catch<R>(errback: (error: any) => any): webdriver.promise.Promise<R> {
-		return this._promise.catch(errback);
-	}
+	then<TResult1 = T, TResult2 = never>(
+		onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, 
+		onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): 
+			PromiseLike<TResult1 | TResult2> {
+				if (onrejected) {
+					return this._promise.then(onfulfilled, onrejected);
+				}
+				if (onfulfilled) {
+					return this._promise.then(onfulfilled);
+				}
+				return this._promise.then();
+			}
 }
 
-export class FoundElementsPromise extends PromiseContainer<FoundElement[]> {
+export class FoundElementsPromise extends PromiseWrapper<FoundElement[]> {
 	private _items: FoundElement[];
 	private _err: any;
 	private _gotItems: {
 		index: number;
-		resolve: webdriver.promise.IFulfilledCallback<FoundElement>;
-		reject: webdriver.promise.IRejectedCallback;
+		resolve: IFulfilledCallback<FoundElement>;
+		reject: IRejectedCallback;
 	}[];
 	private _done: boolean;
 
-	constructor(resolver?: Resolver<FoundElement[]>, 
-		opt_flow?: webdriver.promise.ControlFlow) {
-			//Wait until this is initialized before running the resolver
-			let readyResolve: webdriver.promise.IFulfilledCallback<void> = null;
-			const ready = new webdriver.promise.Promise<void>((resolve) => {
-				readyResolve = resolve;
+	constructor(resolver?: Resolver<FoundElement[]>) {
+		//Wait until this is initialized before running the resolver
+		let readyResolve: IFulfilledCallback<void> = null;
+		const ready = new Promise<void>((resolve) => {
+			readyResolve = resolve;
+		});
+		super((onFulfilled, onRejected) => {
+			ready.then(() => {
+				resolver(onFulfilled, onRejected);
 			});
-			super((onFulfilled, onRejected) => {
-				ready.then(() => {
-					resolver(onFulfilled, onRejected);
-				});
-			}, opt_flow);
+		});
 
-			this._init();
-			readyResolve(null);
-		}
+		this._init();
+		readyResolve(null);
+	}
 
 	private _init() {
 		this.then((result) => {
@@ -519,8 +525,8 @@ export class FoundElementsPromise extends PromiseContainer<FoundElement[]> {
 			});
 		}
 
-		let _resolve: webdriver.promise.IFulfilledCallback<FoundElement>;
-		let _reject: webdriver.promise.IRejectedCallback;
+		let _resolve: IFulfilledCallback<FoundElement>;
+		let _reject: IRejectedCallback;
 		const prom = new FoundElementPromise((resolve, reject) => {
 			_resolve = resolve;
 			_reject = reject;
@@ -536,7 +542,7 @@ export class FoundElementsPromise extends PromiseContainer<FoundElement[]> {
 	}
 
 	public get length() {
-		return new webdriver.promise.Promise<number>((resolve) => {
+		return new Promise<number>((resolve) => {
 			if (this._done) {
 				resolve((this._items && this._items.length) || 0);
 			} else {
@@ -547,9 +553,9 @@ export class FoundElementsPromise extends PromiseContainer<FoundElement[]> {
 		});
 	}
 
-	public map<T>(fn: (element: FoundElement) => T): webdriver.promise.Promise<T[]>;
+	public map<T>(fn: (element: FoundElement) => T): Promise<T[]>;
 	public map<T>(fn: (element: FoundElement) => T, 
-		isElements?: false): webdriver.promise.Promise<T[]>;
+		isElements?: false): Promise<T[]>;
 	public map<T>(fn: (element: FoundElement) => T, 
 		isElements?: true): FoundElementsPromise;
 	public map<T>(fn: (element: FoundElement) => T, isElements: boolean = false) {
@@ -560,7 +566,7 @@ export class FoundElementsPromise extends PromiseContainer<FoundElement[]> {
 				});	
 			});
 		}
-		return new webdriver.promise.Promise<T[]>((resolve) => {
+		return new Promise<T[]>((resolve) => {
 			this.then((items) => {
 				resolve(items.map(fn));
 			});
@@ -578,10 +584,10 @@ export class FoundElementsPromise extends PromiseContainer<FoundElement[]> {
 	 * Combines promise.all and map
 	 */
 	public mapWait(fn: (element: FoundElement) => 
-		webdriver.promise.Promise<any>): webdriver.promise.Promise<void> {
-			return new webdriver.promise.Promise<void>((resolve) => {
+		Promise<any>): Promise<void> {
+			return new Promise<void>((resolve) => {
 				this.map(fn).then((mapped) => {
-					webdriver.promise.all(mapped).then(() => {
+					Promise.all(mapped).then(() => {
 						resolve(null);
 					});
 				});
@@ -589,10 +595,10 @@ export class FoundElementsPromise extends PromiseContainer<FoundElement[]> {
 		}
 
 	public mapWaitChain(fn: (element: FoundElement, index: number) => 
-		webdriver.promise.Promise<any>, elements?: FoundElement[], index = 0): webdriver.promise.Promise<void> {
-			return new webdriver.promise.Promise<void>(async (resolve) => {
+		PromiseLike<any>, elements?: FoundElement[], index = 0): Promise<void> {
+			return new Promise<void>(async (resolve) => {
 				if (!elements) {
-					elements = await this._promise;
+					elements = await this;
 				}
 				if (elements.length === 0) {
 					resolve(null);
@@ -607,10 +613,10 @@ export class FoundElementsPromise extends PromiseContainer<FoundElement[]> {
 			});
 		}
 
-	public waitFor(awaitable: webdriver.promise.Promise<any>) {
+	public waitFor(awaitable: Promise<any>) {
 		return new FoundElementsPromise(async (resolve) => {
-			const [ elements ] = await webdriver.promise.all([
-				this._promise,
+			const [ elements ] = await Promise.all([
+				this,
 				awaitable
 			]) as [ FoundElement[], any ];
 			resolve(elements);
@@ -620,17 +626,16 @@ export class FoundElementsPromise extends PromiseContainer<FoundElement[]> {
 	public wait(ms: number) {
 		return new FoundElementsPromise(async (resolve) => {
 			await wait(ms);
-			const thisResult = await this._promise;
+			const thisResult = await this;
 			resolve(thisResult);
 		});
 	}
 }
 
-export class FoundElementPromise extends PromiseContainer<FoundElement> {
-	constructor(resolver: (onFulfilled: webdriver.promise.IFulfilledCallback<FoundElement>, 
-			onRejected: webdriver.promise.IRejectedCallback)=>void,
-			opt_flow?: webdriver.promise.ControlFlow) {
-		super(resolver, opt_flow);
+export class FoundElementPromise extends PromiseWrapper<FoundElement> {
+	constructor(resolver: (onFulfilled: IFulfilledCallback<FoundElement>, 
+			onRejected: IRejectedCallback)=>void) {
+		super(resolver);
 	}
 
 	click() {
@@ -660,8 +665,8 @@ export class FoundElementPromise extends PromiseContainer<FoundElement> {
 			});
 		});
 	}
-	sendKeys(...args: (string|webdriver.promise.Promise<string>|InputKeys)[]) {
-		return new webdriver.promise.Promise<void>((resolve) => {
+	sendKeys(...args: (string|Promise<string>|InputKeys)[]) {
+		return new Promise<void>((resolve) => {
 			this.then((element) => {
 				element.sendKeys(...args).then(() => {
 					resolve(undefined);
@@ -669,8 +674,8 @@ export class FoundElementPromise extends PromiseContainer<FoundElement> {
 			});
 		});
 	}
-	getAttribute(attr: string): webdriver.promise.Promise<string> {
-		return new webdriver.promise.Promise<string>((resolve) => {
+	getAttribute(attr: string): Promise<string> {
+		return new Promise<string>((resolve) => {
 			this.then((element) => {
 				element.getAttribute(attr).then((value) => {
 					resolve(value);
@@ -678,8 +683,8 @@ export class FoundElementPromise extends PromiseContainer<FoundElement> {
 			});
 		});
 	}
-	getProperty(prop: string): webdriver.promise.Promise<any> {
-		return new webdriver.promise.Promise<any>((resolve) => {
+	getProperty(prop: string): Promise<any> {
+		return new Promise<any>((resolve) => {
 			this.then((element) => {
 				element.getProperty(prop).then((value) => {
 					resolve(value);
@@ -687,8 +692,8 @@ export class FoundElementPromise extends PromiseContainer<FoundElement> {
 			});
 		});
 	}
-	getSize(): webdriver.promise.Promise<ClientRect> {
-		return new webdriver.promise.Promise<ClientRect>((resolve) => {
+	getSize(): Promise<ClientRect> {
+		return new Promise<ClientRect>((resolve) => {
 			this.then((element) => {
 				element.getSize().then((size) => {
 					resolve(size);
@@ -696,10 +701,10 @@ export class FoundElementPromise extends PromiseContainer<FoundElement> {
 			});
 		});
 	}
-	waitFor(awaitable: webdriver.promise.Promise<any>) {
+	waitFor(awaitable: Promise<any>) {
 		return new FoundElementPromise(async (resolve) => {
-			const [ element ] = await webdriver.promise.all([
-				this._promise,
+			const [ element ] = await Promise.all([
+				this,
 				awaitable
 			]) as [ FoundElement, any ];
 			resolve(element);
@@ -708,12 +713,12 @@ export class FoundElementPromise extends PromiseContainer<FoundElement> {
 	wait(ms: number) {
 		return new FoundElementPromise(async (resolve) => {
 			await wait(ms);
-			const thisResult = await this._promise;
+			const thisResult = await this;
 			resolve(thisResult);
 		});
 	}
-	getText(): webdriver.promise.Promise<string> {
-		return new webdriver.promise.Promise<string>((resolve) => {
+	getText(): Promise<string> {
+		return new Promise<string>((resolve) => {
 			this.then((element) => {
 				element.getText().then((text) => {
 					resolve(text);
@@ -721,43 +726,16 @@ export class FoundElementPromise extends PromiseContainer<FoundElement> {
 			});
 		});
 	}
-
-	static all(promises: FoundElementPromise[]): webdriver.promise.Promise<FoundElement[]> {
-		return new webdriver.promise.Promise<FoundElement[]>((resolve) => {
-			const states: {
-				promise: FoundElementPromise;
-				done: boolean;
-				result?: FoundElement;
-			}[] = promises.map((promise, index) => {
-				promise.then((result) => {
-					states[index].done = true;
-					states[index].result = result;
-					if (states.filter((state) => {
-						return !state.done;
-					}).length === 0) {
-						resolve(states.map((state) => {
-							return state.result;
-						}));
-					}
-				});
-				return {
-					promise: promise,
-					done: false
-				};
-			});
-		});
-	}
 }
 
 export interface FoundElement {
-	click(): webdriver.promise.Promise<void>;
+	click(): Promise<void>;
 	findElement(by: webdriver.Locator): FoundElementPromise;
 	findElements(by: webdriver.Locator): FoundElementsPromise;
-	sendKeys(...args: (string|webdriver.promise.Promise<string>|InputKeys)[]
-			): webdriver.promise.Promise<void>;
-	getAttribute(attr: string): webdriver.promise.Promise<string>;
-	getProperty(prop: string): webdriver.promise.Promise<any>;
-	getSize(): webdriver.promise.Promise<ClientRect>;
+	sendKeys(...args: (string|Promise<string>|InputKeys)[]): Promise<void>;
+	getAttribute(attr: string): Promise<string>;
+	getProperty(prop: string): Promise<any>;
+	getSize(): Promise<ClientRect>;
 }
 
 export const enum InputKeys {
@@ -840,14 +818,14 @@ export class FoundElement implements FoundElement {
 	constructor(public selector: string, public index: number,
 		public parent: FoundElement = null) { }
 
-	click(): webdriver.promise.Promise<void> {
+	click(): Promise<void> {
 		const selectorList = [[this.selector, this.index]];
 		let currentElement: FoundElement = this;
 		while (currentElement.parent) {
 			currentElement = currentElement.parent;
 			selectorList.push([currentElement.selector, currentElement.index]);
 		}
-		return new webdriver.promise.Promise<void>((resolve) => {
+		return new Promise<void>((resolve) => {
 			driver.executeScript(inlineFn(() => {
 				findElementOnPage('REPLACE.selector').click();
 			}, {
@@ -932,14 +910,14 @@ export class FoundElement implements FoundElement {
 			});
 		});
 	}
-	sendKeys(...args: (string|webdriver.promise.Promise<string>|InputKeys)[]):
-		webdriver.promise.Promise<void> {
-			return new webdriver.promise.Promise<void>((resolve) => {
-				return webdriver.promise.all(args.map((arg) => {
-					if (webdriver.promise.isPromise(arg)) {
-						return arg as webdriver.promise.Promise<string>;
+	sendKeys(...args: (string|Promise<string>|InputKeys)[]):
+		Promise<void> {
+			return new Promise<void>((resolve) => {
+				return Promise.all(args.map((arg) => {
+					if (isPromise(arg)) {
+						return arg as Promise<string>;
 					}
-					return new webdriver.promise.Promise((instantResolve) => {
+					return new Promise((instantResolve) => {
 						instantResolve(arg);
 					});
 				})).then((keys: (string|InputKeys)[]) => {
@@ -949,7 +927,7 @@ export class FoundElement implements FoundElement {
 						currentElement = currentElement.parent;
 						selectorList.push([currentElement.selector, currentElement.index]);
 					}
-					return new webdriver.promise.Promise((sentKeysResolve) => {
+					return new Promise((sentKeysResolve) => {
 						driver.executeScript(inlineFn((REPLACE) => {
 							const el = findElementOnPage('REPLACE.selector') as HTMLInputElement;
 							const keyPresses = REPLACE.keypresses as (string|InputKeys)[];
@@ -980,14 +958,14 @@ export class FoundElement implements FoundElement {
 				});
 			});
 		}
-	getProperty<T>(prop: string): webdriver.promise.Promise<T> {
+	getProperty<T>(prop: string): Promise<T> {
 		const selectorList = [[this.selector, this.index]];
 		let currentElement: FoundElement = this;
 		while (currentElement.parent) {
 			currentElement = currentElement.parent;
 			selectorList.push([currentElement.selector, currentElement.index]);
 		}
-		return new webdriver.promise.Promise<T>((resolve) => {
+		return new Promise<T>((resolve) => {
 			driver.executeScript(inlineFn(() => {
 				const el = findElementOnPage('REPLACE.selector');
 				const val = el['REPLACE.prop' as keyof HTMLElement];
@@ -1000,14 +978,14 @@ export class FoundElement implements FoundElement {
 			});
 		});
 	}
-	getAttribute(attr: keyof HTMLElement): webdriver.promise.Promise<string> {
+	getAttribute(attr: keyof HTMLElement): Promise<string> {
 		const selectorList = [[this.selector, this.index]];
 		let currentElement: FoundElement = this;
 		while (currentElement.parent) {
 			currentElement = currentElement.parent;
 			selectorList.push([currentElement.selector, currentElement.index]);
 		}
-		return new webdriver.promise.Promise<string>((resolve) => {
+		return new Promise<string>((resolve) => {
 			driver.executeScript(inlineFn((REPLACE) => {
 				const el = findElementOnPage('REPLACE.selector');
 				const attr = el.getAttribute(REPLACE.attr);
@@ -1021,14 +999,14 @@ export class FoundElement implements FoundElement {
 			});
 		});
 	}
-	getSize(): webdriver.promise.Promise<ClientRect> {
+	getSize(): Promise<ClientRect> {
 		const selectorList = [[this.selector, this.index]];
 		let currentElement: FoundElement = this;
 		while (currentElement.parent) {
 			currentElement = currentElement.parent;
 			selectorList.push([currentElement.selector, currentElement.index]);
 		}
-		return new webdriver.promise.Promise<ClientRect>(async (resolve) => {
+		return new Promise<ClientRect>(async (resolve) => {
 			resolve(JSON.parse(await driver.executeScript(inlineFn(() => {
 				const bcr = findElementOnPage('REPLACE.selector').getBoundingClientRect();
 				return JSON.stringify({
@@ -1044,20 +1022,18 @@ export class FoundElement implements FoundElement {
 			}, findElementOnPage))));
 		});
 	}
-	waitFor(awaitable: webdriver.promise.Promise<any>): webdriver.promise.Promise<this> {
-		return new webdriver.promise.Promise<this>(async (resolve) => {
-			await awaitable;
-			resolve(this);
-		});
+	async waitFor(awaitable: Promise<any>): Promise<this> {
+		await awaitable;
+		return this;
 	}
-	getText(): webdriver.promise.Promise<string> {
+	getText(): Promise<string> {
 		const selectorList = [[this.selector, this.index]];
 		let currentElement: FoundElement = this;
 		while (currentElement.parent) {
 			currentElement = currentElement.parent;
 			selectorList.push([currentElement.selector, currentElement.index]);
 		}
-		return new webdriver.promise.Promise<string>(async (resolve) => {
+		return new Promise<string>(async (resolve) => {
 			resolve(await driver.executeScript(inlineFn(() => {
 				return findElementOnPage('REPLACE.selector').innerText;
 			}, {
@@ -1105,11 +1081,11 @@ export async function waitForCRM(timeRemaining: number) {
 }
 
 export function resetSettings(__this: Mocha.ISuiteCallbackContext|Mocha.IHookCallbackContext, done: (...args: any[]) => void): void;
-export function resetSettings(__this?: Mocha.ISuiteCallbackContext|Mocha.IHookCallbackContext): webdriver.promise.Promise<void>; 
+export function resetSettings(__this?: Mocha.ISuiteCallbackContext|Mocha.IHookCallbackContext): Promise<void>; 
 export function resetSettings(__this?: Mocha.ISuiteCallbackContext|Mocha.IHookCallbackContext, 
-	done?: (...args: any[]) => void): webdriver.promise.Promise<any>|void {
+	done?: (...args: any[]) => void): Promise<any>|void {
 		__this && __this.timeout(30000 * TIME_MODIFIER);
-		const promise = new webdriver.promise.Promise<void>(async (resolve) => {
+		const promise = new Promise<void>(async (resolve) => {
 			const result = await executeAsyncScript(inlineAsyncFn((done) => {
 				try {
 					window.browserAPI.storage.local.clear().then(() => {

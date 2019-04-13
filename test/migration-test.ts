@@ -21,8 +21,6 @@ import * as chai from 'chai';
 const del = require('del');
 import fs = require('fs');
 const assert = chai.assert;
-const _promise = global.Promise;
-global.Promise = webdriver.promise.Promise;
 
 const originals: any = {
 	describe,
@@ -53,7 +51,6 @@ after = originals.after;
 beforeEach = originals.beforeEach;
 //@ts-ignore
 afterEach = originals.afterEach;
-global.Promise = _promise;
 
 
 const copydir: (fromDir: string, toDir: string, 
@@ -71,9 +68,9 @@ type StringifedFunction<RETVAL> = string & {
 }
 
 declare class TypedWebdriver extends webdriver.WebDriver {
-	executeScript<T>(script: StringifedFunction<T>): webdriver.promise.Promise<T>;
-	executeScript<T>(script: string, ...var_args: any[]): webdriver.promise.Promise<T>;
-	executeScript<T>(script: Function, ...var_args: any[]): webdriver.promise.Promise<T>;
+	executeScript<T>(script: StringifedFunction<T>): Promise<T>;
+	executeScript<T>(script: string, ...var_args: any[]): Promise<T>;
+	executeScript<T>(script: Function, ...var_args: any[]): Promise<T>;
 }
 
 const ROOT = path.join(__dirname, '../');
@@ -484,10 +481,10 @@ async function createOptionsPageDriver(srcPath: string, isLocal: boolean) {
 			'latest'
 		}`,
 		'browserstack.local': true
-	}}).merge(new chromeDriver.Options()
-		.addExtensions(srcPath)
-		.toCapabilities());
+	}});
 	const unBuilt = new webdriver.Builder()
+		.setChromeOptions(new chromeDriver.Options()
+			.addExtensions(srcPath))
 		.usingServer(isLocal ? 
 			'http://localhost:9515' : 'http://hub-cloud.browserstack.com/wd/hub')
 		.withCapabilities(capabilties);
@@ -576,8 +573,6 @@ function doTestsFromTo(from: string, to: string, isLocal: boolean) {
 		this.timeout(20000);
 		this.slow(20000);
 		it('should be able to load the "from" version', async () => {
-			global.Promise = _promise;
-
 			await loadSourceCodeToDir(from, 
 				path.join(ROOT, 'temp/migration/from/'));
 		});
@@ -1008,7 +1003,7 @@ function doTestsFromTo(from: string, to: string, isLocal: boolean) {
 										await forEachPromise(await dialog
 											.findElements(webdriver.By.className('linkChangeCont')), 
 												(element) => {
-													return new webdriver.promise.Promise(async (resolve) => {
+													return new Promise(async (resolve) => {
 														await wait(250);
 														await element
 															.findElement(

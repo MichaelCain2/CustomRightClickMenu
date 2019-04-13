@@ -1,10 +1,7 @@
 import { TypedWebdriver, inlineFn, BrowserstackCapabilities } from '../../imports';
-import * as operaDriver from 'selenium-webdriver/opera';
 
 export function getCapabilities() {
-	return new operaDriver.Options()
-		.addExtensions('dist/packed/Custom Right-Click Menu.crx')
-		.toCapabilities();
+	return {};
 }
 
 export async function getExtensionURLPrefix(driver: TypedWebdriver, _capabilities: BrowserstackCapabilities) {

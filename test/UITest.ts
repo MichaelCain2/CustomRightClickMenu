@@ -58,8 +58,6 @@ function getSkipDialogSettings(): SkipOption[] {
 declare const require: any;
 declare const window: AppWindow;
 
-console.log(Promise.all, (<any>global.Promise).all);
-
 import * as firefoxExtensionData from './UI/drivers/firefox-extension';
 import * as chromeExtensionData from './UI/drivers/chrome-extension';
 import * as operaExtensionData from './UI/drivers/opera-extension';
@@ -77,8 +75,9 @@ import {
 	FoundElement, waitForEditor, wait, waitFor, 
 	DialogType, quote, TestData, getDialog, 
 	findElement, getCRM, InputKeys, saveDialog, 
-	forEachPromise, FoundElementPromise, 
-	BrowserstackCapabilities, waitForCRM, resetSettings, ContextMenu, ContextMenuItem, ActiveTabs, ExecutedScript
+	forEachPromise, BrowserstackCapabilities, 
+	waitForCRM, resetSettings, ContextMenu, 
+	ContextMenuItem, ActiveTabs, ExecutedScript
 } from './imports';
 import { I18NKeys } from '../app/_locales/i18n-keys';
 import { EncodedString } from '../app/elements/elements';
@@ -392,13 +391,12 @@ before('Driver connect', async function() {
 			}`
 		})(),
 		'browserstack.local': !TEST_EXTENSION,
-	}}).merge(additionalCapabilities).merge(chromeOptions.toCapabilities());
+	}}).merge(additionalCapabilities);
 	const unBuilt = new webdriver.Builder()
 		.usingServer(url)
+		.setChromeOptions(chromeOptions)
 		.withCapabilities(dc);
 	if (TEST_LOCAL) {
-		console.log(Promise.all, (<any>global.Promise).all, 
-			(<any>webdriver.promise.Promise).all);
 		driver = chromeDriver.Driver.createSession(dc);
 		// driver = unBuilt.forBrowser('Chrome').build();
 	} else {
@@ -406,8 +404,6 @@ before('Driver connect', async function() {
 	}
 	setTimeModifier(TIME_MODIFIER);
 	setDriver(driver);
-
-	global.Promise = webdriver.promise.Promise;
 
 	if (SKIP_ENTRYPOINTS || SKIP_OPTIONS_PAGE_NON_DIALOGS ||
 		SKIP_OPTIONS_PAGE_DIALOGS || SKIP_CONTEXTMENU ||
@@ -581,8 +577,8 @@ const templates = {
 	}
 };
 
-function getSyncSettings(): webdriver.promise.Promise<CRM.SettingsStorage> {
-	return new webdriver.promise.Promise<CRM.SettingsStorage>((resolve) => { 
+function getSyncSettings(): Promise<CRM.SettingsStorage> {
+	return new Promise<CRM.SettingsStorage>((resolve) => { 
 		driver.executeScript(inlineFn(() => {
 			return JSON.stringify(window.app.settings);
 		})).then((str) => {
@@ -591,8 +587,8 @@ function getSyncSettings(): webdriver.promise.Promise<CRM.SettingsStorage> {
 	}); 
 }
 
-function getContextMenu(): webdriver.promise.Promise<ContextMenu> {
-	return new webdriver.promise.Promise<ContextMenu>((resolve) => {
+function getContextMenu(): Promise<ContextMenu> {
+	return new Promise<ContextMenu>((resolve) => {
 		executeAsyncScript<EncodedString<ContextMenuItem[]>>(inlineAsyncFn((ondone, onreject, REPLACE) => {
 			REPLACE.getBackgroundPageTestData().then((testData) => {
 				if (testData._currentContextMenu[0]) {
@@ -657,8 +653,8 @@ async function getActivatedScripts({
 	return newTabs;
 }
 
-function cancelDialog(dialog: FoundElement): webdriver.promise.Promise<void> {
-	return new webdriver.promise.Promise<void>(async (resolve) => {
+function cancelDialog(dialog: FoundElement): Promise<void> {
+	return new Promise<void>(async (resolve) => {
 		await waitForEditor();
 		await dialog.findElement(webdriver.By.id('cancelButton')).click();
 		resolve(null);
@@ -701,11 +697,11 @@ async function doFullRefresh(__this?: Mocha.ISuiteCallbackContext|Mocha.IHookCal
 }
 
 function reloadPage(__this: Mocha.ISuiteCallbackContext|Mocha.IHookCallbackContext, done: (...args: any[]) => void): void;
-function reloadPage(__this: Mocha.ISuiteCallbackContext|Mocha.IHookCallbackContext): webdriver.promise.Promise<void>; 
+function reloadPage(__this: Mocha.ISuiteCallbackContext|Mocha.IHookCallbackContext): Promise<void>; 
 function reloadPage(__this: Mocha.ISuiteCallbackContext|Mocha.IHookCallbackContext, 
-	done?: (...args: any[]) => void): webdriver.promise.Promise<any>|void {
+	done?: (...args: any[]) => void): Promise<any>|void {
 		__this.timeout(60000 * TIME_MODIFIER);
-		const promise = new webdriver.promise.Promise<void>((resolve) => {
+		const promise = new Promise<void>((resolve) => {
 			wait(500).then(() => {
 				executeAsyncScript(inlineAsyncFn((done) => {
 					try {
@@ -760,7 +756,7 @@ async function switchToTypeAndOpen(type: CRM.NodeType) {
 }
 
 function openDialog(type: CRM.NodeType) {
-	return new webdriver.promise.Promise(async (resolve) => {
+	return new Promise(async (resolve) => {
 		if (type === 'link') {
 			await driver.executeScript(inlineFn(() => {
 				((window.app.editCRM.shadowRoot
@@ -820,7 +816,7 @@ function subtractStrings(biggest: string, smallest: string): string {
 	return biggest.slice(smallest.length);
 }
 
-function getEditorValue(type: DialogType): webdriver.promise.Promise<string> {
+function getEditorValue(type: DialogType): Promise<string> {
 	return driver.executeScript(inlineFn((REPLACE) => {
 		return window[(REPLACE.editor) as 'scriptEdit'|'stylesheetEdit']
 			.editorManager.editor.getValue();
@@ -1105,7 +1101,7 @@ async function closeOtherTabs() {
 }
 
 function enterEditorFullscreen(__thisOrType: Mocha.ISuiteCallbackContext|DialogType,
-	type?: DialogType): webdriver.promise.Promise<FoundElement> {
+	type?: DialogType): Promise<FoundElement> {
 		let __this: Mocha.ISuiteCallbackContext;
 		if (typeof __thisOrType === 'string') {
 			type = __thisOrType;
@@ -1113,21 +1109,21 @@ function enterEditorFullscreen(__thisOrType: Mocha.ISuiteCallbackContext|DialogT
 		} else {
 			__this = __thisOrType
 		}
-		return new webdriver.promise.Promise<FoundElement>((resolve) => {
+		return new Promise<FoundElement>((resolve) => {
 			resetSettings(__this).then(() => {
 				return openDialog(type);
 			}).then(() => {
 				return getDialog(type);
 			}).then((dialog) => {
-				return wait(500, dialog);
+				return wait(500, dialog as unknown as FoundElement);
 			}).then((dialog) => {
-				return dialog
+				return (dialog as unknown as FoundElement)
 					.findElement(webdriver.By.id('editorFullScreen'))
 					.click()
 					.then(() => {
 						return wait(500);
 					}).then(() => {
-						resolve(dialog);
+						resolve(dialog as unknown as FoundElement);
 					});
 			});
 		});
@@ -1207,35 +1203,39 @@ describe('User entrypoints', function() {
 				} catch(e) {}
 			});
 			it('should apply i18n', async function() {
-				this.timeout(10000 * TIME_MODIFIER);
-				this.slow(8000 * TIME_MODIFIER);
+				try {
+					this.timeout(10000 * TIME_MODIFIER);
+					this.slow(8000 * TIME_MODIFIER);
 
-				const content = await findElement(webdriver.By.tagName('crm-app'))
-					.findElement(webdriver.By.className('title'))
-					.findElement(webdriver.By.tagName('span'))
-					.getText();
-				const i18nFile = await new Promise<string>((resolve, reject) => {
-					fs.readFile(path.join(__dirname, '../', 'build/_locales/en/messages.json'), {
-						encoding: 'utf8'
-					}, (err, data) => {
-						if (err) {
-							reject(err);
-						} else {
-							resolve(data);
-						}
+					const content = await findElement(webdriver.By.tagName('crm-app'))
+						.findElement(webdriver.By.className('title'))
+						.findElement(webdriver.By.tagName('span'))
+						.getText();
+					const i18nFile = await new Promise<string>((resolve, reject) => {
+						fs.readFile(path.join(__dirname, '../', 'build/_locales/en/messages.json'), {
+							encoding: 'utf8'
+						}, (err, data) => {
+							if (err) {
+								reject(err);
+							} else {
+								resolve(data);
+							}
+						});
 					});
-				});
-				let parsed: {
-					[key: string]: {
-						message: string
+					let parsed: {
+						[key: string]: {
+							message: string
+						};
 					};
-				};
-				assert.doesNotThrow(() => {
-					parsed = JSON.parse(i18nFile);
-				}, 'messages file should be JSON parsable');
-				const expected = parsed[I18NKeys.generic.app_title].message;
-				assert.strictEqual(content, expected,
-					'text was changed to i18n version');
+					assert.doesNotThrow(() => {
+						parsed = JSON.parse(i18nFile);
+					}, 'messages file should be JSON parsable');
+					const expected = parsed[I18NKeys.generic.app_title].message;
+					assert.strictEqual(content, expected,
+						'text was changed to i18n version');
+				} catch(e) {
+					console.log(e);
+				}
 			});
 		});
 		describe('CheckboxOptions', function() {
@@ -2249,7 +2249,7 @@ describe('User entrypoints', function() {
 						await wait(500);
 						await forEachPromise(await dialog.findElements(webdriver.By.className('linkChangeCont')), 
 							(element) => {
-								return new webdriver.promise.Promise(async (resolve) => {
+								return new Promise(async (resolve) => {
 									await wait(250);
 									await element
 										.findElement(webdriver.By.tagName('paper-checkbox'))
@@ -2595,7 +2595,7 @@ describe('User entrypoints', function() {
 	
 								await wait(200);
 								//Get the code that is stored at given test URL
-								const jqCode = await new webdriver.promise.Promise<string>((resolve) => {
+								const jqCode = await new Promise<string>((resolve) => {
 									request(libUrl, (err: Error|void, res: XMLHttpRequest & {
 										statusCode: number;
 									}, body: string) => {
@@ -3702,7 +3702,7 @@ describe('On-Page CRM', function() {
 				await resetSettings(this);
 				await executeAsyncScript<void>(inlineAsyncFn((ondone, _onreject, REPLACE) => {
 					browserAPI.runtime.getBackgroundPage().then((backgroundPage: GlobalObject) => {
-						backgroundPage.globals.crmValues.tabData = new window.Map();
+						backgroundPage.globals.crmValues.tabData = new Map();
 						window.app.settings.crm = REPLACE.crm;
 						window.app.upload();
 						ondone(null);
@@ -4002,7 +4002,7 @@ describe('On-Page CRM', function() {
 				await resetSettings(this);
 				await executeAsyncScript<void>(inlineAsyncFn((ondone, _onreject, REPLACE) => {
 					browserAPI.runtime.getBackgroundPage().then((backgroundPage: GlobalObject) => {
-						backgroundPage.globals.crmValues.tabData = new window.Map();
+						backgroundPage.globals.crmValues.tabData = new Map();
 						window.app.settings.crm = REPLACE.crm;
 						window.app.upload();
 						ondone(null);
@@ -4213,7 +4213,7 @@ describe('On-Page CRM', function() {
 					window.dummyContainer.appendChild(dummy2); 
 				}));
 				await wait(50);
-				const results = await FoundElementPromise.all([
+				const results = await Promise.all([
 					findElement(webdriver.By.id('stylesheetTestDummy1')),
 					findElement(webdriver.By.id('stylesheetTestDummy2'))
 				]);
@@ -4340,7 +4340,7 @@ describe('On-Page CRM', function() {
 
 after('quit driver', function() {
 	this.timeout(210000);
-	return new webdriver.promise.Promise<void>((resolve) => {
+	return new Promise<void>((resolve) => {
 		if (!WAIT_ON_DONE) {
 			//Resolve after 20 seconds regardless of quitting result
 			setTimeout(() => {

@@ -26,8 +26,6 @@ import { TypedWebdriver, BrowserstackCapabilities, wait, findElement, inlineFn, 
 require('mocha-steps');
 const request = require('request');
 
-const _promise = global.Promise;
-global.Promise = webdriver.promise.Promise;
 const assert = chai.assert;
 
 let driver: TypedWebdriver;
@@ -289,7 +287,7 @@ function installScriptFromInstallPage(getConfig: () => {
 
 		await wait(5000);
 
-		const code = await new webdriver.promise.Promise<string>((resolve) => {
+		const code = await new Promise<string>((resolve) => {
 			request(href, (err: Error|void, res: XMLHttpRequest & {
 				statusCode: number;
 			}, body: string) => {
@@ -351,7 +349,7 @@ function installStylesheetFromInstallPage(getConfig: () => {
 			}[];
 		};
 		try {
-			const descriptor = await new webdriver.promise.Promise<string>((resolve) => {
+			const descriptor = await new Promise<string>((resolve) => {
 				request(href, (err: Error|void, res: XMLHttpRequest & {
 					statusCode: number;
 				}, body: string) => {
@@ -661,9 +659,7 @@ function doOpenUserCssTest(prefix: () => string|void) {
 	before('Driver connect', async function() {
 		const url = TEST_LOCAL ?
 			LOCAL_URL : 'http://hub-cloud.browserstack.com/wd/hub';
-	
-		global.Promise = _promise;
-	
+		
 		this.timeout(600000 * TIME_MODIFIER);
 		const additionalCapabilities = getExtensionData().getCapabilities();
 		const unBuilt = new webdriver.Builder()
@@ -689,7 +685,7 @@ function doOpenUserCssTest(prefix: () => string|void) {
 		setTimeModifier(TIME_MODIFIER);
 		setDriver(driver);
 	
-		global.Promise = webdriver.promise.Promise;
+		global.Promise = Promise;
 	});
 
 	let prefix: string|void;
@@ -722,7 +718,7 @@ function doOpenUserCssTest(prefix: () => string|void) {
 
 	after('quit driver', function() {
 		this.timeout(210000);
-		return new webdriver.promise.Promise<void>((resolve) => {
+		return new Promise<void>((resolve) => {
 			resolve(null);
 			setTimeout(() => {
 				driver && driver.quit();
