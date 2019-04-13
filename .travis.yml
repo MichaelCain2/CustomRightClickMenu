@@ -64,11 +64,13 @@ script:
 - gulp compile
 - gulp stashBrowser && gulp browserChrome
 - http-server -p 1250 . -s &
+- which google-chrome-stable
 # TODO: change version
 - wget https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriver_linux64.zip
 - unzip chromedriver_linux64.zip -d ~/
 - ls ~/
 - netstat -tupln
+- google-chrome --
 - ~/chromedriver --verbose &
 - netstat -tupln
 - travis_wait yarn pretest

@@ -367,6 +367,14 @@ before('Driver connect', async function() {
 
 	this.timeout(600000 * TIME_MODIFIER);
 	const additionalCapabilities = getAdditionalCapabilities();
+	const chromeOptions = new chromeDriver.Options().headless().addArguments(
+		'--disable-gpu',
+		'--no-sandbox',
+		'--no-default-browser-check',
+		'--no-first-run',
+		'--disable-default-apps'
+	);
+	chromeOptions.setChromeBinaryPath('/usr/bin/google-chrome-stable');
 	const unBuilt = new webdriver.Builder()
 		.usingServer(url)
 		.withCapabilities(new webdriver.Capabilities({...browserCapabilities, ...{
@@ -388,9 +396,7 @@ before('Driver connect', async function() {
 				}`
 			})(),
 			'browserstack.local': !TEST_EXTENSION
-		}}).merge(additionalCapabilities).merge(new chromeDriver.Options().headless().addArguments(
-			'--disable-gpu'
-		)));
+		}}).merge(additionalCapabilities).merge(chromeOptions));
 	if (TEST_LOCAL) {
 		driver = unBuilt.forBrowser('Chrome').build();
 	} else {
