@@ -58,7 +58,7 @@ function getSkipDialogSettings(): SkipOption[] {
 declare const require: any;
 declare const window: AppWindow;
 
-console.log(Promise, global.Promise);
+console.log(Promise.all, (<any>global.Promise).all);
 
 import * as firefoxExtensionData from './UI/drivers/firefox-extension';
 import * as chromeExtensionData from './UI/drivers/chrome-extension';
@@ -397,8 +397,8 @@ before('Driver connect', async function() {
 		.usingServer(url)
 		.withCapabilities(dc);
 	if (TEST_LOCAL) {
-		console.log(Promise, global.Promise, 
-			webdriver.promise.Promise);
+		console.log(Promise.all, (<any>global.Promise).all, 
+			(<any>webdriver.promise.Promise).all);
 		driver = chromeDriver.Driver.createSession(dc);
 		// driver = unBuilt.forBrowser('Chrome').build();
 	} else {
