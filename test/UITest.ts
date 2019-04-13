@@ -86,8 +86,12 @@ require('mocha-steps');
 const request = require('request');
 const btoa = require('btoa');
 
-const _promise = global.Promise;
+const _promise = global.Promise as typeof Promise;
 global.Promise = webdriver.promise.Promise;
+console.log(Promise.all);
+console.log(global.Promise);
+console.log((<typeof Promise>global.Promise).all);
+console.log((<typeof Promise><unknown>webdriver.promise.Promise).all);
 const assert = chai.assert;
 
 let driver: TypedWebdriver;
