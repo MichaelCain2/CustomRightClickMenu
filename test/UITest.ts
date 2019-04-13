@@ -4,6 +4,10 @@
 /// <reference path="../tools/definitions/chrome.d.ts" />
 
 declare const browserAPI: browserAPI;
+console.log(Promise.all);
+console.log(global.Promise);
+console.log((<typeof Promise>global.Promise).all);
+console.log((<typeof Promise><unknown>webdriver.promise.Promise).all);
 
 const PORT: number = 1250;
 //Set to false to test remotely even when running it locally
