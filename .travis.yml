@@ -71,7 +71,6 @@ script:
 - unzip chromedriver_linux64.zip -d ~/
 - ls ~/
 - netstat -tupln
-- ~/chromedriver --verbose &
 - netstat -tupln
 - yarn pretest
 - yarn run "$TEST"
