@@ -69,7 +69,8 @@ script:
 - unzip chromedriver_linux64.zip -d ~/
 - ls ~/
 - netstat -tupln
-- ~/chromedriver &
+- ~/chromedriver --port=1350 --verbose &
+- netstat -tupln
 - travis_wait yarn pretest"
 - "./scripts/do_test.sh $TEST"
 
