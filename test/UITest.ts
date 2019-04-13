@@ -13,7 +13,7 @@ const TEST_LOCAL: boolean = hasSetting('remote') || !!process.env.TRAVIS ?
 	true : TEST_LOCAL_DEFAULT;
 const TEST_EXTENSION = hasSetting('test-extension');
 const TIME_MODIFIER = 1.2;
-const LOCAL_URL = 'http://localhost:9515';
+const LOCAL_URL = 'http://localhost:9222';
 
 const SKIP_ENTRYPOINTS = hasSetting('skip-entrypoints');
 const SKIP_OPTIONS_PAGE_NON_DIALOGS = hasSetting('skip-non-dialogs');
