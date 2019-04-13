@@ -399,8 +399,8 @@ before('Driver connect', async function() {
 		.usingServer(url)
 		.withCapabilities(dc);
 	if (TEST_LOCAL) {
-		driver = chromeDriver.Driver.createSession(dc);
-		// driver = unBuilt.forBrowser('Chrome').build();
+		// driver = chromeDriver.Driver.createSession(dc);
+		driver = unBuilt.forBrowser('Chrome').build();
 	} else {
 		driver = unBuilt.build();
 	}
