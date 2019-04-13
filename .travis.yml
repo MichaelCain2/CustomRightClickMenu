@@ -71,7 +71,7 @@ script:
 - netstat -tupln
 - ~/chromedriver --port=1350 --verbose &
 - netstat -tupln
-- travis_wait yarn pretest"
+- travis_wait yarn pretest
 - "./scripts/do_test.sh $TEST"
 
 # jobs:
