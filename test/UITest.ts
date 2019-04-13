@@ -13,7 +13,7 @@ const TEST_LOCAL: boolean = hasSetting('remote') || !!process.env.TRAVIS ?
 	true : TEST_LOCAL_DEFAULT;
 const TEST_EXTENSION = hasSetting('test-extension');
 const TIME_MODIFIER = 1.2;
-// const LOCAL_URL = 'http://localhost:9515';
+const LOCAL_URL = 'http://localhost:9515';
 
 const SKIP_ENTRYPOINTS = hasSetting('skip-entrypoints');
 const SKIP_OPTIONS_PAGE_NON_DIALOGS = hasSetting('skip-non-dialogs');
@@ -360,8 +360,8 @@ async function openTestPageURL(capabilities: BrowserstackCapabilities) {
 }
 
 before('Driver connect', async function() {
-	// const url = TEST_LOCAL ?
-	// 	LOCAL_URL : 'http://hub-cloud.browserstack.com/wd/hub';
+	const url = TEST_LOCAL ?
+		LOCAL_URL : 'http://hub-cloud.browserstack.com/wd/hub';
 
 	global.Promise = _promise;
 
@@ -376,7 +376,7 @@ before('Driver connect', async function() {
 	);
 	chromeOptions.setChromeBinaryPath('/usr/bin/google-chrome-stable');
 	const unBuilt = new webdriver.Builder()
-		// .usingServer(url)
+		.usingServer(url)
 		.withCapabilities(new webdriver.Capabilities({...browserCapabilities, ...{
 			project: 'Custom Right-Click Menu',
 			build: `${(
