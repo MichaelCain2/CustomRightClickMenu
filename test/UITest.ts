@@ -4,10 +4,6 @@
 /// <reference path="../tools/definitions/chrome.d.ts" />
 
 declare const browserAPI: browserAPI;
-console.log(Promise.all);
-console.log(global.Promise);
-console.log((<typeof Promise>global.Promise).all);
-// console.log((<typeof Promise><unknown>webdriver.promise.Promise).all);
 
 const PORT: number = 1250;
 //Set to false to test remotely even when running it locally
@@ -90,12 +86,6 @@ require('mocha-steps');
 const request = require('request');
 const btoa = require('btoa');
 
-const _promise = global.Promise as typeof Promise;
-global.Promise = webdriver.promise.Promise;
-console.log(Promise.all);
-console.log(global.Promise);
-console.log((<typeof Promise>global.Promise).all);
-console.log((<typeof Promise><unknown>webdriver.promise.Promise).all);
 const assert = chai.assert;
 
 let driver: TypedWebdriver;
@@ -370,8 +360,6 @@ async function openTestPageURL(capabilities: BrowserstackCapabilities) {
 before('Driver connect', async function() {
 	const url = TEST_LOCAL ?
 		LOCAL_URL : 'http://hub-cloud.browserstack.com/wd/hub';
-
-	global.Promise = _promise;
 
 	this.timeout(600000 * TIME_MODIFIER);
 	const additionalCapabilities = getAdditionalCapabilities();
