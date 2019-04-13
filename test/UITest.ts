@@ -360,8 +360,8 @@ async function openTestPageURL(capabilities: BrowserstackCapabilities) {
 }
 
 before('Driver connect', async function() {
-	const url = TEST_LOCAL ?
-		LOCAL_URL : 'http://hub-cloud.browserstack.com/wd/hub';
+	// const url = TEST_LOCAL ?
+	// 	LOCAL_URL : 'http://hub-cloud.browserstack.com/wd/hub';
 
 	global.Promise = _promise;
 
@@ -376,7 +376,7 @@ before('Driver connect', async function() {
 	);
 	chromeOptions.setChromeBinaryPath('/usr/bin/google-chrome-stable');
 	const unBuilt = new webdriver.Builder()
-		.usingServer(url)
+		// .usingServer(url)
 		.withCapabilities(new webdriver.Capabilities({...browserCapabilities, ...{
 			project: 'Custom Right-Click Menu',
 			build: `${(
