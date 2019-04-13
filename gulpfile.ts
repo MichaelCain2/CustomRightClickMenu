@@ -865,11 +865,11 @@ class Tasks {
 				class Compile {
 					@describe('Compiles the app/ directory\'s typescript')
 					static app() {
-						return new Promise((resolve, _reject) => {
+						return new Promise((resolve, reject) => {
 							const project = ts.createProject('app/tsconfig.json');
 							const proj = project.src().pipe(project());
 							proj.once('error', () => {
-								// reject('Error(s) thrown during compilation');
+								reject('Error(s) thrown during compilation');
 							});
 							proj.js.pipe(gulp.dest('./app')).once('end', () => {
 								resolve(null);
@@ -879,11 +879,11 @@ class Tasks {
 
 					@describe('Compiles the test/ directory\'s typescript')
 					static test() {
-						return new Promise((resolve, _reject) => {
+						return new Promise((resolve, reject) => {
 							const project = ts.createProject('test/tsconfig.json');
 							const proj = project.src().pipe(project());
 							proj.once('error', () => {
-								// reject('Error(s) thrown during compilation');
+								reject('Error(s) thrown during compilation');
 							});
 							proj.js.pipe(gulp.dest('./test')).once('end', () => {
 								resolve(null);
