@@ -3702,7 +3702,7 @@ describe('On-Page CRM', function() {
 				await resetSettings(this);
 				await executeAsyncScript<void>(inlineAsyncFn((ondone, _onreject, REPLACE) => {
 					browserAPI.runtime.getBackgroundPage().then((backgroundPage: GlobalObject) => {
-						backgroundPage.globals.crmValues.tabData = new Map();
+						backgroundPage.globals.crmValues.tabData = new window.Map();
 						window.app.settings.crm = REPLACE.crm;
 						window.app.upload();
 						ondone(null);
@@ -4002,7 +4002,7 @@ describe('On-Page CRM', function() {
 				await resetSettings(this);
 				await executeAsyncScript<void>(inlineAsyncFn((ondone, _onreject, REPLACE) => {
 					browserAPI.runtime.getBackgroundPage().then((backgroundPage: GlobalObject) => {
-						backgroundPage.globals.crmValues.tabData = new Map();
+						backgroundPage.globals.crmValues.tabData = new window.Map();
 						window.app.settings.crm = REPLACE.crm;
 						window.app.upload();
 						ondone(null);
@@ -4214,8 +4214,8 @@ describe('On-Page CRM', function() {
 				}));
 				await wait(50);
 				const results = await Promise.all([
-					findElement(webdriver.By.id('stylesheetTestDummy1')),
-					findElement(webdriver.By.id('stylesheetTestDummy2'))
+					findElement(webdriver.By.id('stylesheetTestDummy1')).promise,
+					findElement(webdriver.By.id('stylesheetTestDummy2')).promise
 				]);
 				await wait(150);
 				dummy1 = results[0];

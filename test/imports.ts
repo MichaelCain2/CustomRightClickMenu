@@ -420,10 +420,14 @@ type Resolver<T> = (onFulfilled: IFulfilledCallback<T>,
 	onRejected: IRejectedCallback) => void;
 
 class PromiseWrapper<T> implements PromiseLike<T> {
-	private _promise: Promise<T>;
+	protected _promise: Promise<T>;
 
 	constructor(resolver?: Resolver<T>) {
 		this._promise = new Promise(resolver);
+	}
+
+	get promise() {
+		return this._promise;
 	}
 
 	then<TResult1 = T, TResult2 = never>(
@@ -431,10 +435,10 @@ class PromiseWrapper<T> implements PromiseLike<T> {
 		onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): 
 			PromiseLike<TResult1 | TResult2> {
 				if (onrejected) {
-					return this._promise.then(onfulfilled, onrejected);
+					return this._promise.then(onfulfilled, onrejected) as unknown as PromiseLike<TResult1|TResult2>;
 				}
 				if (onfulfilled) {
-					return this._promise.then(onfulfilled);
+					return this._promise.then(onfulfilled) as unknown as PromiseLike<TResult1|TResult2>;
 				}
 				return this._promise.then();
 			}
@@ -616,7 +620,7 @@ export class FoundElementsPromise extends PromiseWrapper<FoundElement[]> {
 	public waitFor(awaitable: Promise<any>) {
 		return new FoundElementsPromise(async (resolve) => {
 			const [ elements ] = await Promise.all([
-				this,
+				this._promise,
 				awaitable
 			]) as [ FoundElement[], any ];
 			resolve(elements);
@@ -704,7 +708,7 @@ export class FoundElementPromise extends PromiseWrapper<FoundElement> {
 	waitFor(awaitable: Promise<any>) {
 		return new FoundElementPromise(async (resolve) => {
 			const [ element ] = await Promise.all([
-				this,
+				this._promise,
 				awaitable
 			]) as [ FoundElement, any ];
 			resolve(element);
