@@ -1,1 +1,1 @@
-include: build/_locales
+include: ["build/_locales"]
