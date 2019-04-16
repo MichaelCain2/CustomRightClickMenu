@@ -1,0 +1,2 @@
+include: ["build/", "build/_locales/", ".babelrc", "build/_locales/en/", "build/_locales"]
+port: 5000
