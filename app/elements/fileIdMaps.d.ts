@@ -304,7 +304,7 @@ interface SelectorMap {
 	"#paperGetPageProperties": HTMLPaperGetPagePropertiesElement;
 	"#paperLibrariesSelector": HTMLPaperLibrariesSelectorElement;
 	"#paperLibrariesShowbackground": HTMLPaperCheckboxElement;
-	"#paperSearchWebsiteDialog": HTMLPaperDialogElement;
+	"#paperSearchWebsiteDialog": HTMLPaperSearchWebsiteDialogElement;
 	"#paperSearchWebsitesToolTrigger": HTMLDivElement;
 	"#permissionInfo": HTMLDivElement;
 	"#permissionValue": HTMLDomRepeatElement;
@@ -1018,7 +1018,7 @@ interface IDMap {
 	"paperGetPageProperties": HTMLPaperGetPagePropertiesElement;
 	"paperLibrariesSelector": HTMLPaperLibrariesSelectorElement;
 	"paperLibrariesShowbackground": HTMLPaperCheckboxElement;
-	"paperSearchWebsiteDialog": HTMLPaperDialogElement;
+	"paperSearchWebsiteDialog": HTMLPaperSearchWebsiteDialogElement;
 	"paperSearchWebsitesToolTrigger": HTMLDivElement;
 	"permissionInfo": HTMLDivElement;
 	"permissionValue": HTMLDomRepeatElement;
