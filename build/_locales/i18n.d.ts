@@ -16,6 +16,8 @@ export type LocaleSpec = {
 		"dismiss": I18NMessage,
 		"undo": I18NMessage,
 		"next": I18NMessage,
+		"back": I18NMessage,
+		"confirm": I18NMessage,
 		"previous": I18NMessage,
 		"cancel": I18NMessage,
 		"save": I18NMessage,
@@ -26,7 +28,8 @@ export type LocaleSpec = {
 		"apply": I18NMessage,
 		"all_capital": I18NMessage,
 		"tab": I18NMessage,
-		"tabIndex": I18NMessage
+		"tabIndex": I18NMessage,
+		"url": I18NMessage
 	},
 	"crm": {
 		"link": I18NMessage,
@@ -260,7 +263,6 @@ export type LocaleSpec = {
 				"noNameError": I18NMessage,
 				"urlInput": I18NMessage,
 				"codeInput": I18NMessage,
-				"url": I18NMessage,
 				"code": I18NMessage,
 				"urlError": I18NMessage,
 				"usesTypescript": I18NMessage,
@@ -451,7 +453,81 @@ export type LocaleSpec = {
 		"editCrm": {
 			"empty": I18NMessage,
 			"addHere": I18NMessage,
-			"addNodeType": I18NMessage
+			"addNodeType": I18NMessage,
+			"select": I18NMessage,
+			"exportSelected": I18NMessage,
+			"removeSelected": I18NMessage,
+			"menuRemoveWarning": I18NMessage,
+			"dragInfo": I18NMessage,
+			"typeInfo": I18NMessage,
+			"editInfo": I18NMessage,
+			"menuInfo": I18NMessage,
+			"editItem": I18NMessage,
+			"addFail": I18NMessage
+		},
+		"editCrmItem": {
+			"changeType": I18NMessage,
+			"dragNode": I18NMessage,
+			"clickToShowChildren": I18NMessage,
+			"clickToShowXChildren": I18NMessage,
+			"clickToShowChild": I18NMessage,
+			"rootName": I18NMessage,
+			"clickToEditRoot": I18NMessage,
+			"nodeHidden": I18NMessage,
+			"clickToEdit": I18NMessage
+		},
+		"tools": {
+			"paperGetPageProperties": {
+				"selection": I18NMessage,
+				"host": I18NMessage,
+				"path": I18NMessage,
+				"protocol": I18NMessage,
+				"width": I18NMessage,
+				"height": I18NMessage,
+				"scrolled": I18NMessage,
+				"title": I18NMessage,
+				"clickedElement": I18NMessage
+			},
+			"paperLibrariesSelector": {
+				"libraryInfo": I18NMessage,
+				"libraries": I18NMessage,
+				"anonymous": I18NMessage,
+				"addOwn": I18NMessage,
+				"xhrFailedMsg": I18NMessage,
+				"xhrFailed": I18NMessage,
+				"nameTaken": I18NMessage,
+				"nameMissing": I18NMessage,
+				"editing": I18NMessage,
+				"pleaseUpdate": I18NMessage
+			},
+			"paperSearchWebsiteDialog": {
+				"title": I18NMessage,
+				"description": I18NMessage,
+				"inputOne": I18NMessage,
+				"inputDefault": I18NMessage,
+				"chooseDefault": I18NMessage,
+				"try": I18NMessage,
+				"manualInput": I18NMessage,
+				"findingSearchURL": I18NMessage,
+				"chooseFromList": I18NMessage,
+				"goToWebsite": I18NMessage,
+				"clickOmnibar": I18NMessage,
+				"pasteHere": I18NMessage,
+				"invalidInput": I18NMessage,
+				"process": I18NMessage,
+				"processedTitle": I18NMessage,
+				"choose": I18NMessage,
+				"confirmTitle": I18NMessage,
+				"searchQuery": I18NMessage,
+				"query": I18NMessage,
+				"testURL": I18NMessage,
+				"howOpenTitle": I18NMessage,
+				"newTab": I18NMessage,
+				"currentTab": I18NMessage,
+				"added": I18NMessage,
+				"enterSearchQuery": I18NMessage,
+				"selectSomething": I18NMessage
+			}
 		}
 	}
 }

@@ -486,7 +486,7 @@ class Tasks {
 
 			@describe('Compiles the .ts files into .js files')
 			static compileTS() {
-				return new Promise(async (resolve, reject) => {
+				return new Promise(async (resolve, _reject) => {
 					const files = await new Promise<string[]>((resolve, reject) => {
 						glob('app/_locales/**/*.ts', (err, matches) => {
 							if (err) { 
@@ -506,7 +506,7 @@ class Tasks {
 					const project = ts.createProject('app/_locales/tsconfig.json');
 					const proj = project.src().pipe(project());
 					proj.once('error', () => {
-						reject('Error(s) thrown during compilation');
+						// reject('Error(s) thrown during compilation');
 					});
 					proj.js.pipe(gulp.dest(dest)).once('end', () => {
 						resolve(null);
@@ -880,11 +880,11 @@ class Tasks {
 				class Compile {
 					@describe('Compiles the app/ directory\'s typescript')
 					static app() {
-						return new Promise((resolve, reject) => {
+						return new Promise((resolve, _reject) => {
 							const project = ts.createProject('app/tsconfig.json');
 							const proj = project.src().pipe(project());
 							proj.once('error', () => {
-								reject('Error(s) thrown during compilation');
+								// reject('Error(s) thrown during compilation');
 							});
 							proj.js.pipe(gulp.dest('./app')).once('end', () => {
 								resolve(null);
@@ -894,11 +894,11 @@ class Tasks {
 
 					@describe('Compiles the test/ directory\'s typescript')
 					static test() {
-						return new Promise((resolve, reject) => {
+						return new Promise((resolve, _reject) => {
 							const project = ts.createProject('test/tsconfig.json');
 							const proj = project.src().pipe(project());
 							proj.once('error', () => {
-								reject('Error(s) thrown during compilation');
+								// reject('Error(s) thrown during compilation');
 							});
 							proj.js.pipe(gulp.dest('./test')).once('end', () => {
 								resolve(null);
@@ -1998,6 +1998,14 @@ class Tasks {
 				'Removes the app/bower_components folder')
 			static async removeBowerComponents() {
 				await del('./app/bower_components');
+			}
+
+			@rootTask('noJekyll',
+				'Copies the nojekyll file to the root')
+			static copyJeckyllConfig() {
+				return gulp
+					.src('.nojekyll', { cwd: './resources/demo', base: './resources/demo' })
+					.pipe(gulp.dest('./'));
 			}
 
 			@rootTask('changeGitIgnore',

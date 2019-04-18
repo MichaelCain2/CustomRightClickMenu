@@ -5143,16 +5143,75 @@ var DefaultLinkElement;(function (a) {
       }
     }return a;
   }, __assign.apply(this, arguments);
+},
+    __awaiter = undefined && undefined.__awaiter || function (a, b, c, d) {
+  return new (c || (c = Promise))(function (e, f) {
+    function g(a) {
+      try {
+        i(d.next(a));
+      } catch (a) {
+        f(a);
+      }
+    }function h(a) {
+      try {
+        i(d["throw"](a));
+      } catch (a) {
+        f(a);
+      }
+    }function i(a) {
+      a.done ? e(a.value) : new c(function (b) {
+        b(a.value);
+      }).then(g, h);
+    }i((d = d.apply(a, b || [])).next());
+  });
+},
+    __generator = undefined && undefined.__generator || function (a, b) {
+  function c(a) {
+    return function (b) {
+      return d([a, b]);
+    };
+  }function d(c) {
+    if (e) throw new TypeError("Generator is already executing.");for (; g;) {
+      try {
+        if (e = 1, f && (h = 2 & c[0] ? f["return"] : c[0] ? f["throw"] || ((h = f["return"]) && h.call(f), 0) : f.next) && !(h = h.call(f, c[1])).done) return h;switch ((f = 0, h) && (c = [2 & c[0], h.value]), c[0]) {case 0:case 1:
+            h = c;break;case 4:
+            return g.label++, { value: c[1], done: !1 };case 5:
+            g.label++, f = c[1], c = [0];continue;case 7:
+            c = g.ops.pop(), g.trys.pop();continue;default:
+            if ((h = g.trys, !(h = 0 < h.length && h[h.length - 1])) && (6 === c[0] || 2 === c[0])) {
+              g = 0;continue;
+            }if (3 === c[0] && (!h || c[1] > h[0] && c[1] < h[3])) {
+              g.label = c[1];break;
+            }if (6 === c[0] && g.label < h[1]) {
+              g.label = h[1], h = c;break;
+            }if (h && g.label < h[2]) {
+              g.label = h[2], g.ops.push(c);break;
+            }h[2] && g.ops.pop(), g.trys.pop();continue;}c = b.call(a, g);
+      } catch (a) {
+        c = [6, a], f = 0;
+      } finally {
+        e = h = 0;
+      }
+    }if (5 & c[0]) throw c[1];return { value: c[0] ? c[1] : void 0, done: !0 };
+  }var e,
+      f,
+      h,
+      i,
+      g = { label: 0, sent: function sent() {
+      if (1 & h[0]) throw h[1];return h[1];
+    }, trys: [], ops: [] };return i = { next: c(0), "throw": c(1), "return": c(2) }, "function" === typeof Symbol && (i[Symbol.iterator] = function () {
+    return this;
+  }), i;
 };(function (a) {
-  a.editCrmProperties = { crm: { type: Array, value: [], notify: !0 }, crmLoading: { type: Boolean, value: !0, notify: !0 }, crmEmpty: { type: Boolean, value: !1, notify: !0, computed: "_isCrmEmpty(crm, crmLoading)" }, isSelecting: { type: Boolean, value: !1, notify: !0 }, isAdding: { type: Boolean, value: !1, notify: !0 }, isAddingOrSelecting: { type: Boolean, value: !1, notify: !0, computed: "_isAddingOrSelecting(isAdding, isSelecting)" } };var b = function () {
+  a.editCrmProperties = { crm: { type: Array, value: [], notify: !0 }, crmLoading: { type: Boolean, value: !0, notify: !0 }, crmEmpty: { type: Boolean, value: !1, notify: !0, computed: "_isCrmEmpty(crm, crmLoading)" }, isSelecting: { type: Boolean, value: !1, notify: !0 }, isAdding: { type: Boolean, value: !1, notify: !0 }, isAddingOrSelecting: { type: Boolean, value: !1, notify: !0, computed: "_isAddingOrSelecting(isAdding, isSelecting)" }, appExists: { type: Boolean, value: !1, notify: !0 } };var b = function () {
     function b() {}return b._addNodeType = function (a) {
-      return this.___("options_editCrm_addNodeType", window.app.crm.getI18NNodeType(a));
+      return this.___("options_editCrm_addNodeType", window.app ? window.app.crm.getI18NNodeType(a) : "{{" + a + "}}");
     }, b._isColumnEmpty = function (a) {
       return 0 === a.list.length && !this.isAdding;
     }, b._isCrmEmpty = function (a, b) {
       return !b && 0 === a.length;
     }, b._getAriaLabel = function (a) {
-      return "Edit item \"" + a.name + "\"";
+      return this.___("options_editCrm_editItem", a.name);
     }, b._isAddingOrSelecting = function () {
       return this.isAdding || this.isSelecting;
     }, b._getColumns = function () {
@@ -5259,13 +5318,18 @@ var DefaultLinkElement;(function (a) {
       };return i ? n() : this._currentTimeout = window.setTimeout(n, void 0 !== h && h ? 150 : 1e3), l;
     }, b.ready = function () {
       var a = this;window.onExists("app").then(function () {
-        window.app.editCRM = a, window.app.addEventListener("crmTypeChanged", function () {
+        window.app.editCRM = a, a.appExists = !0, window.app.addEventListener("crmTypeChanged", function () {
           a._typeChanged();
         }), a._typeChanged(!0);
       });
     }, b.addToPosition = function (a) {
-      var b = window.app.util.findElementWithClassName(a, "addingItemPlaceholder"),
-          c = JSON.parse(b.getAttribute("data-path"));this._addItem(c, this.addingType), this.isAdding = !1;
+      return __awaiter(this, void 0, void 0, function () {
+        var b, c;return __generator(this, function (d) {
+          switch (d.label) {case 0:
+              return b = window.app.util.findElementWithClassName(a, "addingItemPlaceholder"), c = JSON.parse(b.getAttribute("data-path")), [4, this._addItem(c, this.addingType)];case 1:
+              return d.sent(), this.isAdding = !1, [2];}
+        });
+      });
     }, b.cancelAddOrSelect = function () {
       this.isAdding ? this.cancelAdding() : this.isSelecting && this.cancelSelecting();
     }, b.cancelAdding = function () {
@@ -5283,9 +5347,16 @@ var DefaultLinkElement;(function (a) {
     }, b._setAddStateForType = function (a) {
       return 0 === window.app.settings.crm.length ? (window.app.settings.crm.push(window.app.templates.getDefaultNodeOfType(a, { id: window.app.generateItemId() })), window.app.editCRM.build({ setItems: window.app.editCRM.setMenus }), void window.app.upload()) : void (this.isSelecting && this.cancelSelecting(), this.isAdding = !0, this.addingType = a, this.build({ setItems: window.app.editCRM.setMenus, instant: !0 }));
     }, b._addItem = function (a, b) {
-      var c = window.app.templates.getDefaultNodeOfType(b, { id: window.app.generateItemId() });window.app.uploading.createRevertPoint();var d = window.app.crm.lookup(a, !0);return null === d ? (window.app.util.showToast("Failed to add " + b), void window.app.util.wait(5e3).then(function () {
-        window.app.listeners.hideGenericToast();
-      })) : void (d.push(c), window.app.editCRM.build({ setItems: window.app.editCRM.setMenus }), window.app.upload());
+      return __awaiter(this, void 0, void 0, function () {
+        var c, d, e, f;return __generator(this, function (g) {
+          switch (g.label) {case 0:
+              return (c = window.app.templates.getDefaultNodeOfType(b, { id: window.app.generateItemId() }), window.app.uploading.createRevertPoint(), d = window.app.crm.lookup(a, !0), null !== d) ? [3, 2] : (f = (e = window.app.util).showToast, [4, this.__async("options_editCrm_addFail", b)]);case 1:
+              return f.apply(e, [g.sent()]), window.app.util.wait(5e3).then(function () {
+                window.app.listeners.hideGenericToast();
+              }), [2];case 2:
+              return d.push(c), window.app.editCRM.build({ setItems: window.app.editCRM.setMenus }), window.app.upload(), [2];}
+        });
+      });
     }, b._getSelected = function () {
       var a,
           b = [],
@@ -5459,50 +5530,116 @@ var DefaultLinkElement;(function (a) {
     window.register(b);
   });
 })(EditCrmElement || (EditCrmElement = {}));
-var EditCrmItemElement;(function (a) {
+var EditCrmItemElement,
+    __awaiter = undefined && undefined.__awaiter || function (a, b, c, d) {
+  return new (c || (c = Promise))(function (e, f) {
+    function g(a) {
+      try {
+        i(d.next(a));
+      } catch (a) {
+        f(a);
+      }
+    }function h(a) {
+      try {
+        i(d["throw"](a));
+      } catch (a) {
+        f(a);
+      }
+    }function i(a) {
+      a.done ? e(a.value) : new c(function (b) {
+        b(a.value);
+      }).then(g, h);
+    }i((d = d.apply(a, b || [])).next());
+  });
+},
+    __generator = undefined && undefined.__generator || function (a, b) {
+  function c(a) {
+    return function (b) {
+      return d([a, b]);
+    };
+  }function d(c) {
+    if (e) throw new TypeError("Generator is already executing.");for (; g;) {
+      try {
+        if (e = 1, f && (h = 2 & c[0] ? f["return"] : c[0] ? f["throw"] || ((h = f["return"]) && h.call(f), 0) : f.next) && !(h = h.call(f, c[1])).done) return h;switch ((f = 0, h) && (c = [2 & c[0], h.value]), c[0]) {case 0:case 1:
+            h = c;break;case 4:
+            return g.label++, { value: c[1], done: !1 };case 5:
+            g.label++, f = c[1], c = [0];continue;case 7:
+            c = g.ops.pop(), g.trys.pop();continue;default:
+            if ((h = g.trys, !(h = 0 < h.length && h[h.length - 1])) && (6 === c[0] || 2 === c[0])) {
+              g = 0;continue;
+            }if (3 === c[0] && (!h || c[1] > h[0] && c[1] < h[3])) {
+              g.label = c[1];break;
+            }if (6 === c[0] && g.label < h[1]) {
+              g.label = h[1], h = c;break;
+            }if (h && g.label < h[2]) {
+              g.label = h[2], g.ops.push(c);break;
+            }h[2] && g.ops.pop(), g.trys.pop();continue;}c = b.call(a, g);
+      } catch (a) {
+        c = [6, a], f = 0;
+      } finally {
+        e = h = 0;
+      }
+    }if (5 & c[0]) throw c[1];return { value: c[0] ? c[1] : void 0, done: !0 };
+  }var e,
+      f,
+      h,
+      i,
+      g = { label: 0, sent: function sent() {
+      if (1 & h[0]) throw h[1];return h[1];
+    }, trys: [], ops: [] };return i = { next: c(0), "throw": c(1), "return": c(2) }, "function" === typeof Symbol && (i[Symbol.iterator] = function () {
+    return this;
+  }), i;
+};(function (a) {
   a.editCrmItemProperties = { item: { type: Object, notify: !0 }, expanded: { type: Boolean, notify: !0 }, shadow: { type: Boolean, notify: !0 }, itemName: { type: String, notify: !0 }, isMenu: { type: Boolean, notify: !0 }, hasCodeSettings: { type: Boolean, notify: !0 }, rootNode: { type: Boolean, notify: !0 }, crmTypeHidden: { type: Boolean, notify: !0 } };var b = function () {
     function b() {}return b._openCodeSettings = function () {
       window.app.initCodeOptions(this.item);
     }, b.getMenuExpandMessage = function () {
-      return this.item.children ? 'Click to show ' + this.item.children.length + ' child' + (1 < this.item.children.length ? 'ren' : '') : 'Click to show children';
+      return this.item.children ? 1 === this.item.children.length ? this.___("options_editCrmItem_clickToShowChild") : this.___("options_editCrmItem_clickToShowXChildren", this.item.children.length + "") : this.___("options_editCrmItem_clickToShowChildren");
     }, b.update = function () {
-      if (!this.classList.contains('id' + this.item.id)) {
+      if (!this.classList.contains("id" + this.item.id)) {
         for (var a = this.classList, b = 0; b < a.length; b++) {
-          if (-1 < a[b].indexOf('id')) {
+          if (-1 < a[b].indexOf("id")) {
             this.classList.remove(a[b]);break;
           }
         }this.attached(!0);
       }
     }, b.updateName = function (a) {
-      void 0 === a && (a = window.app.settings.rootName = 'Custom Menu', window.app.upload()), this.set('itemName', a), this.item.name = a;
+      return __awaiter(this, void 0, void 0, function () {
+        var b;return __generator(this, function (c) {
+          switch (c.label) {case 0:
+              return void 0 === a ? (b = window.app.settings, [4, this.__async("options_editCrmItem_rootName")]) : [3, 2];case 1:
+              a = b.rootName = c.sent();;window.app.upload(), c.label = 2;case 2:
+              return this.set("itemName", a), this.item.name = a, [2];}
+        });
+      });
     }, b.rootNameChange = function () {
-      var a = this.querySelector('#rootNameTitle').value;window.app.settings.rootName = a, window.app.upload();
+      var a = this.querySelector("#rootNameTitle").value;window.app.settings.rootName = a, window.app.upload();
     }, b._initRootNode = function () {
-      this.item = window.app.templates.getDefaultDividerNode({ name: 'Custom Menu', id: -1, index: -1, path: [-1], onContentTypes: [!0, !0, !0, !0, !0, !0] });
+      this.item = window.app.templates.getDefaultDividerNode({ name: "Custom Menu", id: -1, index: -1, path: [-1], onContentTypes: [!0, !0, !0, !0, !0, !0] });
     }, b.onMouseOver = function (a) {
       a.preventDefault(), a.stopPropagation(), this._hoveringTypeSwitcher || this._isDrag || (this._hoveringTypeSwitcher = !0, this.typeIndicatorMouseOver());
     }, b._mouseMove = function (a) {
       if (window.app.editCRM.dragging) {
-        var b = new CustomEvent('dragover', { detail: { isCustom: !0, target: window.app.util.getPath(a)[0], clientX: a.clientX, clientY: a.clientY } });this.parentNode.dispatchEvent(b);
+        var b = new CustomEvent("dragover", { detail: { isCustom: !0, target: window.app.util.getPath(a)[0], clientX: a.clientX, clientY: a.clientY } });this.parentNode.dispatchEvent(b);
       }
     }, b.attached = function (a) {
-      var b = this;if (void 0 === a && (a = !1), !this._hasBeenAttached || a) return this._hasBeenAttached = !0, this.classList.contains('fallbackFiller') ? void this.$.itemCont.classList.add('fallbackFiller') : void ((this.classList.contains('draggingFiller') || this.getAttribute('draggable')) && (this.$.itemCont.classList.add('draggingFiller'), this._isDrag = !0), !this._isDrag && this.addEventListener('mousemove', this._mouseMove.bind(this)), !this._isDrag && document.body.addEventListener('mousemove', function () {
+      var b = this;if (void 0 === a && (a = !1), !this._hasBeenAttached || a) return this._hasBeenAttached = !0, this.classList.contains("fallbackFiller") ? void this.$.itemCont.classList.add("fallbackFiller") : void ((this.classList.contains("draggingFiller") || this.getAttribute("draggable")) && (this.$.itemCont.classList.add("draggingFiller"), this._isDrag = !0), !this._isDrag && this.addEventListener("mousemove", this._mouseMove.bind(this)), !this._isDrag && document.body.addEventListener("mousemove", function () {
         b._hoveringTypeSwitcher && (b._hoveringTypeSwitcher = !1, b.typeIndicatorMouseLeave());
-      }), window.onExists('app').then(function () {
-        return b.rootNode ? void b._initRootNode() : void (b.rootNode = !1, b.classList.add('id' + b.item.id), 'wait' !== b.classList[0] && (b.itemIndex = b.index, b.item = b.item, b.itemName = b.item.name, b.calculateType(), b.itemIndex = b.index, b.$$('#typeSwitcher') && b.$$('#typeSwitcher').ready && b.$$('#typeSwitcher').ready(), window.app.editCRM.isSelecting && (b.$.itemCont.classList.add('selecting'), -1 < window.app.editCRM.selectedElements.indexOf(b.item.id) ? b._onSelect(!0, !0) : b._onDeselect(!0, !0))));
+      }), window.onExists("app").then(function () {
+        return b.rootNode ? void b._initRootNode() : void (b.rootNode = !1, b.classList.add("id" + b.item.id), "wait" !== b.classList[0] && (b.itemIndex = b.index, b.item = b.item, b.itemName = b.item.name, b.calculateType(), b.itemIndex = b.index, b.$$("#typeSwitcher") && b.$$("#typeSwitcher").ready && b.$$("#typeSwitcher").ready(), window.app.editCRM.isSelecting && (b.$.itemCont.classList.add("selecting"), -1 < window.app.editCRM.selectedElements.indexOf(b.item.id) ? b._onSelect(!0, !0) : b._onDeselect(!0, !0))));
       }));
     }, b.openMenu = function () {
       window.app.editCRM.build({ setItems: this.item.path });
     }, b._getCheckbox = function () {
-      return this.shadowRoot.querySelector('#checkbox');
+      return this.shadowRoot.querySelector("#checkbox");
     }, b._selectThisNode = function () {
-      var a = this._getCheckbox().checked;this._getCheckbox().checked = !a, 0 === window.app.editCRM.getItemsWithClass('highlighted').length && this.$.itemCont.classList.add('firstHighlighted'), a ? this._onDeselect() : this._onSelect();
+      var a = this._getCheckbox().checked;this._getCheckbox().checked = !a, 0 === window.app.editCRM.getItemsWithClass("highlighted").length && this.$.itemCont.classList.add("firstHighlighted"), a ? this._onDeselect() : this._onSelect();
     }, b.openEditPage = function () {
-      if (!this.shadow && !window.app.item && !this.rootNode) if (!this.$.itemCont.classList.contains('selecting')) {
-        var a = this.item;window.app.item = a, 'script' === a.type ? (window.app.stylesheetItem = null, window.app.scriptItem = a) : 'stylesheet' === a.type ? (window.app.scriptItem = null, window.app.stylesheetItem = a) : (window.app.stylesheetItem = null, window.app.scriptItem = null), window.crmEditPage.init();
+      if (!this.shadow && !window.app.item && !this.rootNode) if (!this.$.itemCont.classList.contains("selecting")) {
+        var a = this.item;window.app.item = a, "script" === a.type ? (window.app.stylesheetItem = null, window.app.scriptItem = a) : "stylesheet" === a.type ? (window.app.scriptItem = null, window.app.stylesheetItem = a) : (window.app.stylesheetItem = null, window.app.scriptItem = null), window.crmEditPage.init();
       } else this._selectThisNode();
     }, b.getTitle = function () {
-      return this.rootNode ? 'Click to edit root node name' : this.hasAttribute('crm-type-hidden') ? 'This node won\'t be visible on this content type (select a different one on the top-right)' : 'Click to edit node';
+      return this.rootNode ? this.___("options_editCrmItem_clickToEditRoot") : this.hasAttribute("crm-type-hidden") ? this.___("options_editCrmItem_nodeHidden") : this.___("options_editCrmItem_clickToEdit");
     }, b._getNextNode = function (a) {
       if (a.children) return a.children[0];for (var b = Array.prototype.slice.apply(a.path), c = window.app.crm.lookup(b, !0), d = b.splice(b.length - 1, 1)[0]; c.length - 1 <= d;) {
         c = window.app.crm.lookup(b, !0), d = b.splice(b.length - 1, 1)[0];
@@ -5521,12 +5658,12 @@ var EditCrmItemElement;(function (a) {
           if (d[c] !== e[c]) {
             f = !1;break;
           }
-        }if (f) return 'same';
+        }if (f) return "same";
       }var g = d.length > e.length ? d.length : e.length;for (c = 0; c < g; c++) {
         if (void 0 !== e[c] && void 0 !== d[c]) {
-          if (e[c] > d[c]) return 'after';if (e[c] < d[c]) return 'before';
-        } else return void 0 === e[c] ? 'before' : 'after';
-      }return 'same';
+          if (e[c] > d[c]) return "after";if (e[c] < d[c]) return "before";
+        } else return void 0 === e[c] ? "before" : "after";
+      }return "same";
     }, b._generateShiftSelectionCallback = function (a, b) {
       return function () {
         window.setTimeout(function () {
@@ -5535,32 +5672,32 @@ var EditCrmItemElement;(function (a) {
       };
     }, b._selectFromXToThis = function () {
       var a = this,
-          b = window.app.editCRM.getItemsWithClass('firstHighlighted')[0],
-          c = b.item;window.app.editCRM.getItemsWithClass('highlighted').forEach(function (a) {
-        a.$.itemCont.classList.remove('highlighted');
-      });var d = this._getNodesOrder(c, this.item);if ('same' === d) this.$.itemCont.classList.add('highlighted'), this._getCheckbox().checked = !0, window.app.editCRM.selectedElements = [this.item.id];else {
-        b.$.itemCont.classList.add('highlighted'), b.shadowRoot.getElementById('checkbox').checked = !0, window.app.editCRM.selectedElements = [b.item.id];for (var e = 0, f = 'after' === d ? this._getNextNode : this._getPreviousNode, g = f(c); g.id !== this.item.id;) {
+          b = window.app.editCRM.getItemsWithClass("firstHighlighted")[0],
+          c = b.item;window.app.editCRM.getItemsWithClass("highlighted").forEach(function (a) {
+        a.$.itemCont.classList.remove("highlighted");
+      });var d = this._getNodesOrder(c, this.item);if ("same" === d) this.$.itemCont.classList.add("highlighted"), this._getCheckbox().checked = !0, window.app.editCRM.selectedElements = [this.item.id];else {
+        b.$.itemCont.classList.add("highlighted"), b.shadowRoot.getElementById("checkbox").checked = !0, window.app.editCRM.selectedElements = [b.item.id];for (var e = 0, f = "after" === d ? this._getNextNode : this._getPreviousNode, g = f(c); g.id !== this.item.id;) {
           this._generateShiftSelectionCallback(g, e)(), e += 35, g = f(g);
         }window.setTimeout(function () {
-          a.$.itemCont.classList.add('highlighted'), a._getCheckbox().checked = !0, window.app.editCRM.selectedElements.push(a.item.id);
+          a.$.itemCont.classList.add("highlighted"), a._getCheckbox().checked = !0, window.app.editCRM.selectedElements.push(a.item.id);
         }, e);
       }
     }, b.checkClickType = function (a) {
-      this.rootNode || (a.detail.sourceEvent.ctrlKey ? (window.app.editCRM.cancelAdding(), window.app.editCRM.selectItems(), this._selectThisNode()) : this.$.itemCont.classList.contains('selecting') && a.detail.sourceEvent.shiftKey ? this._selectFromXToThis() : (window.app.editCRM.cancelAdding(), this.openEditPage()));
+      this.rootNode || (a.detail.sourceEvent.ctrlKey ? (window.app.editCRM.cancelAdding(), window.app.editCRM.selectItems(), this._selectThisNode()) : this.$.itemCont.classList.contains("selecting") && a.detail.sourceEvent.shiftKey ? this._selectFromXToThis() : (window.app.editCRM.cancelAdding(), this.openEditPage()));
     }, b.calculateType = function () {
-      this.type = this.item.type, this.isMenu = 'menu' === this.item.type, this.hasCodeSettings = ('script' === this.item.type || 'stylesheet' === this.item.type) && 0 < window.app.generateCodeOptionsArray(this.item.value.options).length;
+      this.type = this.item.type, this.isMenu = "menu" === this.item.type, this.hasCodeSettings = ("script" === this.item.type || "stylesheet" === this.item.type) && 0 < window.app.generateCodeOptionsArray(this.item.value.options).length;
     }, b.typeIndicatorMouseOver = function () {
       var a = this;if (!this.shadow) {
         var b = Date.now();this._lastTypeSwitchMouseover = b, this.async(function () {
-          a._lastTypeSwitchMouseover === b && (a._lastTypeSwitchMouseover = null, $(a.$$('type-switcher').$$('.TSContainer')).stop().animate({ marginLeft: 0 }, 300));
+          a._lastTypeSwitchMouseover === b && (a._lastTypeSwitchMouseover = null, $(a.$$("type-switcher").$$(".TSContainer")).stop().animate({ marginLeft: 0 }, 300));
         }, 25);
       }
     }, b._animateOut = function () {
-      this._typeIndicatorAnimation && this._typeIndicatorAnimation.reverse ? this._typeIndicatorAnimation.reverse() : $(this.$$('type-switcher').$$('.TSContainer')).stop().animate({ marginLeft: '-293px' }, 300);
+      this._typeIndicatorAnimation && this._typeIndicatorAnimation.reverse ? this._typeIndicatorAnimation.reverse() : $(this.$$("type-switcher").$$(".TSContainer")).stop().animate({ marginLeft: "-293px" }, 300);
     }, b.typeIndicatorMouseLeave = function () {
       var a = this;if (this._lastTypeSwitchMouseover = null, !this.shadow) {
-        var b = this.$$('#typeSwitcher');b.toggledOpen ? b.closeTypeSwitchContainer(!0, function () {
-          b.toggledOpen = !1, b.$.typeSwitchChoicesContainer.style.display = 'none', window.setTransform(b.$.typeSwitchArrow, 'rotate(180deg)'), a._animateOut();
+        var b = this.$$("#typeSwitcher");b.toggledOpen ? b.closeTypeSwitchContainer(!0, function () {
+          b.toggledOpen = !1, b.$.typeSwitchChoicesContainer.style.display = "none", window.setTransform(b.$.typeSwitchArrow, "rotate(180deg)"), a._animateOut();
         }) : this._animateOut();
       }
     }, b._getOnSelectFunction = function (a) {
@@ -5568,7 +5705,7 @@ var EditCrmItemElement;(function (a) {
         window.app.editCRM.getCRMElementFromPath(b.item.children[a].path)._onSelect(!0);
       };
     }, b._onSelect = function (a, b) {
-      var c = this;if (void 0 === a && (a = !1), void 0 === b && (b = !1), this.$.itemCont.classList.add('highlighted'), a && (this._getCheckbox().checked = !0), this.item.children && !b) for (var d = function d(a) {
+      var c = this;if (void 0 === a && (a = !1), void 0 === b && (b = !1), this.$.itemCont.classList.add("highlighted"), a && (this._getCheckbox().checked = !0), this.item.children && !b) for (var d = function d(a) {
         setTimeout(function () {
           c._getOnSelectFunction(a);
         }, 35 * a), window.app.editCRM.selectedElements.push(e.item.children[a].id);
@@ -5580,7 +5717,7 @@ var EditCrmItemElement;(function (a) {
         window.app.editCRM.getCRMElementFromPath(b.item.children[a].path)._onDeselect(!0);
       };
     }, b._onDeselect = function (a, b) {
-      var c = this;if (void 0 === a && (a = !1), void 0 === b && (b = !1), this.$.itemCont.classList.remove('highlighted'), a && (this._getCheckbox().checked = !1), this.item.children && !b) for (var d = window.app.editCRM.selectedElements, e = function e(a) {
+      var c = this;if (void 0 === a && (a = !1), void 0 === b && (b = !1), this.$.itemCont.classList.remove("highlighted"), a && (this._getCheckbox().checked = !1), this.item.children && !b) for (var d = window.app.editCRM.selectedElements, e = function e(a) {
         setTimeout(function () {
           c._getOnDeselectFunction(a);
         }, 35 * a), d.splice(d.indexOf(f.item.children[a].id), 1);
@@ -5591,8 +5728,8 @@ var EditCrmItemElement;(function (a) {
       var a = this;setTimeout(function () {
         a._getCheckbox().checked ? a._onSelect() : a._onDeselect();
       }, 0);
-    }, b.is = 'edit-crm-item', b.type = '', b.properties = a.editCrmItemProperties, b._typeIndicatorAnimation = null, b._lastTypeSwitchMouseover = null, b._hasBeenAttached = !1, b._hoveringTypeSwitcher = !1, b._isDrag = !1, b);
-  }();a.ECI = b, window.objectify ? window.register(b) : window.addEventListener('RegisterReady', function () {
+    }, b.is = "edit-crm-item", b.type = "", b.properties = a.editCrmItemProperties, b._typeIndicatorAnimation = null, b._lastTypeSwitchMouseover = null, b._hasBeenAttached = !1, b._hoveringTypeSwitcher = !1, b._isDrag = !1, b);
+  }();a.ECI = b, window.objectify ? window.register(b) : window.addEventListener("RegisterReady", function () {
     window.register(b);
   });
 })(EditCrmItemElement || (EditCrmItemElement = {}));
@@ -8078,15 +8215,20 @@ var PaperLibrariesSelectorElement,
       var b = [];a.forEach(function (a, c) {
         "true" === a.selected && b.push(c);
       }), this.selected = b;
+    }, b._displayLibraries = function (a, b) {
+      var c = this,
+          d = [];a.forEach(function (a) {
+        var b = { isLibrary: !0, name: a.url + " (" + c.___("options_tools_paperLibrariesSelector_anonymous") + ")", classes: "library iron-selected anonymous", selected: "true" };d.push(b);
+      }), d.sort(this.sortByName), b = b.concat(d), b.push({ name: this.___("options_tools_paperLibrariesSelector_addOwn"), classes: "library addLibrary", selected: "false", isLibrary: !1 }), this.libraries = b;
+    }, b.onLangChanged = function () {
+      this._viewLibs && this._displayLibraries(this._viewLibs.anonymous, this._viewLibs.libraries);
     }, b.init = function (a) {
       return void 0 === a && (a = !1), __awaiter(this, void 0, void 0, function () {
-        var b, c, d, e, f;return __generator(this, function (g) {
-          switch (g.label) {case 0:
+        var b, c, d, e;return __generator(this, function (f) {
+          switch (f.label) {case 0:
               return this.noroot || !this._expanded || a || this.close(), this.noroot && this.open(), a ? [4, this.close()] : [3, 2];case 1:
-              g.sent(), this.open(), g.label = 2;case 2:
-              return b = this.categorizeLibraries(), c = b.anonymous, d = b.selectedObj, e = this._getLibraries(d), this._setSelectedLibraries(e), f = [], c.forEach(function (a) {
-                var b = { isLibrary: !0, name: a.url + " (anonymous)", classes: "library iron-selected anonymous", selected: "true" };f.push(b);
-              }), f.sort(this.sortByName), e = e.concat(f), e.push({ name: "Add your own", classes: "library addLibrary", selected: "false", isLibrary: !1 }), this.libraries = e, [2];}
+              f.sent(), this.open(), f.label = 2;case 2:
+              return b = this.categorizeLibraries(), c = b.anonymous, d = b.selectedObj, e = this._getLibraries(d), this._setSelectedLibraries(e), this._viewLibs = { anonymous: c, libraries: e }, this._displayLibraries(c, e), [2];}
         });
       });
     }, b._resetAfterAddDecision = function () {
@@ -8154,17 +8296,41 @@ var PaperLibrariesSelectorElement,
           return "Server error";case "0":case "1":default:
           return null;}
     }, b._addLibraryHandler = function () {
-      for (var a = this, b = window.doc.addedLibraryName, c = b.$$("input").value, d = !1, e = 0; e < this.installedLibraries.length; e++) {
-        this.installedLibraries[e].name === c && (d = !0);
-      }if ("" === c || d) b.errorMessage = d ? "That name is already taken" : "Please enter a name", b.invalid = !0;else if (b.invalid = !1, "url" === window.doc.addLibraryRadios.selected) {
-        var f = window.doc.addLibraryUrlInput,
-            g = f.$$("input").value;"/" === g[0] && "/" === g[1] && (g = "http:" + g), window.app.util.xhr(g, !1).then(function (b) {
-          a.confirmLibraryFile(c, window.doc.addLibraryIsTS.checked, b, g);
-        })["catch"](function (b) {
-          var c = a._getStatusCodeDescr(b),
-              d = c ? "Failed with status code " + b + " \"" + c + "\"" : "Failed with status code " + b + "\";";window.app.util.showToast(d), f.setAttribute("invalid", "true");
+      return __awaiter(this, void 0, void 0, function () {
+        var a,
+            b,
+            c,
+            d,
+            e,
+            f,
+            g,
+            h,
+            i = this;return __generator(this, function (j) {
+          switch (j.label) {case 0:
+              for (a = window.doc.addedLibraryName, b = a.$$("input").value, c = !1, d = 0; d < this.installedLibraries.length; d++) {
+                this.installedLibraries[d].name === b && (c = !0);
+              }return "" === b || c ? [3, 1] : (a.invalid = !1, "url" === window.doc.addLibraryRadios.selected ? (e = window.doc.addLibraryUrlInput, f = e.$$("input").value, "/" === f[0] && "/" === f[1] && (f = "http:" + f), window.app.util.xhr(f, !1).then(function (a) {
+                i.confirmLibraryFile(b, window.doc.addLibraryIsTS.checked, a, f);
+              })["catch"](function (a) {
+                return __awaiter(i, void 0, void 0, function () {
+                  var b, c, d;return __generator(this, function (f) {
+                    switch (f.label) {case 0:
+                        return b = this._getStatusCodeDescr(a), b ? [4, this.__async("options_tools_paperLibrariesSelector_xhrFailedMsg", a, b)] : [3, 2];case 1:
+                        return d = f.sent(), [3, 4];case 2:
+                        return [4, this.__async("options_tools_paperLibrariesSelector_xhrFailed", a)];case 3:
+                        d = f.sent(), f.label = 4;case 4:
+                        return c = d, window.app.util.showToast(c), e.setAttribute("invalid", "true"), [2];}
+                  });
+                });
+              })) : this.addLibraryFile(b, window.doc.addLibraryIsTS.checked, window.doc.addLibraryManualInput.$$("iron-autogrow-textarea").$$("textarea").value), [3, 6]);case 1:
+              return c ? (g = a, [4, this.__async("options_tools_paperLibrariesSelector_nameTaken")]) : [3, 3];case 2:
+              return g.errorMessage = j.sent(), [3, 5];case 3:
+              return h = a, [4, this.__async("options_tools_paperLibrariesSelector_nameMissing")];case 4:
+              h.errorMessage = j.sent(), j.label = 5;case 5:
+              a.invalid = !0, j.label = 6;case 6:
+              return [2];}
         });
-      } else this.addLibraryFile(c, window.doc.addLibraryIsTS.checked, window.doc.addLibraryManualInput.$$("iron-autogrow-textarea").$$("textarea").value);
+      });
     }, b._addNewLibrary = function () {
       window.doc.addedLibraryName.$$("input").value = "", window.doc.addLibraryUrlInput.$$("input").value = "", window.doc.addLibraryManualInput.$$("iron-autogrow-textarea").$$("textarea").value = "", window.doc.addLibraryIsTS.checked = !1, this._showElements("addLibraryProcessContainer"), this._hideElements("addLibraryLoadingDialog", "addLibraryConfirmationContainer", "addLibraryDialogSucces"), window.doc.addedLibraryName.invalid = !1, window.doc.addLibraryDialog.open();var a = this._addLibraryHandler.bind(this);window.app.$.addLibraryButton.addEventListener("click", a), this._eventListeners.push({ target: window.app.$.addLibraryButton, listener: a, event: "click" });
     }, b._handleCheckmarkClick = function (a) {
@@ -8206,58 +8372,145 @@ var PaperLibrariesSelectorElement,
         });
       });
     }, b._genOverlayWidget = function () {
-      var a = this,
-          b = document.createElement("div");b.style.backgroundColor = "white", b.style.padding = "10px", window.setDisplayFlex(b);var c = document.createElement("paper-button");c.innerText = "Cancel";var d = document.createElement("paper-button");d.innerText = "Save", d.style.marginLeft = "15px", c.addEventListener("click", function () {
-        a._discardLibEditChanges();
-      }), d.addEventListener("click", function () {
-        a._saveLibEditChanges();
-      }), b.appendChild(c), b.appendChild(d);var e = window.scriptEdit.fullscreenEditorManager.editor;window.scriptEdit.fullscreenEditorManager.isDiff(e) || e.addOverlayWidget({ getId: function getId() {
-          return "library.exit.buttons";
-        }, getDomNode: function getDomNode() {
-          return b;
-        }, getPosition: function getPosition() {
-          return { preference: monaco.editor.OverlayWidgetPositionPreference.BOTTOM_RIGHT_CORNER };
-        } });
+      return __awaiter(this, void 0, void 0, function () {
+        var a,
+            b,
+            c,
+            d,
+            e,
+            f,
+            g = this;return __generator(this, function (h) {
+          switch (h.label) {case 0:
+              return a = document.createElement("div"), a.style.backgroundColor = "white", a.style.padding = "10px", window.setDisplayFlex(a), b = document.createElement("paper-button"), c = b, [4, this.___("generic_cancel")];case 1:
+              return c.innerText = h.sent(), d = document.createElement("paper-button"), e = d, [4, this.___("generic_save")];case 2:
+              return e.innerText = h.sent(), d.style.marginLeft = "15px", b.addEventListener("click", function () {
+                g._discardLibEditChanges();
+              }), d.addEventListener("click", function () {
+                g._saveLibEditChanges();
+              }), a.appendChild(b), a.appendChild(d), f = window.scriptEdit.fullscreenEditorManager.editor, window.scriptEdit.fullscreenEditorManager.isDiff(f) || f.addOverlayWidget({ getId: function getId() {
+                  return "library.exit.buttons";
+                }, getDomNode: function getDomNode() {
+                  return a;
+                }, getPosition: function getPosition() {
+                  return { preference: monaco.editor.OverlayWidgetPositionPreference.BOTTOM_RIGHT_CORNER };
+                } }), [2];}
+        });
+      });
     }, b._openLibraryEditor = function (a) {
       return __awaiter(this, void 0, void 0, function () {
-        var b, c, d, e;return __generator(this, function (f) {
-          switch (f.label) {case 0:
-              return b = window.scriptEdit.fullscreen, c = window.app.$.ribbonScriptName.innerText, this._editingInstance = { wasFullscreen: b, name: c, library: a }, window.app.$.ribbonScriptName.innerText = "Editing library " + a.name, [4, window.scriptEdit.enterFullScreen()];case 1:
-              return f.sent(), [4, this._getInstalledLibrary(a)];case 2:
-              return d = f.sent(), e = d.ts && d.ts.enabled, window.scriptEdit.fullscreenEditorManager.switchToModel("libraryEdit", d.code, e ? window.scriptEdit.fullscreenEditorManager.EditorMode.TS : window.scriptEdit.fullscreenEditorManager.EditorMode.JS), window.app.$.fullscreenEditorToggle.style.display = "none", this._genOverlayWidget(), [2];}
+        var b, c, d, e, f;return __generator(this, function (g) {
+          switch (g.label) {case 0:
+              return b = window.scriptEdit.fullscreen, c = window.app.$.ribbonScriptName.innerText, this._editingInstance = { wasFullscreen: b, name: c, library: a }, d = window.app.$.ribbonScriptName, [4, this.___("options_tools_paperLibrariesSelector_editing", a.name)];case 1:
+              return d.innerText = g.sent(), [4, window.scriptEdit.enterFullScreen()];case 2:
+              return g.sent(), [4, this._getInstalledLibrary(a)];case 3:
+              return e = g.sent(), f = e.ts && e.ts.enabled, window.scriptEdit.fullscreenEditorManager.switchToModel("libraryEdit", e.code, f ? window.scriptEdit.fullscreenEditorManager.EditorMode.TS : window.scriptEdit.fullscreenEditorManager.EditorMode.JS), window.app.$.fullscreenEditorToggle.style.display = "none", [4, this._genOverlayWidget()];case 4:
+              return g.sent(), [2];}
         });
       });
     }, b._edit = function (a) {
-      var b = window.codeEditBehavior.getEditor();if (b.isTextarea(b.getEditorAsMonaco())) return void window.app.util.showToast("Please update your chrome (at least chrome 30) to use this feature");var c = null;c = "path" === a.target.tagName.toLowerCase() ? a.target.parentElement.parentElement.parentElement : "svg" === a.target.tagName.toLowerCase() ? a.target.parentElement.parentElement : a.target.parentElement;var d = c.dataLib;this._openLibraryEditor(d);
+      return __awaiter(this, void 0, void 0, function () {
+        var b, c, d;return __generator(this, function () {
+          return (b = window.codeEditBehavior.getEditor(), b.isTextarea(b.getEditorAsMonaco())) ? (window.app.util.showToast(this.___("options_tools_paperLibrariesSelector_pleaseUpdate")), [2]) : (c = null, c = "path" === a.target.tagName.toLowerCase() ? a.target.parentElement.parentElement.parentElement : "svg" === a.target.tagName.toLowerCase() ? a.target.parentElement.parentElement : a.target.parentElement, d = c.dataLib, this._openLibraryEditor(d), [2]);
+        });
+      });
     }, b._remove = function (a) {
       var b = null;b = "path" === a.target.tagName.toLowerCase() ? a.target.parentElement.parentElement.parentElement : "svg" === a.target.tagName.toLowerCase() ? a.target.parentElement.parentElement : a.target.parentElement;var c = b.dataLib;browserAPI.runtime.sendMessage({ type: "resource", data: { type: "remove", name: c.name, url: c.url, scriptId: window.app.scriptItem.id } }), this.splice("libraries", this.libraries.indexOf(c), 1);var d = this.$.dropdown;d.style.height = ~~d.style.height.split("px")[0] - 48 + "px";
     }, b.updateLibraries = function (a, b, c) {
       void 0 === c && (c = "main"), this.set("usedlibraries", a), this._srcNode = b, this.mode = c, this.init();
     }, (b._getMenu = function () {
       return this.$.dropdown;
-    }, b.is = "paper-libraries-selector", b.properties = a.paperLibrariesSelectorProperties, b._editingInstance = null, b._eventListeners = [], b._srcNode = null, b.behaviors = [window.Polymer.PaperDropdownBehavior], b);
+    }, b.is = "paper-libraries-selector", b.properties = a.paperLibrariesSelectorProperties, b._editingInstance = null, b._eventListeners = [], b._srcNode = null, b._viewLibs = null, b.behaviors = [window.Polymer.PaperDropdownBehavior], b);
   }();a.PLS = b, window.objectify ? window.register(b) : window.addEventListener("RegisterReady", function () {
     window.register(b);
   });
 })(PaperLibrariesSelectorElement || (PaperLibrariesSelectorElement = {}));
-var PaperGetPagePropertiesElement;(function (a) {
+var PaperGetPagePropertiesElement,
+    __awaiter = undefined && undefined.__awaiter || function (a, b, c, d) {
+  return new (c || (c = Promise))(function (e, f) {
+    function g(a) {
+      try {
+        i(d.next(a));
+      } catch (a) {
+        f(a);
+      }
+    }function h(a) {
+      try {
+        i(d["throw"](a));
+      } catch (a) {
+        f(a);
+      }
+    }function i(a) {
+      a.done ? e(a.value) : new c(function (b) {
+        b(a.value);
+      }).then(g, h);
+    }i((d = d.apply(a, b || [])).next());
+  });
+},
+    __generator = undefined && undefined.__generator || function (a, b) {
+  function c(a) {
+    return function (b) {
+      return d([a, b]);
+    };
+  }function d(c) {
+    if (e) throw new TypeError("Generator is already executing.");for (; g;) {
+      try {
+        if (e = 1, f && (h = 2 & c[0] ? f["return"] : c[0] ? f["throw"] || ((h = f["return"]) && h.call(f), 0) : f.next) && !(h = h.call(f, c[1])).done) return h;switch ((f = 0, h) && (c = [2 & c[0], h.value]), c[0]) {case 0:case 1:
+            h = c;break;case 4:
+            return g.label++, { value: c[1], done: !1 };case 5:
+            g.label++, f = c[1], c = [0];continue;case 7:
+            c = g.ops.pop(), g.trys.pop();continue;default:
+            if ((h = g.trys, !(h = 0 < h.length && h[h.length - 1])) && (6 === c[0] || 2 === c[0])) {
+              g = 0;continue;
+            }if (3 === c[0] && (!h || c[1] > h[0] && c[1] < h[3])) {
+              g.label = c[1];break;
+            }if (6 === c[0] && g.label < h[1]) {
+              g.label = h[1], h = c;break;
+            }if (h && g.label < h[2]) {
+              g.label = h[2], g.ops.push(c);break;
+            }h[2] && g.ops.pop(), g.trys.pop();continue;}c = b.call(a, g);
+      } catch (a) {
+        c = [6, a], f = 0;
+      } finally {
+        e = h = 0;
+      }
+    }if (5 & c[0]) throw c[1];return { value: c[0] ? c[1] : void 0, done: !0 };
+  }var e,
+      f,
+      h,
+      i,
+      g = { label: 0, sent: function sent() {
+      if (1 & h[0]) throw h[1];return h[1];
+    }, trys: [], ops: [] };return i = { next: c(0), "throw": c(1), "return": c(2) }, "function" === typeof Symbol && (i[Symbol.iterator] = function () {
+    return this;
+  }), i;
+};(function (a) {
   a.paperGetPagePropertiesProperties = { selected: { type: Array, refleftToAttribute: !0, notify: !0 } };var b = function () {
     function a() {}return a.sendData = function (a) {
       this.listener(a);
     }, a._click = function (a) {
-      var b = a.target.getAttribute('id').split('paperGetProperty')[1];'Selection' === b ? this.sendData('crmAPI.getSelection();') : 'Url' === b ? this.sendData('window.location.href;') : 'Host' === b ? this.sendData('window.location.host;') : 'Path' === b ? this.sendData('window.location.path;') : 'Protocol' === b ? this.sendData('window.location.protocol;') : 'Width' === b ? this.sendData('window.innerWidth;') : 'Height' === b ? this.sendData('window.innerHeight;') : 'Pixels' === b ? this.sendData('window.scrollY;') : 'Title' === b ? this.sendData('document.title;') : 'Clicked' === b ? this.sendData('crmAPI.contextData.target;') : void 0;
+      var b = a.target.getAttribute("id").split("paperGetProperty")[1];"Selection" === b ? this.sendData("crmAPI.getSelection();") : "Url" === b ? this.sendData("window.location.href;") : "Host" === b ? this.sendData("window.location.host;") : "Path" === b ? this.sendData("window.location.path;") : "Protocol" === b ? this.sendData("window.location.protocol;") : "Width" === b ? this.sendData("window.innerWidth;") : "Height" === b ? this.sendData("window.innerHeight;") : "Pixels" === b ? this.sendData("window.scrollY;") : "Title" === b ? this.sendData("document.title;") : "Clicked" === b ? this.sendData("crmAPI.contextData.target;") : void 0;
     }, a._menuClick = function (a) {
       -1 < window.app.util.getPath(a).indexOf(this.$.dropdown) || this.$.dropdown._toggleDropdown();
     }, a.init = function (a) {
       this.listener = a;
+    }, a._setOptions = function () {
+      return __awaiter(this, void 0, void 0, function () {
+        var a = this;return __generator(this, function () {
+          return this.options = [{ name: this.___("options_tools_paperGetPageProperties_selection"), id: "paperGetPropertySelection" }, { name: function () {
+              var b = a.___("generic_url");return b[0].toLocaleUpperCase() + b.slice(1);
+            }(), id: "paperGetPropertyUrl" }, { name: this.___("options_tools_paperGetPageProperties_host"), id: "paperGetPropertyHost" }, { name: this.___("options_tools_paperGetPageProperties_path"), id: "paperGetPropertyPath" }, { name: this.___("options_tools_paperGetPageProperties_protocol"), id: "paperGetPropertyProtocol" }, { name: this.___("options_tools_paperGetPageProperties_width"), id: "paperGetPropertyWidth" }, { name: this.___("options_tools_paperGetPageProperties_height"), id: "paperGetPropertyHeight" }, { name: this.___("options_tools_paperGetPageProperties_scrolled"), id: "paperGetPropertyPixels" }, { name: this.___("options_tools_paperGetPageProperties_title"), id: "paperGetPropertyTitle" }, { name: this.___("options_tools_paperGetPageProperties_clickedElement"), id: "paperGetPropertyClicked" }], [2];
+        });
+      });
+    }, a.onLangChanged = function () {
+      this._setOptions();
     }, a.ready = function () {
-      var a = this;this.selected = [], this.addEventListener('click', function (b) {
+      var a = this;this.selected = [], this.addEventListener("click", function (b) {
         a._menuClick(b);
-      }), this.options = [{ name: 'Selection', id: 'paperGetPropertySelection' }, { name: 'Url', id: 'paperGetPropertyUrl' }, { name: 'Host', id: 'paperGetPropertyHost' }, { name: 'Path', id: 'paperGetPropertyPath' }, { name: 'Protocol', id: 'paperGetPropertyProtocol' }, { name: 'Width', id: 'paperGetPropertyWidth' }, { name: 'Height', id: 'paperGetPropertyHeight' }, { name: 'Pixels Scrolled', id: 'paperGetPropertyPixels' }, { name: 'Title', id: 'paperGetPropertyTitle' }, { name: 'Clicked Element', id: 'paperGetPropertyClicked' }];
+      }), this._setOptions();
     }, (a._getMenu = function () {
       return this.$.menu;
-    }, a.is = 'paper-get-page-properties', a.options = [], a.listener = function () {}, a);
-  }();a.PGPP = b, window.objectify ? window.register(b) : window.addEventListener('RegisterReady', function () {
+    }, a.is = "paper-get-page-properties", a.options = [], a.listener = function () {}, a);
+  }();a.PGPP = b, window.objectify ? window.register(b) : window.addEventListener("RegisterReady", function () {
     window.register(b);
   });
 })(PaperGetPagePropertiesElement || (PaperGetPagePropertiesElement = {}));
@@ -8335,14 +8588,23 @@ var PaperSearchWebsiteDialog,
     }, b.createSearchWebsiteLinkNode = function () {
       window.app.uploading.createRevertPoint(), window.app.crm.add(window.app.templates.getDefaultLinkNode({ id: window.app.generateItemId(), name: "Search " + new URL(this.chosenUrl).hostname + " for %s", value: [{ url: this.chosenUrl, newTab: "currentTab" !== this.$.howToOpenLink.selected }] }));
     }, b.applySearchWebsite = function () {
-      "script" === this.outputType ? this.insertCode() : this.createSearchWebsiteLinkNode();
+      return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (a) {
+          switch (a.label) {case 0:
+              return "script" === this.outputType ? [4, this.insertCode()] : [3, 2];case 1:
+              return a.sent(), [3, 3];case 2:
+              this.createSearchWebsiteLinkNode(), a.label = 3;case 3:
+              return [2];}
+        });
+      });
     }, b.switchToWindow = function (a) {
       return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (b) {
           switch (b.label) {case 0:
-              return (this.hideAllWindows(a), "successWindow" !== a) ? [3, 2] : (this.$.successWindow.setAttribute("style", "display:block;"), this.$.successWindow.classList.add("visible"), this.$.successWindow.querySelector(".checkmark").classList.add("animateIn"), $(this.$.successWindow).animate({ backgroundColor: "rgb(38,153,244)" }, { duration: 300, easing: "easeOutCubic" }), this.applySearchWebsite(), [4, window.app.util.wait(2500)]);case 1:
-              return b.sent(), this.doHide(), [3, 3];case 2:
-              this.$[a].style.display = "block", this.$[a].classList.add("visible"), b.label = 3;case 3:
+              return (this.hideAllWindows(a), "successWindow" !== a) ? [3, 3] : (this.$.successWindow.setAttribute("style", "display:block;"), this.$.successWindow.classList.add("visible"), this.$.successWindow.querySelector(".checkmark").classList.add("animateIn"), $(this.$.successWindow).animate({ backgroundColor: "rgb(38,153,244)" }, { duration: 300, easing: "easeOutCubic" }), [4, this.applySearchWebsite()]);case 1:
+              return b.sent(), [4, window.app.util.wait(2500)];case 2:
+              return b.sent(), this.doHide(), [3, 4];case 3:
+              this.$[a].style.display = "block", this.$[a].classList.add("visible"), b.label = 4;case 4:
               return this.windowPath.push(this.windows.indexOf(a)), this.fit(), [2];}
         });
       });
@@ -8360,7 +8622,13 @@ var PaperSearchWebsiteDialog,
         c.$.manualInputListChoiceInput.invalid = !0, d.active = !1, c.switchToWindow("manuallyInputSearchWebsiteWindow");
       });
     }, b.insertCode = function () {
-      var a = "var search = crmAPI.getSelection() || prompt('Please enter a search query');\nvar url = '" + this.chosenUrl + "';\nvar toOpen = url.replace(/%s/g,search);\n" + ("currentTab" === this.$.howToOpenLink.selected ? "location.href = toOpen;" : "window.open(toOpen, '_blank');");window.scriptEdit.insertSnippet(window.scriptEdit, a, !0);
+      return __awaiter(this, void 0, void 0, function () {
+        var a, b;return __generator(this, function (c) {
+          switch (c.label) {case 0:
+              return b = "var search = crmAPI.getSelection() || prompt('", [4, this.__async("options_tools_paperSearchWebsiteDialog_enterSearchQuery")];case 1:
+              return a = b + c.sent() + "');\nvar url = '" + this.chosenUrl + "';\nvar toOpen = url.replace(/%s/g,search);\n" + ("currentTab" === this.$.howToOpenLink.selected ? "location.href = toOpen;" : "window.open(toOpen, '_blank');"), window.scriptEdit.insertSnippet(window.scriptEdit, a, !0), [2];}
+        });
+      });
     }, b.backFromManualInput = function () {
       this.$.manualInputListChoiceInput.value = "", this.goBackWindow();
     }, b.processSearchEngines = function () {
@@ -8380,7 +8648,14 @@ var PaperSearchWebsiteDialog,
           this.chosenUrl = "http://www.amazon.com/s/?field-keywords=%s";break;case "youtube":
           this.chosenUrl = "https://www.youtube.com/results?search_query=%s";}this.switchWindow(a);
     }, b.confirmManualSearchListInput = function () {
-      var a = this.$.listInputSearchList.querySelector("paper-radio-button[checked]");return a ? void (this.chosenUrl = a.url, this.switchToWindow("confirmationWindow")) : void window.app.util.showToast("Please select something");
+      return __awaiter(this, void 0, void 0, function () {
+        var a, b, c;return __generator(this, function (d) {
+          switch (d.label) {case 0:
+              return (a = this.$.listInputSearchList.querySelector("paper-radio-button[checked]"), !!a) ? [3, 2] : (c = (b = window.app.util).showToast, [4, this.__async("options_tools_paperSearchWebsiteDialog_selectSomething")]);case 1:
+              return c.apply(b, [d.sent()]), [2];case 2:
+              return this.chosenUrl = a.url, this.switchToWindow("confirmationWindow"), [2];}
+        });
+      });
     }, b.cancelAllRadiobuttons = function (a) {
       var b = this,
           c = a.target;this.async(function () {
@@ -8855,14 +9130,14 @@ var LangSelectorElement,
                         return (c = g.sent(), d = {}, a !== b) ? [3, 3] : (f = c + " (" + a + ", ", [4, this.__async("langs_selector_current")]);case 2:
                         return e = f + g.sent() + ")", [3, 4];case 3:
                         e = c + " (" + a + ")", g.label = 4;case 4:
-                        return [2, (d.name = e, d.code = a, d.url = "../../images/country_flags/" + a + ".svg", d.selected = a === b, d)];}
+                        return [2, (d.name = e, d.code = a, d.url = "../images/country_flags/" + a + ".svg", d.selected = a === b, d)];}
                   });
                 });
               }))];case 1:
               return c.langs = e.sent(), [2];}
         });
       });
-    }, a.update = function () {
+    }, a.onLangChanged = function () {
       return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (a) {
           switch (a.label) {case 0:
@@ -8872,10 +9147,8 @@ var LangSelectorElement,
       });
     }, a.ready = function () {
       return __awaiter(this, void 0, void 0, function () {
-        var a = this;return __generator(this, function () {
-          return window.__.addListener(function () {
-            a.update();
-          }), this.update(), [2];
+        return __generator(this, function () {
+          return this.onLangChanged(), [2];
         });
       });
     }, (a.mainClick = function () {
@@ -9027,12 +9300,14 @@ var __assign = undefined && undefined.__assign || function () {
           var e = this,
               t;this._currentLangFile = null, this._lang = null, this._listeners = [], this._languageChangeListeners = [], this.ready = function () {
             return __awaiter(e, void 0, void 0, function () {
-              var e, t;return __generator(this, function (n) {
-                switch (n.label) {case 0:
-                    return e = this, [4, this.fetchLang()];case 1:
-                    return e._lang = n.sent(), t = this, [4, this.Files.loadLang(this._lang)];case 2:
-                    return t._currentLangFile = n.sent(), this._listeners.forEach(function (e) {
-                      e.langReady = !0;
+              var e = this,
+                  t,
+                  n;return __generator(this, function (a) {
+                switch (a.label) {case 0:
+                    return t = this, [4, this.fetchLang()];case 1:
+                    return t._lang = a.sent(), n = this, [4, this.Files.loadLang(this._lang)];case 2:
+                    return n._currentLangFile = a.sent(), this._listeners.forEach(function (t) {
+                      t.langReady = !0, t.onLangChanged && t.onLangChanged.call(t, e._lang, null);
                     }), [2];}
               });
             });
@@ -9100,18 +9375,24 @@ var __assign = undefined && undefined.__assign || function () {
           });
         }, e.prototype.setLang = function (e) {
           return __awaiter(this, void 0, void 0, function () {
-            var t = this;return __generator(this, function (n) {
-              switch (n.label) {case 0:
-                  return [4, browserAPI.storage.local.set({ lang: e })];case 1:
-                  return n.sent(), this.ready = function () {
+            var t = this,
+                n;return __generator(this, function (a) {
+              switch (a.label) {case 0:
+                  return [4, this.getLang()];case 1:
+                  return n = a.sent(), [4, browserAPI.storage.local.set({ lang: e })];case 2:
+                  return a.sent(), this._listeners.forEach(function (t) {
+                    return t.onLangChange && t.onLangChange.call(t, e, n);
+                  }), this.ready = function () {
                     return __awaiter(t, void 0, void 0, function () {
                       var t = this,
-                          n;return __generator(this, function (a) {
-                        switch (a.label) {case 0:
-                            return n = this, [4, this.Files.loadLang(e)];case 1:
-                            return n._currentLangFile = a.sent(), this._listeners.forEach(function (n) {
-                              t._lang = e, n.lang = e, n.langReady = !0, t._languageChangeListeners.forEach(function (e) {
+                          a;return __generator(this, function (s) {
+                        switch (s.label) {case 0:
+                            return a = this, [4, this.Files.loadLang(e)];case 1:
+                            return a._currentLangFile = s.sent(), this._listeners.forEach(function (a) {
+                              t._lang = e, a.lang = e, a.langReady = !0, t._languageChangeListeners.forEach(function (e) {
                                 return e();
+                              }), t._listeners.forEach(function (t) {
+                                return t.onLangChanged && t.onLangChanged.call(t, e, n);
                               });
                             }), [2];}
                       });
@@ -12268,19 +12549,20 @@ var __assign = undefined && undefined.__assign || function () {
       });
     }, t.refreshPage = function () {
       return __awaiter(this, void 0, void 0, function () {
-        var e;return __generator(this, function (t) {
-          switch (t.label) {case 0:
+        var e, t;return __generator(this, function (n) {
+          switch (n.label) {case 0:
               return (window.app.item && (e = window[window.app.item.type + "Edit"], e && e.cancel()), window.app.item = null, window.app.settings = window.app.storageLocal = null, window.app._settingsCopy = window.app._storageLocalCopy = null, !window.Storages) ? [3, 2] : (window.Storages.clearStorages(), [4, window.Storages.loadStorages()]);case 1:
-              return t.sent(), [3, 4];case 2:
+              return n.sent(), [3, 4];case 2:
               return [4, browserAPI.runtime.sendMessage({ type: "_resetSettings" })];case 3:
-              t.sent(), t.label = 4;case 4:
+              n.sent(), n.label = 4;case 4:
               return [4, this._setup.setupStorages()];case 5:
-              return t.sent(), this._setup.initCheckboxes(window.app.storageLocal), Array.prototype.slice.apply(this.shadowRoot.querySelectorAll("default-link")).forEach(function (e) {
+              return n.sent(), this._setup.initCheckboxes(window.app.storageLocal), Array.prototype.slice.apply(this.shadowRoot.querySelectorAll("default-link")).forEach(function (e) {
                 e.reset();
-              }), window.doc.URISchemeFilePath.value = "C:\\files\\my_file.exe", window.doc.URISchemeSchemeName.value = this.___("crmApp_uriScheme_example"), Array.prototype.slice.apply(this.shadowRoot.querySelectorAll("paper-dialog")).forEach(function (e) {
+              }), window.doc.URISchemeFilePath.value = "C:\\files\\my_file.exe", t = window.doc.URISchemeSchemeName, [4, this.__async("crmApp_uriScheme_example")];case 6:
+              return t.value = n.sent(), Array.prototype.slice.apply(this.shadowRoot.querySelectorAll("paper-dialog")).forEach(function (e) {
                 e.opened && e.close();
-              }), this.upload(!0), [4, window.onExistsChain(window, "app", "settings", "crm")];case 6:
-              return t.sent(), [2];}
+              }), this.upload(!0), [4, window.onExistsChain(window, "app", "settings", "crm")];case 7:
+              return n.sent(), [2];}
         });
       });
     }, t._codeStr = function (e) {

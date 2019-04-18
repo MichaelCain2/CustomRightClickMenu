@@ -5458,12 +5458,14 @@ var __assign = undefined && undefined.__assign || function () {
           var a,
               b = this;this._currentLangFile = null, this._lang = null, this._listeners = [], this._languageChangeListeners = [], this.ready = function () {
             return __awaiter(b, void 0, void 0, function () {
-              var a, b;return __generator(this, function (c) {
-                switch (c.label) {case 0:
+              var a,
+                  b,
+                  c = this;return __generator(this, function (d) {
+                switch (d.label) {case 0:
                     return a = this, [4, this.fetchLang()];case 1:
-                    return a._lang = c.sent(), b = this, [4, this.Files.loadLang(this._lang)];case 2:
-                    return b._currentLangFile = c.sent(), this._listeners.forEach(function (a) {
-                      a.langReady = !0;
+                    return a._lang = d.sent(), b = this, [4, this.Files.loadLang(this._lang)];case 2:
+                    return b._currentLangFile = d.sent(), this._listeners.forEach(function (a) {
+                      a.langReady = !0, a.onLangChanged && a.onLangChanged.call(a, c._lang, null);
                     }), [2];}
               });
             });
@@ -5531,18 +5533,24 @@ var __assign = undefined && undefined.__assign || function () {
           });
         }, a.prototype.setLang = function (a) {
           return __awaiter(this, void 0, void 0, function () {
-            var b = this;return __generator(this, function (c) {
-              switch (c.label) {case 0:
-                  return [4, browserAPI.storage.local.set({ lang: a })];case 1:
-                  return c.sent(), this.ready = function () {
-                    return __awaiter(b, void 0, void 0, function () {
-                      var b,
-                          c = this;return __generator(this, function (d) {
-                        switch (d.label) {case 0:
-                            return b = this, [4, this.Files.loadLang(a)];case 1:
-                            return b._currentLangFile = d.sent(), this._listeners.forEach(function (b) {
-                              c._lang = a, b.lang = a, b.langReady = !0, c._languageChangeListeners.forEach(function (a) {
+            var b,
+                c = this;return __generator(this, function (d) {
+              switch (d.label) {case 0:
+                  return [4, this.getLang()];case 1:
+                  return b = d.sent(), [4, browserAPI.storage.local.set({ lang: a })];case 2:
+                  return d.sent(), this._listeners.forEach(function (c) {
+                    return c.onLangChange && c.onLangChange.call(c, a, b);
+                  }), this.ready = function () {
+                    return __awaiter(c, void 0, void 0, function () {
+                      var c,
+                          d = this;return __generator(this, function (e) {
+                        switch (e.label) {case 0:
+                            return c = this, [4, this.Files.loadLang(a)];case 1:
+                            return c._currentLangFile = e.sent(), this._listeners.forEach(function (c) {
+                              d._lang = a, c.lang = a, c.langReady = !0, d._languageChangeListeners.forEach(function (a) {
                                 return a();
+                              }), d._listeners.forEach(function (c) {
+                                return c.onLangChanged && c.onLangChanged.call(c, a, b);
                               });
                             }), [2];}
                       });
@@ -8050,8 +8058,16 @@ var InstallPageElement,
           });
         });
       });
+    }, b.onLangChanged = function () {
+      this.$.title.innerHTML = this.___("install_page_installing", this.userscriptUrl);
     }, b.ready = function () {
-      this.userscriptUrl = this.getUserscriptUrl(), this.$.title.innerHTML = this.___("install_page_installing", this.userscriptUrl), this.fetchUserscript(this.userscriptUrl), window.installPage = this, this._initSettings();
+      return __awaiter(this, void 0, void 0, function () {
+        var a;return __generator(this, function (b) {
+          switch (b.label) {case 0:
+              return this.userscriptUrl = this.getUserscriptUrl(), this.fetchUserscript(this.userscriptUrl), window.installPage = this, this._initSettings(), a = this.$.title, [4, this.__async("install_page_installing", this.userscriptUrl)];case 1:
+              return a.innerHTML = b.sent(), [2];}
+        });
+      });
     }, b.is = "install-page", b.properties = a.installPageProperties, b);
   }();a.IP = b, window.objectify ? window.register(b) : window.addEventListener("RegisterReady", function () {
     window.register(b);
