@@ -3580,7 +3580,7 @@ var PaperDropdownMenuElement;(function (a) {
   });
 })(PaperDropdownMenuElement || (PaperDropdownMenuElement = {}));
 var EchoHtmlElement;(function (a) {
-  a.echoHtmlProperties = { html: { type: String, value: '', observer: 'htmlChanged' }, makelink: { type: Boolean, value: !1 } };var b = function () {
+  a.echoHtmlProperties = { html: { type: String, value: '', observer: 'htmlChanged' }, makelink: { type: Boolean, value: !1 }, inline: { type: Boolean, value: !1 } };var b = function () {
     function b() {}return b._stampHtml = function (a) {
       this.$.content.innerHTML = a;
     }, b._makeLinksFromHtml = function (a) {
@@ -3588,7 +3588,7 @@ var EchoHtmlElement;(function (a) {
     }, b.htmlChanged = function () {
       var a = this.html;this.makelink && (a = this._makeLinksFromHtml(a)), this._stampHtml(a);
     }, (b.ready = function () {
-      this.htmlChanged();
+      this.htmlChanged(), this.inline && this.$.content.classList.add('inline');
     }, b.is = 'echo-html', b.properties = a.echoHtmlProperties, b);
   }();a.EH = b, window.objectify ? window.register(b) : window.addEventListener('RegisterReady', function () {
     window.register(b);
@@ -9751,7 +9751,7 @@ var EchoHtmlElement;(function (a) {
                 return __awaiter(t, void 0, void 0, function () {
                   var e;return __generator(this, function (t) {
                     switch (t.label) {case 0:
-                        return e = window.logConsole.$.genericToast, [4, this.__async("logging_tab_closed")];case 1:
+                        return e = window.logConsole.$.genericToast, [4, this.__async("logging_tabClosed")];case 1:
                         return e.text = t.sent(), window.logConsole.$.genericToast.show(), [2];}
                   });
                 });
@@ -9760,7 +9760,7 @@ var EchoHtmlElement;(function (a) {
                 return __awaiter(t, void 0, void 0, function () {
                   var e, t;return __generator(this, function (n) {
                     switch (n.label) {case 0:
-                        return window.chrome.runtime.lastError ? (console.log(window.chrome.runtime.lastError), t = (e = console).log, [4, this.__async("logging_something_went_wrong")]) : [3, 2];case 1:
+                        return window.chrome.runtime.lastError ? (console.log(window.chrome.runtime.lastError), t = (e = console).log, [4, this.__async("logging_somethingWentWrong")]) : [3, 2];case 1:
                         t.apply(e, [n.sent()]), n.label = 2;case 2:
                         return [2];}
                   });

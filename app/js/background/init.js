@@ -203,14 +203,14 @@ export var Init;
                                             modules.globalObject.globals.latestId =
                                                 modules.storages.settingsStorage.latestId;
                                             _b = (_a = window).info;
-                                            return [4, window.__("background_init_registering_permission_listeners")];
+                                            return [4, window.__("background_init_registeringPermissionListeners")];
                                         case 3:
                                             _b.apply(_a, [_8.sent()]);
                                             return [4, GlobalDeclarations.refreshPermissions()];
                                         case 4:
                                             _8.sent();
                                             _d = (_c = window).info;
-                                            return [4, window.__("background_init_registering_handler")];
+                                            return [4, window.__("background_init_registeringHandler")];
                                         case 5:
                                             _d.apply(_c, [_8.sent()]);
                                             GlobalDeclarations.setHandlerFunction();
@@ -219,21 +219,21 @@ export var Init;
                                             });
                                             browserAPI.runtime.onMessage.addListener(MessageHandling.handleRuntimeMessageInitial);
                                             _f = (_e = window).info;
-                                            return [4, window.__("background_init_building_crm")];
+                                            return [4, window.__("background_init_buildingCrm")];
                                         case 6:
                                             _f.apply(_e, [_8.sent()]);
                                             return [4, CRMNodes.buildPageCRM()];
                                         case 7:
                                             _8.sent();
                                             _h = (_g = window).info;
-                                            return [4, window.__("background_init_compiling_ts")];
+                                            return [4, window.__("background_init_compilingTs")];
                                         case 8:
                                             _h.apply(_g, [_8.sent()]);
                                             return [4, CRMNodes.TS.compileAllInTree()];
                                         case 9:
                                             _8.sent();
                                             _k = (_j = window.console).groupCollapsed;
-                                            return [4, window.__("background_init_previous_open_tabs")];
+                                            return [4, window.__("background_init_previousOpenTabs")];
                                         case 10:
                                             _k.apply(_j, [_8.sent()]);
                                             return [4, GlobalDeclarations.restoreOpenTabs()];
@@ -249,7 +249,7 @@ export var Init;
                                             _8.sent();
                                             window.console.groupEnd();
                                             _p = (_o = window).info;
-                                            return [4, window.__("background_init_registering_handlers")];
+                                            return [4, window.__("background_init_registeringHandlers")];
                                         case 14:
                                             _p.apply(_o, [_8.sent()]);
                                             GlobalDeclarations.init();
@@ -258,12 +258,12 @@ export var Init;
                                         case 15:
                                             _r.apply(_q, [_8.sent()]);
                                             _t = (_s = window).info;
-                                            return [4, window.__("background_init_updating_resources")];
+                                            return [4, window.__("background_init_updatingResources")];
                                         case 16:
                                             _t.apply(_s, [_8.sent()]);
                                             Resources.updateResourceValues();
                                             _v = (_u = window).info;
-                                            return [4, window.__("background_init_updating_nodes")];
+                                            return [4, window.__("background_init_updatingNodes")];
                                         case 17:
                                             _v.apply(_u, [_8.sent()]);
                                             (function () { return __awaiter(_this, void 0, void 0, function () {
@@ -286,7 +286,7 @@ export var Init;
                                                         switch (_c.label) {
                                                             case 0:
                                                                 _b = (_a = window).info;
-                                                                return [4, window.__("background_init_updating_nodes")];
+                                                                return [4, window.__("background_init_updatingNodes")];
                                                             case 1:
                                                                 _b.apply(_a, [_c.sent()]);
                                                                 return [4, CRMNodes.Script.Updating.updateScripts()];
@@ -306,22 +306,22 @@ export var Init;
                                         case 18:
                                             _x.apply(_w, [_8.sent()]);
                                             _z = (_y = window).info;
-                                            return [4, window.__("background_init_debug_info")];
+                                            return [4, window.__("background_init_debugInfo")];
                                         case 19:
                                             _z.apply(_y, [_8.sent()]);
                                             _1 = (_0 = window).info;
-                                            return [4, window.__("background_init_invalidated_tabs")];
+                                            return [4, window.__("background_init_invalidatedTabs")];
                                         case 20:
                                             _1.apply(_0, [_8.sent(),
                                                 modules.storages.failedLookups]);
                                             _3 = (_2 = window).info;
-                                            return [4, window.__("background_init_insufficient_permissions")];
+                                            return [4, window.__("background_init_insufficientPermissions")];
                                         case 21:
                                             _3.apply(_2, [_8.sent(),
                                                 modules.storages.insufficientPermissions]);
                                             window.console.groupEnd();
                                             _5 = (_4 = window).info;
-                                            return [4, window.__("background_init_registering_console_interface")];
+                                            return [4, window.__("background_init_registeringConsoleInterface")];
                                         case 22:
                                             _5.apply(_4, [_8.sent()]);
                                             GlobalDeclarations.initGlobalFunctions();
@@ -341,8 +341,8 @@ export var Init;
                                             _7.apply(_6, [_8.sent()]);
                                             if (!isNode()) {
                                                 window.log('');
-                                                window.logAsync(window.__("background_init_logging_explanation", browserAPI.runtime.getURL('html/logging.html')));
-                                                window.logAsync(window.__("background_init_debug_explanation"));
+                                                window.logAsync(window.__("background_init_loggingExplanation", browserAPI.runtime.getURL('html/logging.html')));
+                                                window.logAsync(window.__("background_init_debugExplanation"));
                                             }
                                             return [3, 25];
                                         case 24:

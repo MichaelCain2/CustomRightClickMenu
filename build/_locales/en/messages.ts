@@ -1,31 +1,11 @@
-//TODO: uncomment when done with file
-// import { LocaleSpec } from '../i18n';
-
-interface I18NMessage {
-	message: string;
-	description?: string;
-	placeholders?: {
-		[key: string]: {
-			content: string;
-			example?: string;
-		}
-	}
-}
-
-type I18NBranch = {
-	[key: string]: I18NBranch|I18NLeaf;
-}
-
-type I18NLeaf = {
-	[key: string]: I18NMessage;
-};
+import { LocaleSpec } from '../i18n';
 
 // Structure only allows a branch to split into subbranches or
 // to contain leafs with messages. Not both at the same time
 
-export const Messages: I18NBranch = {
+export const Messages: LocaleSpec = {
 	generic: {
-		app_title: {
+		appTitle: {
 			message: 'Custom Right-Click Menu',
 			description: 'The name of the extension'
 		},
@@ -102,6 +82,32 @@ export const Messages: I18NBranch = {
 			description: 'Word for URL'
 		}
 	},
+	crmTypes: {
+		webpages: {
+			message: 'Webpages',
+			description: 'A short description for webpages'
+		},
+		weblinks: {
+			message: 'weblinks',
+			description: 'A short description for weblinks (HTML anchor elements)'
+		},
+		selection: {
+			message: 'selection',
+			description: 'A short description for a block of selected text'
+		},
+		images: {
+			message: 'images',
+			description: 'A description for images/pictures'
+		},
+		videos: {
+			message: 'videos',
+			description: 'A description for videos'
+		},
+		audio: {
+			message: 'audio',
+			description: 'A description for audio elements (music, mp3 etc)'
+		}
+	},
 	crm: {
 		link: {
 			message: 'Link',
@@ -153,12 +159,12 @@ export const Messages: I18NBranch = {
 				'This is used to identify it in the extension ' +
 				'itself (the user won\'t see it except in errors)'
 		},
-		id_capital: {
+		idCapital: {
 			message: 'ID',
 			description: 'Word for the ID of a node/item. This is ' +
 				'used to identify it in the extension itself ' +
 				'(the user won\'t see it except in errors).' +
-				'This is the same word as above except capitalizd'
+				'This is the same word as above except capitalized'
 		}
 	},
 	permissions: {
@@ -200,7 +206,7 @@ export const Messages: I18NBranch = {
 			description: 'Description for the clipboardWrite permission'
 		},
 		cookies: {
-			message: 'Allows for the setting, getting and listenting for ' +
+			message: 'Allows for the setting, getting and listening for ' +
 				'changes of cookies on any website. ' +
 				'(https://developer.chrome.com/extensions/cookies)',
 			description: 'Description for the cookies permission'
@@ -237,7 +243,7 @@ export const Messages: I18NBranch = {
 		history: {
 			message: 'Makes it possible to read your history and remove/add ' +
 				'specific urls. This can also be used to search your history ' +
-				'and to see howmany times you visited given website. ' +
+				'and to see how many times you visited given website. ' +
 				'(https://developer.chrome.com/extensions/history)',
 			description: 'Description for the history permission'
 		},
@@ -279,7 +285,7 @@ export const Messages: I18NBranch = {
 		},
 		privacy: {
 			message: 'Allows for a script to query what privacy features are ' +
-				'on/off, for exaple autoFill, password saving, the translation ' +
+				'on/off, for example autoFill, password saving, the translation ' +
 				'feature. (https://developer.chrome.com/extensions/privacy)',
 			description: 'Description for the privacy permission'
 		},
@@ -330,7 +336,7 @@ export const Messages: I18NBranch = {
 			description: 'Description for the tabs permission'
 		},
 		tts: {
-			message: 'Allows a script to use chrome\'s text so speach engine. ' +
+			message: 'Allows a script to use chrome\'s text so speech engine. ' +
 				'(https://developer.chrome.com/extensions/tts)',
 			description: 'Description for the tts permission'
 		},
@@ -391,93 +397,93 @@ export const Messages: I18NBranch = {
 			message: 'Allows the use of browser API\'s',
 			description: 'Description for the browser permission'
 		},
-		GM_addStyle: {
+		GMAddStyle: {
 			message: 'Allows the adding of certain styles to the document ' +
 				'through this API',
 			description: 'Description for the GM_addStyle permission'
 		},
-		GM_deleteValue: {
+		GMDeleteValue: {
 			message: 'Allows the deletion of storage items',
 			description: 'Description for the GM_deleteValue permission'
 		},
-		GM_listValues: {
+		GMListValues: {
 			message: 'Allows the listing of all storage data',
 			description: 'Description for the GM_listValues permission'
 		},
-		GM_addValueChangeListener: {
+		GMAddValueChangeListener: {
 			message: 'Allows for the listening of changes to the storage area',
 			description: 'Description for the GM_addValueChangeListener permission'
 		},
-		GM_removeValueChangeListener: {
+		GMRemoveValueChangeListener: {
 			message: 'Allows for the removing of listeners',
 			description: 'Description for the GM_removeValueChangeListener permission'
 		},
-		GM_setValue: {
+		GMSetValue: {
 			message: 'Allows for the setting of storage data values',
 			description: 'Description for the GM_setValue permission'
 		},
-		GM_getValue: {
+		GMGetValue: {
 			message: 'Allows the reading of values from the storage',
 			description: 'Description for the GM_getValue permission'
 		},
-		GM_log: {
+		GMLog: {
 			message: 'Allows for the logging of values to the console ' +
 				'(same as normal console.log)',
 			description: 'Description for the GM_log permission'
 		},
-		GM_getResourceText: {
+		GMGetResourceText: {
 			message: 'Allows the reading of the content of resources ' +
 				'defined in the header',
 			description: 'Description for the GM_getResourceText permission'
 		},
-		GM_getResourceURL: {
-			message: 'Allows the reading of the URL of the predeclared resource',
+		GMGetResourceURL: {
+			message: 'Allows the reading of the URL of the pre-declared resource',
 			description: 'Description for the GM_getResourceURL permission'
 		},
-		GM_registerMenuCommand: {
+		GMRegisterMenuCommand: {
 			message: 'Allows the adding of a button to the extension ' +
 				'menu - not implemented',
 			description: 'Description for the GM_registerMenuCommand permission'
 		},
-		GM_unregisterMenuCommand: {
+		GMUnregisterMenuCommand: {
 			message: 'Allows the removing of an added button - not implemented',
 			description: 'Description for the GM_unregisterMenuCommand permission'
 		},
-		GM_openInTab: {
+		GMOpenInTab: {
 			message: 'Allows the opening of a tab with given URL',
 			description: 'Description for the GM_openInTab permission'
 		},
-		GM_xmlhttpRequest: {
+		GMXmlhttpRequest: {
 			message: 'Allows you to make an XHR to any site you want',
 			description: 'Description for the GM_xmlhttpRequest permission'
 		},
-		GM_download: {
+		GMDownload: {
 			message: 'Allows the downloading of data to the hard disk',
 			description: 'Description for the GM_download permission'
 		},
-		GM_getTab: {
+		GMGetTab: {
 			message: 'Allows the reading of an object that\'s persistent ' +
 				'while the tab is open - not implemented',
 			description: 'Description for the GM_getTab permission'
 		},
-		GM_saveTab: {
+		GMSaveTab: {
 			message: 'Allows the saving of the tab object to reopen after ' +
 				'a page unload - not implemented',
 			description: 'Description for the GM_saveTab permission'
 		},
-		GM_getTabs: {
+		GMGetTabs: {
 			message: 'Allows the reading of all tab object - not implemented',
 			description: 'Description for the GM_getTabs permission'
 		},
-		GM_notification: {
+		GMNotification: {
 			message: 'Allows sending desktop notifications',
 			description: 'Description for the GM_notification permission'
 		},
-		GM_setClipboard: {
+		GMSetClipboard: {
 			message: 'Allows copying data to the clipboard - not implemented',
 			description: 'Description for the GM_setClipboard permission'
 		},
-		GM_info: {
+		GMInfo: {
 			message: 'Allows the reading of some script info',
 			description: 'Description for the GM_info permission'
 		},
@@ -585,7 +591,7 @@ export const Messages: I18NBranch = {
 				description: 'Clicking this button will toggle visibility ' +
 					'of given content-type',
 				placeholders: {
-					contenttype: {
+					contentType: {
 						content: '$1',
 						example: 'regular webpages, web links, selected'
 					}
@@ -595,33 +601,9 @@ export const Messages: I18NBranch = {
 				message: 'regular webpages',
 				description: 'A longer description for webpages'
 			},
-			webpages: {
-				message: 'Webpages',
-				description: 'A short description for webpages'
-			},
-			weblinks: {
-				message: 'weblinks',
-				description: 'A short description for weblinks (HTML anchor elements)'
-			},
 			selectedText: {
 				message: 'selected text',
 				description: 'A short description selected text (a selection)'
-			},
-			selection: {
-				message: 'selection',
-				description: 'A short description for a block of selected text'
-			},
-			images: {
-				message: 'images',
-				description: 'A description for images/pictures'
-			},
-			videos: {
-				message: 'videos',
-				description: 'A description for videos'
-			},
-			audio: {
-				message: 'audio',
-				description: 'A description for audio elements (music, mp3 etc)'
 			}
 		},
 		options: {
@@ -731,7 +713,7 @@ export const Messages: I18NBranch = {
 				description: 'The description for the search engines section',
 				placeholders: {
 					replace_val: {
-						content: '<code class="codeSynthax">%s</code>',
+						content: '<code class="codeSyntax">%s</code>',
 						example: 'Code above'
 					}
 				}
@@ -868,7 +850,7 @@ export const Messages: I18NBranch = {
 				description: 'Description for the export section'
 			},
 			waiting: {
-				message: 'Waiting for textfield... This may take some time',
+				message: 'Waiting for text field... This may take some time',
 				description: 'Message that is displayed while waiting for the exporting'
 			},
 			exportCRM: {
@@ -960,14 +942,14 @@ export const Messages: I18NBranch = {
 				message: 'If you would like to report any bugs, you can do ' +
 					'so by using the bug reporting tool.' +
 					'This is a screen overlay that will be visible when you ' +
-					'toggle it. It is overlayed' +
+					'toggle it. It is overlaid' +
 					'on top of every other dialog so you can always use it. ' +
 					'To toggle it on/off use' +
 					'the button below or hit $CTRL$ 3 times in a row quickly.',
 				description: 'Description for the bugs section',
 				placeholders: {
 					ctrl: {
-						content: '<code class="codeSynthax">ctrl</code>'
+						content: '<code class="codeSyntax">ctrl</code>'
 					}
 				}
 			},
@@ -1016,7 +998,7 @@ export const Messages: I18NBranch = {
 				description: 'Description for the logging section',
 				placeholders: {
 					code: {
-						content: '<code class="codeSynthax">crmAPI.log</code>'
+						content: '<code class="codeSyntax">crmAPI.log</code>'
 					},
 					br: {
 						content: '<br />'
@@ -1086,7 +1068,7 @@ export const Messages: I18NBranch = {
 			acceptDownload: {
 				message: 'Please accept the permission request to report a ' +
 					'bug or suggest a feature',
-				description: 'Notificaiton asking the user to accept the ' +
+				description: 'Notification asking the user to accept the ' +
 					'permission request in order to continue'
 			}
 		},
@@ -1186,7 +1168,7 @@ export const Messages: I18NBranch = {
 				added: {
 					message: 'Added!',
 					description: 'Message telling the user that the library ' +
-						'was sucessfully added'
+						'was successfully added'
 				}
 			},
 			cssEditorInfo: {
@@ -1296,9 +1278,9 @@ export const Messages: I18NBranch = {
 						'have not yet allowed for this extension, please allow ' +
 						'these permissions as you see fit.' +
 						'Remember that this will only allow YOU to write scripts ' +
-						'that acces these permissions and not downloaded and ' +
+						'that access these permissions and not downloaded and ' +
 						'installed scripts.' +
-						'Other scripts can only acces these permissons if you ' +
+						'Other scripts can only access these permissions if you ' +
 						'give those scripts specifically that permission on ' +
 						'installing them.' +
 						'You can basically allow any permission, they will only ' +
@@ -1334,11 +1316,11 @@ export const Messages: I18NBranch = {
 					description: 'Header signaling that a script with given ' +
 						'name has been updated and it requires new permissions',
 					placeholders: {
-						nodename: {
+						nodeName: {
 							content: '$1',
 							example: 'MyScript'
 						},
-						nodeversion: {
+						nodeVersion: {
 							content: '$2',
 							example: '1.2.3'
 						}
@@ -1348,19 +1330,19 @@ export const Messages: I18NBranch = {
 		},
 		code: {
 			nodeUpdated: {
-				message: 'Node $NAME$ was updated from version $OLD_VERSION ' +
-					'to version $NEW_VERSION',
+				message: 'Node $NAME$ was updated from version $OLDVERSION ' +
+					'to version $NEWVERSION',
 				description: 'A message telling the user a node has been updated',
 				placeholders: {
 					name: {
 						content: '$1',
 						example: 'MyNode'
 					},
-					old_version: {
+					oldVersion: {
 						content: '$2',
 						example: '1.2.3'
 					},
-					new_version: {
+					newVersion: {
 						content: '$3',
 						example: '1.2.4'
 					}
@@ -1437,7 +1419,7 @@ export const Messages: I18NBranch = {
 	},
 	background: {
 		crm: {
-			invalid_runat: {
+			invalidRunat: {
 				message: 'Script with id $ID$' +
 					'runAt value was changed to default, $RUNAT$' +
 					'is not a valid value (use document_start, ' +
@@ -1457,7 +1439,7 @@ export const Messages: I18NBranch = {
 					}
 				}
 			},
-			execution_failed: {
+			executionFailed: {
 				message: 'Couldn\'t execute on tab with id $TABID$' +
 					'for node $NODEID$',
 				description: 'Message shown when execution failed for a script',
@@ -1472,7 +1454,7 @@ export const Messages: I18NBranch = {
 					}
 				}
 			},
-			setup_error: {
+			setupError: {
 				message: 'An error occurred while setting up the script for ' +
 					'node $NODEID$',
 				description: 'A message shown when an error has occurred in ' +
@@ -1484,7 +1466,7 @@ export const Messages: I18NBranch = {
 					}
 				}
 			},
-			update_download_404: {
+			updateDownload404: {
 				message: 'Tried to update $NODETYPE$ $NODEID$ $NODENAME$' +
 					' but could not reach download URL',
 				description: 'A message shown when a request to a node\'s ' +
@@ -1504,7 +1486,7 @@ export const Messages: I18NBranch = {
 					}
 				}
 			},
-			option_not_found: {
+			optionNotFound: {
 				message: 'Could not find option $NODENAME$ for stylesheet $NODEID$',
 				description: 'A message shown when a key was not found in ' +
 					'the supplied settings',
@@ -1519,7 +1501,7 @@ export const Messages: I18NBranch = {
 					}
 				}
 			},
-			css_compile_error: {
+			cssCompileError: {
 				message: 'An error occurred while compiling $TYPE$ CSS for ' + 
 				'node $NODEID$',
 				description: 'An error shown when compilation failed for ' +
@@ -1535,19 +1517,19 @@ export const Messages: I18NBranch = {
 					}
 				}
 			},
-			contextmenu_error_retry: {
+			contextmenuErrorRetry: {
 				message: 'An error occurred with your context menu,' + 
 					' attempting again with no url matching.',
 				description: 'Error shown when something went wrong creating ' +
 					'the context menu. It will be retried with the URL ' +
 					'matching feature disabled'
 			},
-			contextmenu_error: {
+			contextmenuError: {
 				message: 'An error occurred with your context menu!',
 				description: 'Error shown when something went wrong creating ' +
 					'the context menu.'
 			},
-			user_contextmenu_error: {
+			userContextmenuError: {
 				message: 'Error recreating user contextmenu',
 				description: 'Error shown when something went wrong creating a ' +
 					'user context\'s contextmenu. The difference between the ' +
@@ -1555,7 +1537,7 @@ export const Messages: I18NBranch = {
 					'is generated based on the CRM and its nodes while this one ' +
 					'is created by the user themselves using the CRM API'
 			},
-			created_background_page: {
+			createdBackgroundPage: {
 				message: 'Creating backgroundpage for node $NODEID$',
 				description: 'Message shown when a backgroundpage for given ' +
 					'node has started',
@@ -1566,22 +1548,22 @@ export const Messages: I18NBranch = {
 					}
 				}
 			},
-			restarting_background_page: {
+			restartingBackgroundPage: {
 				message: 'Restarting background page...',
 				description: 'Message shown when restarting a backgroundpage'
 			},
-			terminated_background_page: {
+			terminatedBackgroundPage: {
 				message: 'Terminated background page...',
 				description: 'Message shown when restarting a backgroundpage'
 			}
 		},
 		globalDeclarations: {
 			getID: {
-				no_matches: {
+				noMatches: {
 					message: 'Unfortunately no matches were found, please try again',
 					description: 'Message shown when the getID function finds no results'
 				},
-				one_match: {
+				oneMatch: {
 					message: 'One match was found, the id is $MATCHID$' +
 						' and the script is',
 					description: 'Message shown when the getID function finds one ' +
@@ -1593,7 +1575,7 @@ export const Messages: I18NBranch = {
 						}
 					}
 				},
-				multiple_matches: {
+				multipleMatches: {
 					message: 'Found multiple matches, here they are:',
 					description: 'Message shown when the getID function finds ' +
 						'multiple results'
@@ -1659,7 +1641,7 @@ export const Messages: I18NBranch = {
 			}
 		},
 		init: {
-			logging_explanation: {
+			loggingExplanation: {
 				message: 'If you\'re here to check out your background ' +
 					'script, get its ID (you can type getID("name") to ' +
 					'find the ID), and type filter(id, [optional tabId])' +
@@ -1675,7 +1657,7 @@ export const Messages: I18NBranch = {
 					}
 				}
 			},
-			debug_explanation: {
+			debugExplanation: {
 				message: 'You can also use the debugger for scripts by ' +
 					'calling window.debugNextScriptCall(id) ' +
 					'and window.debugBackgroundScript(id) for scripts ' +
@@ -1684,58 +1666,58 @@ export const Messages: I18NBranch = {
 				description: 'Message shown to inform the user of the ' +
 					'debugging functions'
 			},
-			registering_permission_listeners: {
+			registeringPermissionListeners: {
 				message: 'Registering permission listeners',
 				description: 'Info message shown when registers listeners ' +
 					'for the browser.permissions API. Keeping track of when ' +
 					'some are changed'
 			},
-			registering_handler: {
+			registeringHandler: {
 				message: 'Setting CRMAPI message handler',
 				description: 'Info message shown when setting up message ' +
 					'handler for the CRM API. Handling API requests from scripts'
 			},
-			building_crm: {
+			buildingCrm: {
 				message: 'Building Custom Right-Click Menu',
 				description: 'Info message shown when building the contextmenu itself'
 			},
-			compiling_ts: {
+			compilingTs: {
 				message: 'Compiling typescript',
 				description: 'Info message shown when typescript is being compiled'
 			},
-			registering_handlers: {
+			registeringHandlers: {
 				message: 'Registering global handlers',
 				description: 'Info message shown when registering general ' +
 					'global change handlers (tabs created/removed etc)'
 			},
-			updating_resources: {
+			updatingResources: {
 				message: 'Updating resources',
 				description: 'Info message shown when updating resources, which ' +
 					'are scripts hosted on other websites'
 			},
-			updating_nodes: {
+			updatingNodes: {
 				message: 'Updating scripts and stylesheets',
 				description: 'Info message shown when updating scripts and ' +
 					'stylesheets\'s code'
 			},
-			debug_info: {
+			debugInfo: {
 				message: 'For all of these arrays goes, close and re-expand ' +
 					'them to "refresh" their contents',
 				description: 'Info message telling the user how to refresh ' +
 					'arrays in the console'
 			},
-			invalidated_tabs: {
+			invalidatedTabs: {
 				message: 'Invalidated tabs:',
 				description: 'Label for array that contains invalidated tabs. ' +
 					'Invalidated tabs are tabs that can\'t be accessed because ' +
 					'they\'re options pages etc.'
 			},
-			insufficient_permissions: {
+			insufficientPermissions: {
 				message: 'Insufficient permissions:',
 				description: 'Label for an array of scripts that failed because ' +
 					'they had insufficient permissions'
 			},
-			registering_console_interface: {
+			registeringConsoleInterface: {
 				message: 'Registering console user interface',
 				description: 'Info message shown when registering global ' +
 					'functions that allow the user to run functions in the console'
@@ -1744,7 +1726,7 @@ export const Messages: I18NBranch = {
 				message: 'Done!',
 				description: 'Info message shown when setup is done'
 			},
-			resource_update: {
+			resourceUpdate: {
 				message: 'Attempting resource update',
 				description: 'Info message shown when updating resources'
 			},
@@ -1760,7 +1742,7 @@ export const Messages: I18NBranch = {
 				message: 'Checking resources',
 				description: 'Message group for resource checking'
 			},
-			previous_open_tabs: {
+			previousOpenTabs: {
 				message: 'Restoring previous open tabs',
 				description: 'Message group for the restoration of already-open tabs'
 			},
@@ -1770,17 +1752,17 @@ export const Messages: I18NBranch = {
 			},
 			debugging: {
 				message: 'Debugging',
-				description: 'Message group for any debuging messages'
+				description: 'Message group for any debugging messages'
 			}
 		},
 		storages: {
-			sync_upload_error: {
+			syncUploadError: {
 				message: 'Error on uploading to storage.sync, uploading to ' +
 					'storage.local instead',
 				description: 'Error shown when uploading user settings to ' +
 					'storage.sync fails. This is the synced data'
 			},
-			local_upload_error: {
+			localUploadError: {
 				message: 'Error on uploading to browser.storage.local',
 				description: 'Error shown when uploading user settings to ' +
 					'storage.local fails. This is the non-synced local data'
@@ -1799,38 +1781,38 @@ export const Messages: I18NBranch = {
 					}
 				}
 			},
-			setting_global_data: {
+			settingGlobalData: {
 				message: 'Setting global data stores',
 				description: 'Info message shown when setting up data storage'
 			},
-			building_crm: {
+			buildingCrm: {
 				message: 'Building CRM representation',
 				description: 'Info message shown when building CRM and its ' +
 					'in-background tree representation'
 			},
-			loading_sync: {
+			loadingSync: {
 				message: 'Loading sync storage data',
 				description: 'Info message shown when loading the ' +
 					'browser.storage.sync synced data'
 			},
-			loading_local: {
+			loadingLocal: {
 				message: 'Loading local storage data',
 				description: 'Info message shown when loading the ' +
 					'browser.storage.local non-synced data'
 			},
-			checking_first: {
+			checkingFirst: {
 				message: 'Checking if this is the first run',
 				description: 'Info message shown when checking if this ' +
 					'is the very first run of the extension'
 			},
-			parsing_data: {
+			parsingData: {
 				message: 'Parsing data encoding',
 				description: 'Info message shown when parsing the stored data ' +
 					'and transforming it into usable structures. The data is ' +
 					'stored in a sort of encoded way and this is a basic form ' +
 					'of decoding it'
 			},
-			checking_updates: {
+			checkingUpdates: {
 				message: 'Checking for data updates',
 				description: 'Info message shown when checking whether any ' +
 					'remote updates have happened. For example if the user ' +
@@ -1838,7 +1820,7 @@ export const Messages: I18NBranch = {
 					'synced back to this computer. If something like this ' +
 					'happens the user is notified'
 			},
-			initializing_first: {
+			initializingFirst: {
 				message: 'Initializing for first run',
 				description: 'Info message shown when initializing the initial ' +
 					'settings if this is the first run of the extension'
@@ -1850,7 +1832,7 @@ export const Messages: I18NBranch = {
 				description: 'Name for a page that runs in the background ' +
 					'similar to a browser extension\'s background page'
 			},
-			background_page: {
+			backgroundPage: {
 				message: 'Background page',
 				description: 'Name for a page that runs in the background ' +
 					'similar to a browser extension\'s background page'
@@ -1892,7 +1874,7 @@ export const Messages: I18NBranch = {
 				message: 'Allow',
 				description: 'Allows a permission'
 			},
-			none_required: {
+			noneRequired: {
 				message: 'No permissions required',
 				description: 'Message shown when no permissions are ' +
 					'required for a script'
@@ -1902,11 +1884,11 @@ export const Messages: I18NBranch = {
 				description: 'Shown when there are no permissions required ' +
 					'in the form "permission: {none}"'
 			},
-			toggle_all: {
+			toggleAll: {
 				message: 'Toggle All',
 				description: 'Allows or disallows all permissions at once'
 			},
-			allow_accept: {
+			allowAccept: {
 				message: 'Allow all and install',
 				description: 'Allows all permissions and installs the script'
 			},
@@ -1914,7 +1896,7 @@ export const Messages: I18NBranch = {
 				message: 'install',
 				description: 'Installs the script'
 			},
-			not_asking: {
+			notAsking: {
 				message: 'Not asking for permission $PERMISSION$ as your ' +
 					'browser does not support asking for permissions',
 				description: 'Message shown when requesting permissions ' +
@@ -1928,14 +1910,14 @@ export const Messages: I18NBranch = {
 			}
 		},
 		error: {
-			not_found_1: {
+			notFound1: {
 				message: 'Userscript',
 				description: 'Part 1 of the message "userscript not found"' +
 					'It\'s split over 2 lines. If a single line is ' +
 					'better, fill this one' +
 					' and empty the second one'
 			},
-			not_found_2: {
+			notFound2: {
 				message: 'Not Found',
 				description: 'Part 2 of the message "userscript not found"' +
 					'It\'s split over 2 lines. If a single line is better, ' +
@@ -1948,13 +1930,13 @@ export const Messages: I18NBranch = {
 				message: 'Fetching Userscript',
 				description: 'State shown when downloading/fetching the userscript'
 			},
-			failed_xhr:{ 
+			failedXhr:{ 
 				message: 'Failed XHR',
 				description: 'Message shown when the XHR network request fails'
 			},
 			installing: {
 				message: 'Installing userscript from $SOURCE$',
-				description: 'State shown when installing a usescript from given URL',
+				description: 'State shown when installing a userscript from given URL',
 				placeholders: {
 					source: {
 						content: '$1',
@@ -1984,40 +1966,41 @@ export const Messages: I18NBranch = {
 			description: 'Prefixed by the amount of logging lines there are ' +
 				'in the logging console'
 		},
-		running_code_not_possible: {
+		//TODO:
+		runningCodeNotPossible: {
 			message: 'Running code is not possible in the current context ' +
 				'(select both an ID and a tab)',
 			description: 'Warning that running code is not possible right ' +
 				'now since no context has been selected.'
 		},
-		store_as_local: {
+		storeAsLocal: {
 			message: 'Store as local variable',
 			description: 'Stores clicked javascript value in a local value so ' +
 				'it can be referenced locally'
 		},
-		log_this: {
+		logThis: {
 			message: 'Logthis',
 			description: 'Logs given value'
 		},
-		copy_as_json: {
+		copyAsJson: {
 			message: 'Copy as JSON',
 			description: 'Copies given value to the clipboard as JSON'
 		},
-		copy_path: {
+		copyPath: {
 			message: 'Copy path',
 			description: 'Copies the path to a value. For example if the user ' +
 				'expands an array and runs this on the first element, the path is [0]'
 		},
-		clear_console: {
+		clearConsole: {
 			message: 'Clear console',
 			description: 'Empties the console and all its log messages'
 		},
-		tab_closed: {
+		tabClosed: {
 			message: 'Tab has been closed',
 			description: 'Warning that a tab has been closed and as such ' +
 				'its log won\'t be updated'
 		},
-		something_went_wrong: {
+		somethingWentWrong: {
 			message: 'Something went wrong highlighting the tab',
 			description: 'Generic warning shown when an error occurred on ' +
 				'highlighting a tab. Highlighting is the flashing you see ' +
@@ -2044,9 +2027,9 @@ export const Messages: I18NBranch = {
 				message: 'You can report a bug that happened or a feature you ' +
 					'would like to see in this extension. If you want you can ' +
 					'also highlight a section of the page and send it along. ' +
-					'When clicking the submit buton you will be taken to the ' +
+					'When clicking the submit button you will be taken to the ' +
 					'github website where you ' +
-					'can file an issue. All nessecary files (the image and if ' +
+					'can file an issue. All necessary files (the image and if ' +
 					'you want to your settings) ' +
 					'will be downloaded, after which you can drop them on the ' +
 					'report issue page. For ' +
@@ -2071,19 +2054,19 @@ export const Messages: I18NBranch = {
 					}
 				}
 			},
-			page_capture: {
+			pageCapture: {
 				message: 'Page Capture',
 				description: 'Launches a page capturing program with which ' +
 					'the user can select ' +
 					'a section of the page that is then converted to an ' +
 					'image and uploaded'
 			},
-			reporting_bug: {
+			reportingBug: {
 				message: 'Reporting a bug',
 				description: 'Button to press when reporting a bug/fault in ' +
 					'the extension'
 			},
-			suggesting_feature: {
+			suggestingFeature: {
 				message: 'Suggesting a feature',
 				description: 'Button to press when suggesting a new feature ' +
 					'for the extension'
@@ -2098,7 +2081,7 @@ export const Messages: I18NBranch = {
 			},
 			titlePlaceholder: {
 				message: 'TITLE HERE',
-				description: 'Placeholder for the user to write a titel in'
+				description: 'Placeholder for the user to write a title in'
 			}
 		}
 	},
@@ -2131,7 +2114,7 @@ export const Messages: I18NBranch = {
 					'Keep in mind that the "url" word in the placeholder ' +
 					'should be replaced as well',
 				placeholders: {
-					sourceurl: {
+					sourceURL: {
 						content: '<span id="nodeInfoFrom"><b>' + 
 							'<a id="nodeInfoUrl" title="$1" target="_blank" ' +
 							'rel="noopener"' +
@@ -2246,8 +2229,7 @@ export const Messages: I18NBranch = {
 							'class="infoSvg" viewbox="0 0 32 48" height="30" ' +
 							'width="20">' +
 							'<path d="M4 31v4h40v-4H4zm0-10v4h40v-4H4zm0-10v4h40v-4H4z"/> ' +
-							'</svg>',
-						example: 'See above. No need to replace anything'
+							'</svg>'
 					}
 				}
 			},
@@ -2268,8 +2250,7 @@ export const Messages: I18NBranch = {
 							'xmlns="http://www.w3.org/2000/svg" width="48" ' +
 							'height="48" viewbox="0 0 48 48">' +
 							'<path d="M16 10v28l22-14z"/>' +
-							'</svg>',
-						example: 'See above. No changes need to be made'
+							'</svg>'
 					}
 				}
 			},
@@ -2390,8 +2371,8 @@ export const Messages: I18NBranch = {
 			},
 			paperLibrariesSelector: {
 				libraryInfo: {
-					message: 'Try to refrain from using unnecessary libaries, libraries ' +
-						'load on every single page and load seperately for all scripts. ' +
+					message: 'Try to refrain from using unnecessary libraries, libraries ' +
+						'load on every single page and load sepaerately for all scripts. ' +
 						'This can easily take 100ms for libraries like jQuery. For a ' +
 						'jQuery alternative consider using crmAPI.$ or simply $ ' +
 						'(without loading jQuery) which features the selector function only.',
@@ -2437,7 +2418,7 @@ export const Messages: I18NBranch = {
 				nameTaken: {
 					message: 'That name is already taken',
 					description: 'Error shown when the name for a library is ' +
-						'alread taken'
+						'already taken'
 				},
 				nameMissing: {
 					message: 'Please enter a name',
@@ -2469,7 +2450,7 @@ export const Messages: I18NBranch = {
 				description: {
 					message: 'This code will search given website for any ' +
 						'text you highlight,' +
-						' or if nothing is highlighted will promt you for a query.',
+						' or if nothing is highlighted will prompt you for a query.',
 					description: 'Description of what the ' +
 						'paper-search-website-dialog does'
 				},
@@ -2483,7 +2464,7 @@ export const Messages: I18NBranch = {
 				},
 				chooseDefault: {
 					message: 'Choose a default search engine',
-					description: 'Title for choosing one of the default serach engines'
+					description: 'Title for choosing one of the default search engines'
 				},
 				try: {
 					message: 'Try',
@@ -2491,7 +2472,7 @@ export const Messages: I18NBranch = {
 				},
 				manualInput: {
 					message: 'Manually input your search website',
-					description: 'Title for the manual seach engine input window'
+					description: 'Title for the manual search engine input window'
 				},
 				findingSearchURL: {
 					message: 'By finding out the search URL',
@@ -2561,13 +2542,13 @@ export const Messages: I18NBranch = {
 				testURL: {
 					message: 'Test URL:',
 					description: 'The URL that will be outputted when ' +
-						'inputting the query into the serach engine. ' +
+						'inputting the query into the search engine. ' +
 						'Will be used in the form: {Test URL:} www.google.com/xxxxx'
 				},
 				howOpenTitle: {
 					message: 'How do you want the link to open?',
 					description: 'Title for the how to open field. This will give ' +
-						'the choice between opening in the curent tab or in a new tab'
+						'the choice between opening in the current tab or in a new tab'
 				},
 				newTab: {
 					message: 'A new tab',
@@ -2583,13 +2564,699 @@ export const Messages: I18NBranch = {
 						'completed. Try to keep this short'
 				},
 				enterSearchQuery: {
-					message: 'Please enter a seach query',
+					message: 'Please enter a search query',
 					description: 'Prompt shown to the user when they need to ' +
 						'add a search query'
 				},
 				selectSomething: {
 					message: 'Please select something',
 					description: 'Message shown when no option has been selected'
+				}
+			}
+		},
+		editPages: {
+			generic: {
+				name: {
+					message: 'Name',
+					description: 'Label for the name of a node'
+				},
+				contentType: {
+					message: 'Show on content type',
+					description: 'Label for the content types section'
+				},
+				contentTypeTitle: {
+					message: 'Toggle showing this item when right-clicking ' +
+						'$CONTENTTYPE$',
+					description: 'Title for content types',
+					placeholders: {
+						contentType: {
+							content: '$1',
+							example: 'Audio'
+						}
+					}
+				},
+				showOnSpecified: {
+					message: 'Show only on specified sites',
+					description: 'Checkbox that allows you to enable ' +
+						'showing this on specified sites'
+				},
+				showOn: {
+					message: 'Show on:',
+					description: 'Label for what URLs to show this on'
+				},
+				regexDescr: {
+					message: 'Regex is available, check the syntax ' +
+						'$PREHTML$here$POSTHTML$.',
+					description: 'Info section explaining that regex is available',
+					placeholders: {
+						prehtml: {
+							content: '<a href="https://developer.chrome.com/' +
+								'extensions/match_patterns" rel="noopener" ' +
+								'target="_blank">'
+						},
+						posthtml: {
+							content: '</a>'
+						}
+					}
+				},
+				not: {
+					message: 'NOT',
+					description: 'Inverts given input when checked. ' +
+						'Try to keep this short'
+				},
+				matchPattern: {
+					message: 'URL match pattern',
+					description: 'Label for the match pattern input'
+				},
+				invalidURLPattern: {
+					message: 'This is not a valid URL pattern!',
+					description: 'Error message shown when match pattern is invalid'
+				},
+				changeType: {
+					message: 'CHANGE TYPE',
+					description: 'Allows the changing of a node\'s type'
+				}
+			},
+			link: {
+				linkLabel: {
+					message: 'Link(s)',
+					description: 'Label for the link section where you can ' +
+						'configure the links this node will open'
+				},
+				currentTab: {
+					message: 'Open in current tab',
+					description: 'Option that, when enabled, will open the URLs ' +
+						'in a new tab instead of the current one'
+				}
+			},
+			metadata: {
+				name: {
+					message: 'The name of this script',
+					description: 'Metadata for the "name" key'
+				},
+				namespace: {
+					message: 'The namespace of the script',
+					description: 'Metadata for the "namespace" key'
+				},
+				version: {
+					message: 'The script version. This is used for the update check.',
+					description: 'Metadata for the "version" key'
+				},
+				author: {
+					message: 'The scripts author',
+					description: 'Metadata for the "author" key'
+				},
+				description: {
+					message: 'A short description.',
+					description: 'Metadata for the "description" key'
+				},
+				homepage: {
+					message: 'The author\'s homepage',
+					description: 'Metadata for the "homepage" key'
+				},
+				homepageURL: {
+					message: 'The author\'s homepage',
+					description: 'Metadata for the "homepageURL" key'
+				},
+				website: {
+					message: 'The author\'s homepage',
+					description: 'Metadata for the "website" key'
+				},
+				source: {
+					message: 'The author\'s homepage',
+					description: 'Metadata for the "source" key'
+				},
+				icon: {
+					message: 'The script\'s icon in low res',
+					description: 'Metadata for the "icon" key'
+				},
+				iconURL: {
+					message: 'The script\'s icon in low res',
+					description: 'Metadata for the "iconURL" key'
+				},
+				defaulticon: {
+					message: 'The script\'s icon in low res',
+					description: 'Metadata for the "defaulticon" key'
+				},
+				icon64: {
+					message: 'This scripts icon in 64x64 pixels.',
+					description: 'Metadata for the "icon64" key'
+				},
+				icon64URL: {
+					message: 'This scripts icon in 64x64 pixels.',
+					description: 'Metadata for the "icon64URL" key'
+				},
+				updateURL: {
+					message: 'An update URL for the userscript',
+					description: 'Metadata for the "updateURL" key'
+				},
+				downloadURL: {
+					message: 'Defines the URL where the script will be downloaded from when an update was detected',
+					description: 'Metadata for the "downloadURL" key'
+				},
+				supportURL: {
+					message: 'Defines the URL where the user can report issues and get personal support',
+					description: 'Metadata for the "supportURL" key'
+				},
+				include: {
+					message: 'The pages on which the script should run',
+					description: 'Metadata for the "include" key'
+				},
+				match: {
+					message: 'The pages on which the script should run',
+					description: 'Metadata for the "match" key'
+				},
+				exclude: {
+					message: 'Exclude URLs even if they are included by **@include** or **@match**',
+					description: 'Metadata for the "exclude" key'
+				},
+				require: {
+					message: 'Points to a javascript file that is loaded and executed before the script itself',
+					description: 'Metadata for the "require" key'
+				},
+				resource: {
+					message: 'The Preloads resources that can be accessed by `GM_getResourceURL` and `GM_getResourceText` by the script of this script',
+					description: 'Metadata for the "resource" key'
+				},
+				connect: {
+					message: 'Domains which are allowed to be retrieved by `GM_xmlhttpRequest`',
+					description: 'Metadata for the "connect" key'
+				},
+				runAt: {
+					message: 'The moment the script is injected (document-start, document-body, document-end, document-idle or document-menu)',
+					description: 'Metadata for the "runAt" key'
+				},
+				grant: {
+					message: 'Whitelists given `GM_*` functions',
+					description: 'Metadata for the "grant" key'
+				},
+				noframes: {
+					message: 'Makes the script run on the main page but not in iframes',
+					description: 'Metadata for the "noframes" key'
+				},
+				CRMContentTypes: {
+					message: 'The content types on which to run this script as a 6 items long boolean array (e.g. [true, false, true, false, true, false]) (CRM ONLY)',
+					description: 'Metadata for the "CRM_contentTypes" key'
+				},
+				CRMLaunchMode: {
+					message: 'When to run this script. 0 = Run on clicking, 1 = always run, 2 = run on specified, 3 = show on specified, 4 = disabled. (CRM ONLY)',
+					description: 'Metadata for the "CRM_launchMode" key'
+				},
+				CRMStylesheet: {
+					message: 'Interpret this as a stylesheet (userstyle) instead of a script (userscript). (CRM ONLY)',
+					description: 'Metadata for the "CRM_stylesheet" key'
+				},
+				CRMToggle: {
+					message: 'A boolean value (true/false) indicating whether to allow toggling this stylesheet on or off. Only used when @CRM_stylesheet is present. (CRM ONLY)',
+					description: 'Metadata for the "CRM_toggle" key'
+				},
+				CRMDefaultOn: {
+					message: 'A boolean value (true/false) indicating whether this stylesheet is toggled on by default. Only used when @CRM_stylesheet and @CRM_toggle are present. (CRM ONLY)',
+					description: 'Metadata for the "CRM_defaultOn" key'
+				},
+				CRMLibraries: {
+					message: 'An array containing stringified objects with a "url" and a "name" key, pointing to external libraries used in this script.',
+					description: 'Metadata for the "CRM_libraries" key'
+				},
+				license: {
+					message: 'The license for this script. If none is supplied, it\'s under exclusive copyright by default',
+					description: 'Metadata for the "license" key'
+				},
+				preprocessor: {
+					message: 'The css preprocessor to use, choose from \'less\', \'stylus\', \'uso\' or \'default\'. For more info check out https://github.com/openstyles/stylus/wiki/Usercss#preprocessor',
+					description: 'Metadata for the "preprocessor" key'
+				},
+				var: {
+					message: 'A variable that can be changed by the user and is replaced when compiling the stylesheet',
+					description: 'Metadata for the "var" key'
+				}
+			},
+			monaco: {
+				startTagUserscript: {
+					message: 'The start tag for a UserScript metadata block',
+					description: 'Label for the Userscript start tag'
+				},
+				endTagUserscript: {
+					message: 'The end tag for a UserScript metadata block',
+					description: 'Label for the Userscript end tag'
+				},
+				startTagUserstyle: {
+					message: 'The start tag for a UserStyle metadata block',
+					description: 'Label for the UserStyle start tag'
+				},
+				endTagUserstyle: {
+					message: 'The end tag for a UserStyle metadata block',
+					description: 'Label for the UserStyle end tag'
+				},
+				scriptStart: {
+					message: 'UserScript start tag',
+					description: 'Short description for the Userscript start tag'
+				},
+				scriptEnd: {
+					message: 'UserScript end tag',
+					description: 'Short description for the Userscript end tag'
+				},
+				styleStart: {
+					message: 'Userstyle start tag',
+					description: 'Short description for the Userstyle start tag'
+				},
+				styleEnd: {
+					message: 'Userstyle end tag',
+					description: 'Short description for the Userstyle end tag'
+				},
+				metaKey: {
+					message: 'Metadata key',
+					description: 'Short description for any metadata keys'
+				},
+				disableMeta: {
+					message: 'Disable Metadata Highlight',
+					description: 'Description for a button that allows you to '+
+						'disable highlighting of metadata values in the editor'
+				},
+				enableMeta: {
+					message: 'Enable Metadata Highlight',
+					description: 'Description for a button that allows you to '+
+						'enable highlighting of metadata values in the editor'
+				},
+				keyDescription: {
+					message: 'Metadata key $METAKEY$: $METADESCRIPTION$',
+					description: 'Long description for metadata keys',
+					placeholders: {
+						metaKey: {
+							content: '$1',
+							example: 'Name'
+						},
+						metaDescription: {
+							content: '$2',
+							example: 'The name of a script'
+						}
+					}
+				},
+				keyDescriptionUnknown: {
+					message: 'Metadata key $METAKEY$, unknown key',
+					description: 'Long description for metadata keys when the key is unknown',
+					placeholders: {
+						metaKey: {
+							content: '$1',
+							example: 'Name'
+						}
+					}
+				},
+				valueForKey: {
+					message: 'Value $VALUE$ for key $KEY$',
+					description: 'Description shown when hovering over a key-value combination',
+					placeholders: {
+						value: {
+							content: '$1',
+							example: 'SomeValue'
+						},
+						key: {
+							content: '$2',
+							example: 'SomeKey'
+						}
+					}
+				},
+				disableUnderline: {
+					message: 'Disable CSS underline',
+					description: 'Label for a button that disables underlining of ' +
+						'colors in CSS'
+				},
+				enableUnderline: {
+					message: 'Enable CSS underline',
+					description: 'Label for a button that enables underlining of ' +
+						'colors in CSS'
+				},
+				optionName: {
+					message: 'The name of the option',
+					description: 'Label for the "name" field of an option config'
+				},
+				numberOption: {
+					message: 'A number type option',
+					description: 'Label for any number-type options in config'
+				},
+				minValue: {
+					message: 'The minimum value of the number',
+					description: 'Label for the "minimum" field of a number-type ' +
+						'option in a config'
+				},
+				maxValue: {
+					message: 'The maximum value of the number',
+					description: 'Label for the "maximum" field of a number-type ' +
+						'option in a config'
+				},
+				descr: {
+					message: 'A description for this option',
+					description: 'Label for the "description" field of an option'
+				},
+				defaultValue: {
+					message: 'The default value for this option',
+					description: 'label for the "defaultValue" field of an option. ' +
+						'This value specifies the default value of given option'
+				},
+				value: {
+					message: 'The value of this option (set to null to unset)',
+					description: 'Label for the "value" field of an option. This is ' +
+						'the value that is set when the option is filled in. ' +
+						'If this value is set to "null" it\'s treated as not set at all.' +
+						'For example if the choices are A and B and the value is null, ' +
+						'the value is neither.'
+				},
+				valueExpanded: {
+					message: 'The value of this option, changing it here will have the' + 
+						' same effect as changing it in the options dialog',
+					description: 'Expanded version of the description above'
+				},
+				stringOption: {
+					message: 'A string type option',
+					description: 'Label for any string-type options in config'
+				},
+				maxLength: {
+					message: 'The maximum length of the string',
+					description: 'Label for the "maxLength" field of a string-type ' +
+						'option which specifies the max length of the string'
+				},
+				format: {
+					message: 'A regex format that the string has to follow',
+					description: 'Label for the "format" field of a string-type ' +
+						'option which asks for a regex value that should match ' +
+						'the eventual value of the string'
+				},
+				choiceOption: {
+					message: 'A choice type option',
+					description: 'Label for any choice-type options in config'
+				},
+				selected: {
+					message: 'The selected value\'s index',
+					description: 'Label for the "selected" field which ' +
+						'takes a number value that is the index of ' +
+						'the chosen value in the choices'
+				},
+				values: {
+					message: 'The possible values of this option',
+					description: 'Label for the "values" field which ' +
+						'takes an array of possible values which can be ' +
+						'chosen'
+				},
+				colorOption: {
+					message: 'A color type option',
+					description: 'Label for any color-type options in config'
+				},
+				booleanOption: {
+					message: 'A boolean type option',
+					description: 'Label for any boolean-type options in config'
+				},
+				arrayOption: {
+					message: 'An array type option',
+					description: 'Label for any array-type options in config'
+				},
+				maxItems: {
+					message: 'The maximum number of array items',
+					description: 'Label for the "maxItems" field of an ' +
+						'array-type option, which limits the max amount of ' +
+						'values that can be inputted'
+				},
+				items: {
+					message: 'The type of items this array contains (number or string)',
+					description: 'Label for the "items" field of an array-type option ' +
+						'which sets the type of the elements it has to either ' +
+						'numbers or strings'
+				},
+				lintingDisabled: {
+					message: 'No linting possible in $MODE$ mode',
+					description: 'Message shown when linting is not possible in this mode',
+					placeholders: {
+						mode: {
+							content: '$1',
+							example: 'typescript|LESS/stylus'
+						}
+					}
+				},
+				monacoError: {
+					message: 'Caught monaco editor error (ignore these)',
+					description: 'Error shown when a monaco editor is caught'
+				}
+			},
+			script: {
+				autoUpdate: {
+					message: 'toggle auto-update',
+					description: 'Button that toggles automatically updating ' +
+						'the script when a new version is hosted on the source'
+				},
+				permissions: {
+					message: 'Used Permissions(s)',
+					description: 'Title for the used permissions of this script. ' +
+						'The permissions specify which APIs the script can use'
+				},
+				manage: {
+					message: 'Manage',
+					description: 'Button that opens the permissions manager'
+				},
+				script: {
+					message: 'Script',
+					description: 'Title for the script editing section ' +
+						'of a javascript script node'
+				},
+				docs: {
+					message: 'docs',
+					description: 'Button that opens the documentation of the API' +
+						'when clicked'
+				},
+				scriptMain: {
+					message: 'Main',
+					description: 'Main section of the script. This is the script ' +
+						'that is run on the page, not a background-script'
+				},
+				scriptBackground: {
+					message: 'Background',
+					description: 'Background section of the script. This script ' +
+						'is ran in the background like an extension background-page'
+				},
+				scriptOptions: {
+					message: 'Options',
+					description: 'Options editor for a script. These allow for ' +
+						'custom options to be passed to a script'
+				},
+				scriptLibraries: {
+					message: 'Libraries',
+					description: 'Library editor. Libraries are external scripts ' +
+						'ran whenever this script is ran'
+				},
+				showBackgroundLibs: {
+					message: 'Show backgroundscript libraries',
+					description: 'Button that toggles showing libraries for the ' +
+						'background script'
+				},
+				crmNode: {
+					message: 'CRM Node',
+					description: 'One of the options to which a script can be ' +
+						'exported. This exports it to a JSON version of this ' + 
+						'node'
+				},
+				userScript: {
+					message: 'Userscript',
+					description: 'One of the options to which a script can be ' +
+						'exported. This exports it to a greasemonkey and ' +
+						'tampermonkey compatible userscript ' +
+						'(https://en.wikipedia.org/wiki/Userscript)' +
+						'This word probably won\'t have to be changed'
+				}
+			},
+			code: {
+				triggers: {
+					message: 'Trigger(s)',
+					description: 'Title for the triggers section. ' +
+						'The triggers specify when the script/stylesheet is ' +
+						'ran'
+				},
+				triggerOnClick: {
+					message: 'Execute on clicking',
+					description: 'Trigger option that makes the script/stylesheet ' +
+						'run on clicking it in the right-click menu'
+				},
+				triggerAlways: {
+					message: 'Always execute',
+					description: 'Trigger option that makes the script/stylesheet ' +
+						'always execute.'
+				},
+				triggerSpecified: {
+					message: 'Execute when visiting specified sites',
+					description: 'Trigger option that makes the script/stylesheet ' +
+						'execute when visiting the specified websites'
+				},
+				triggerShowOnSpecified: {
+					message: 'Show only on specified sites',
+					description: 'Trigger option that only shows the script/stylesheet ' +
+						'on specified websites'
+				},
+				triggerDisabled: {
+					message: 'Disabled',
+					description: 'Disables this script/stylesheet altogether and ' +
+						'does not show it in the right-click menu. Basically the ' +
+						'same as hidden'
+				},
+				showOn: {
+					message: 'Show on:',
+					description: 'Label for the showing of a node in the right-click ' +
+						'menu on specified websites'
+				},
+				executeOn: {
+					message: 'Execute on:',
+					description: 'Label for the executing of a node in the right-click ' +
+						'menu on specified websites'
+				},
+				triggerInfo: {
+					message: 'For trigger mode "execute when visiting sides" urls need ' +
+						'to match $EXECUTEPREHTML$the following pattern$POSTHTML$ and ' +
+						'for trigger mode "show when visiting specified sites" they need ' +
+						'to match $MATCHPREHTML$this pattern$POSTHTML$. Regular URLs ' +
+						'without wildcards (*) will match just that URL.',
+					placeholders: {
+						executePreHtml: {
+							content: '<a href="https://wiki.greasespot.net/Include_and_' +
+								'exclude_rules" rel="noopener" target="_blank">'
+						},
+						matchPreHTML: {
+							content: '<a href="https://developer.chrome.com/extensions/match_' +
+								'patterns" rel="noopener" target="_blank">'
+						},
+						postHTML: {
+							content: '</a>'
+						}
+					}
+				},
+				backgroundInfo: {
+					message: 'The background page will always be running. It\'s ' +
+						'possible to communicate with it using the $COMMAPI$. ' +
+						'The scripts only share their permissions.',
+					description: 'Info about the background script and what it does',
+					placeholders: {
+						commAPI: {
+							content: '<a href="http://sanderronde.github.io' +
+								'/CustomRightClickMenu/documentation/classes/' +
+								'crm.crmapi.instance.html#comm"target="_blank" ' +
+								'rel="noopener">crmAPI.comm API</a>'
+						}
+					}
+				},
+				optionsInfo: {
+					message: 'Create a key and press Ctrl+Space for format hints ' +
+						'in the option object. Check out $PREHTML$this page$POSTHTML$ ' +
+						'to see the format of the options. Keep the $schema line ' +
+						'to enable format hints on pressing Ctrl+Space',
+					description: 'Info about the options editor and how it works',
+					placeholders: {
+						preHTML: {
+							content: '<a href="http://sanderronde.github.io/' +
+								'CustomRightClickMenu/documentation/modules/' +
+								'crm.scriptoptionsschema.html#options" ' +
+								'target="_blank" rel="noopener">'
+						},
+						postHTML: {
+							content: '</a>'
+						}
+					}
+				},
+				settings: {
+					message: 'Editor Settings',
+					description: 'Title for the settings section. This allows ' +
+						'you to edit the internal monaco editor\'s settings'
+				},
+				theme: {
+					message: 'Theme',
+					description: 'Title for the theme editing section.'
+				},
+				fontSize: {
+					message: 'font size %',
+					description: 'The font size of the editor. Include the % sign ' +
+						'in some way to convey that it\'s displayed in percentages'
+				},
+				globals: {
+					message: 'Comma separated list of JSLint globals',
+					description: 'A list of global javascript values that ' +
+						'should be ignored when doing a JSLint ' +
+						'syntax check'
+				},
+				keyBindings: {
+					message: 'Key Bindings',
+					description: 'Title for the key bindings section'
+				},
+				goToDef: {
+					message: 'Go To Type Definition',
+					description: 'The go to definition code action.'
+				},
+				rename: {
+					message: 'Rename Symbol',
+					description: 'Renames a variable/function/symbol'
+				},
+				exportAs: {
+					message: 'EXPORT AS',
+					description: 'Allows you to export a script/stylesheet. ' +
+						'This button then allows you to select something to ' +
+						'export it as. For example a regular CRM-compatible node ' +
+						'or a userscript'
+				}
+			},
+			stylesheet: {
+				togglable: {
+					message: 'Is Togglable',
+					description: 'A button that sets whether a stylesheet ' +
+						'should be togglable from on to off'
+				},
+				onByDefault: {
+					message: 'On by default',
+					description: 'A button that sets whether a stylesheet ' +
+						'is toggled on by default or off by default'
+				},
+				toggleInfo: {
+					message: 'Non-togglable CSS is not in the right-click ' +
+						'menu but always active instead.',
+					description: 'Info about the toggle buttons'
+				},
+				stylesheet: {
+					message: 'Stylesheet',
+					description: 'The stylesheet itself in this node that ' +
+						'can be edited'
+				},
+				optionsInfo: {
+					message: 'See $PRESTYLUSHTML$this page$POSTHTML$ for more ' +
+						'info about code options (vars) and preprocessors ' +
+						'and see $PREUSERCSSHTML$this section$POSTHTML$ for ' +
+						'examples (ignore the @-moz-document part).',
+					placeholders: {
+						preStylusHTML: {
+							content: '<a href="https://github.com/openstyles' +
+								'/stylus/wiki/Usercss#var" rel="noopener" ' +
+								'target="_blank">'
+						},
+						preUserCSSHTML: {
+							content: '<a href="https://github.com/openstyles' +
+								'/stylus/wiki/Usercss#more-examples" ' +
+								'rel="noopener" target="_blank">'
+						},
+						postHTML: {
+							content: '</a'
+						}
+					}
+				},
+				stylusInfo: {
+					message: 'Unfortunately there\'s no syntax highlighting ' +
+						'support for Stylus (yet). The editor will use LESS ' +
+						'syntax highlighting instead as it\'s somewhat close ' +
+						'to Stylus.',
+					description: 'Info about the stylus syntax highlighting ' +
+						'(and lack thereof)'
+				}
+			}
+		},
+		typeSwitcher: {
+			title: {
+				message: 'Change type to $TYPE$',
+				description: 'Changes the type of this node to another type',
+				placeholders: {
+					type: {
+						content: '$1',
+						example: 'Script'
+					}
 				}
 			}
 		}

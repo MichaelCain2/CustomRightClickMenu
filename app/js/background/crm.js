@@ -222,7 +222,7 @@ export var CRMNodes;
                     newScript.runAt = runAt;
                 }
                 else {
-                    window.logAsync(window.__("background_crm_invalid_runat", id + '', runAt));
+                    window.logAsync(window.__("background_crm_invalidRunat", id + '', runAt));
                 }
                 return newScript;
             }
@@ -247,7 +247,7 @@ export var CRMNodes;
                                         return [4, browserAPI.tabs.executeScript(tabId, ensureRunAt(nodeId, script))["catch"](function (err) {
                                                 if (err.message.indexOf('Could not establish connection') === -1 &&
                                                     err.message.indexOf('closed') === -1) {
-                                                    window.logAsync(window.__("background_crm_execution_failed", tabId, nodeId), err);
+                                                    window.logAsync(window.__("background_crm_executionFailed", tabId, nodeId), err);
                                                 }
                                             })];
                                     case 1:
@@ -670,14 +670,14 @@ export var CRMNodes;
                                 isRestart = true;
                                 _b = (_a = CRMNodes.modules.Logging).backgroundPageLog;
                                 _c = [node.id, null];
-                                return [4, window.__("background_crm_restarting_background_page")];
+                                return [4, window.__("background_crm_restartingBackgroundPage")];
                             case 2: return [4, _b.apply(_a, _c.concat([_j.sent()]))];
                             case 3:
                                 _j.sent();
                                 CRMNodes.modules.background.byId.get(node.id).terminate();
                                 _e = (_d = CRMNodes.modules.Logging).backgroundPageLog;
                                 _f = [node.id, null];
-                                return [4, window.__("background_crm_terminated_background_page")];
+                                return [4, window.__("background_crm_terminatedBackgroundPage")];
                             case 4:
                                 _e.apply(_d, _f.concat([_j.sent()]));
                                 _j.label = 5;
@@ -698,7 +698,7 @@ export var CRMNodes;
                                     err = e;
                                 }
                                 if (err) {
-                                    window.logAsync(window.__("background_crm_setup_error", node.id), err);
+                                    window.logAsync(window.__("background_crm_setupError", node.id), err);
                                     throw err;
                                 }
                                 indentUnit = '	';
@@ -815,7 +815,7 @@ export var CRMNodes;
                                         if (!(node.type === 'script' && node.value.backgroundScript.length > 0)) return [3, 4];
                                         if (!isValidBackgroundPage(node)) return [3, 2];
                                         _b = (_a = window).info;
-                                        return [4, window.__("background_crm_created_background_page", node.id)];
+                                        return [4, window.__("background_crm_createdBackgroundPage", node.id)];
                                     case 1:
                                         _b.apply(_a, [_c.sent()]);
                                         _c.label = 2;
@@ -1452,7 +1452,7 @@ export var CRMNodes;
                                         case 5: return [3, 7];
                                         case 6:
                                             err_1 = _d.sent();
-                                            window.logAsync(window.__("background_crm_update_download_404", 'script', node.id, node.name));
+                                            window.logAsync(window.__("background_crm_updateDownload404", 'script', node.id, node.name));
                                             return [3, 7];
                                         case 7:
                                             resolve(null);
@@ -1460,12 +1460,12 @@ export var CRMNodes;
                                     }
                                 });
                             }); }, function () {
-                                window.logAsync(window.__("background_crm_update_download_404", 'script', node.id, node.name));
+                                window.logAsync(window.__("background_crm_updateDownload404", 'script', node.id, node.name));
                                 resolve(null);
                             });
                         }
                         catch (e) {
-                            window.logAsync(window.__("background_crm_update_download_404", 'script', node.id, node.name));
+                            window.logAsync(window.__("background_crm_updateDownload404", 'script', node.id, node.name));
                             resolve(null);
                         }
                     }
@@ -1733,7 +1733,7 @@ export var CRMNodes;
                             return [2];
                         });
                     }); }, function () {
-                        window.logAsync(window.__("background_crm_update_download_404", 'stylesheet', node.id, node.name));
+                        window.logAsync(window.__("background_crm_updateDownload404", 'stylesheet', node.id, node.name));
                         resolve(null);
                     });
                 });
@@ -1800,7 +1800,7 @@ export var CRMNodes;
                 while ((match = _variableRegex.exec(stylesheet))) {
                     var name_1 = match[1];
                     if (!(name_1 in options)) {
-                        window.logAsync(window.__("background_crm_option_not_found", name_1, id));
+                        window.logAsync(window.__("background_crm_optionNotFound", name_1, id));
                         stylesheet = stylesheet.replace(_variableRegex, "/*[" + name_1 + "]*/");
                     }
                     else {
@@ -2004,7 +2004,7 @@ export var CRMNodes;
                             resolve(result.toCSS());
                         }
                         else {
-                            window.logAsync(window.__("background_crm_css_compile_error", 'less', id) + ":", err.name, err.message);
+                            window.logAsync(window.__("background_crm_cssCompileError", 'less', id) + ":", err.name, err.message);
                             resolve(stylesheet);
                             ;
                         }
@@ -2018,7 +2018,7 @@ export var CRMNodes;
                             resolve(result.trim());
                         }
                         else {
-                            window.logAsync(window.__("background_crm_css_compile_error", 'stylus', id) + ":", err.name, err.message);
+                            window.logAsync(window.__("background_crm_cssCompileError", 'stylus', id) + ":", err.name, err.message);
                             resolve(stylesheet);
                             ;
                         }
@@ -2623,7 +2623,7 @@ export var CRMNodes;
                     switch (_b.label) {
                         case 0:
                             if (!options.documentUrlPatterns) return [3, 2];
-                            window.logAsync(window.__("background_crm_contextmenu_error_retry"), e);
+                            window.logAsync(window.__("background_crm_contextmenuErrorRetry"), e);
                             delete options.documentUrlPatterns;
                             _a = idHolder;
                             return [4, browserAPI.contextMenus.create(options, function () { return __awaiter(_this, void 0, void 0, function () {
@@ -2638,7 +2638,7 @@ export var CRMNodes;
                                                     })];
                                             case 1:
                                                 _a.id = _b.sent();
-                                                window.logAsync(window.__("background_crm_contextmenu_error"), e);
+                                                window.logAsync(window.__("background_crm_contextmenuError"), e);
                                                 return [2];
                                         }
                                     });
@@ -2647,7 +2647,7 @@ export var CRMNodes;
                             _a.id = _b.sent();
                             return [3, 3];
                         case 2:
-                            window.logAsync(window.__("background_crm_contextmenu_error"), e);
+                            window.logAsync(window.__("background_crm_contextmenuError"), e);
                             _b.label = 3;
                         case 3: return [2];
                     }
@@ -3169,12 +3169,12 @@ export var CRMNodes;
         if (__window.chrome && __window.chrome.runtime) {
             var __chrome = __window.chrome;
             if (__chrome && __chrome.runtime && __chrome.runtime.lastError) {
-                window.logAsync(window.__("background_crm_user_contextmenu_error"), __chrome.runtime.lastError);
+                window.logAsync(window.__("background_crm_userContextmenuError"), __chrome.runtime.lastError);
             }
         }
         else {
             if (browserAPI.runtime.lastError) {
-                window.logAsync(window.__("background_crm_user_contextmenu_error"), browserAPI.runtime.lastError);
+                window.logAsync(window.__("background_crm_userContextmenuError"), browserAPI.runtime.lastError);
             }
         }
     }

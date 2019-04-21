@@ -217,7 +217,7 @@ export var Logging;
                     case 1:
                         _a.tabId = _e.sent(),
                             _a.nodeTitle = Logging.modules.crm.crmById.get(id).name;
-                        return [4, window.__("background_logging_background_page")];
+                        return [4, window.__("background_logging_backgroundPage")];
                     case 2:
                         srcObjDetails = (_a.tabTitle = _e.sent(),
                             _a.data = args,
@@ -228,7 +228,7 @@ export var Logging;
                         srcObj = {
                             id: id
                         };
-                        return [4, window.__("background_logging_background_page")];
+                        return [4, window.__("background_logging_backgroundPage")];
                     case 3:
                         logArgs = [
                             (_e.sent()) + " [",

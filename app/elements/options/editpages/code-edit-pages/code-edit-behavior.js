@@ -520,32 +520,45 @@ var CodeEditBehaviorNamespace;
         };
         ;
         CEB.fillEditorOptions = function (container) {
-            if (this.item.type === 'script') {
-                var __this = this;
-                var scriptContainer = container;
-                scriptContainer.$.keyBindingsTemplate.items = __this.keyBindings;
-                scriptContainer.$.keyBindingsTemplate.render();
-                window.app.settings.editor.keyBindings = window.app.settings.editor.keyBindings || {
-                    goToDef: __this.keyBindings[0].defaultKey,
-                    rename: __this.keyBindings[1].defaultKey
-                };
-                Array.prototype.slice.apply(scriptContainer.$.keyBindingsTemplate.querySelectorAll('paper-input')).forEach(function (input) {
-                    input.setAttribute('data-prev-value', input.$$('input').value);
+            return __awaiter(this, void 0, void 0, function () {
+                var __this, scriptContainer, keyBindings;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            if (!(this.item.type === 'script')) return [3, 2];
+                            __this = this;
+                            scriptContainer = container;
+                            return [4, __this.getKeyBindings()];
+                        case 1:
+                            keyBindings = _a.sent();
+                            scriptContainer.$.keyBindingsTemplate.items = keyBindings;
+                            scriptContainer.$.keyBindingsTemplate.render();
+                            window.app.settings.editor.keyBindings = window.app.settings.editor.keyBindings || {
+                                goToDef: keyBindings[0].defaultKey,
+                                rename: keyBindings[1].defaultKey
+                            };
+                            Array.prototype.slice.apply(scriptContainer.$.keyBindingsTemplate.querySelectorAll('paper-input')).forEach(function (input) {
+                                input.setAttribute('data-prev-value', input.$$('input').value);
+                            });
+                            _a.label = 2;
+                        case 2:
+                            if (window.app.settings.editor.theme === 'white') {
+                                container.$.editorThemeSettingWhite.classList.add('currentTheme');
+                            }
+                            else {
+                                container.$.editorThemeSettingWhite.classList.remove('currentTheme');
+                            }
+                            if (window.app.settings.editor.theme === 'dark') {
+                                container.$.editorThemeSettingDark.classList.add('currentTheme');
+                            }
+                            else {
+                                container.$.editorThemeSettingDark.classList.remove('currentTheme');
+                            }
+                            container.$.editorThemeFontSizeInput.$$('input').value = window.app.settings.editor.zoom || '100';
+                            return [2];
+                    }
                 });
-            }
-            if (window.app.settings.editor.theme === 'white') {
-                container.$.editorThemeSettingWhite.classList.add('currentTheme');
-            }
-            else {
-                container.$.editorThemeSettingWhite.classList.remove('currentTheme');
-            }
-            if (window.app.settings.editor.theme === 'dark') {
-                container.$.editorThemeSettingDark.classList.add('currentTheme');
-            }
-            else {
-                container.$.editorThemeSettingDark.classList.remove('currentTheme');
-            }
-            container.$.editorThemeFontSizeInput.$$('input').value = window.app.settings.editor.zoom || '100';
+            });
         };
         ;
         CEB._showFullscreenOptions = function () {

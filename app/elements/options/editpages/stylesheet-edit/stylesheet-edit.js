@@ -208,54 +208,79 @@ var StylesheetEditElement;
             });
         };
         ;
-        STE.init = function () {
-            var _this = this;
-            this._init();
-            this._CEBIinit();
-            this.$.dropdownMenu.init();
-            this.$.exportMenu.init();
-            this.$.exportMenu.$.dropdownSelected.innerText = 'EXPORT AS';
-            this.initDropdown();
-            this.selectorStateChange(0, this.newSettings.value.launchMode);
-            window.app.$.editorToolsRibbonContainer.classList.remove('editingScript');
-            window.app.$.editorToolsRibbonContainer.classList.add('editingStylesheet');
-            window.stylesheetEdit = this;
-            window.externalEditor.init();
-            if (window.app.storageLocal.recoverUnsavedData) {
-                browserAPI.storage.local.set({
-                    editing: {
-                        val: this.item.value.stylesheet,
-                        id: this.item.id,
-                        crmType: window.app.crmTypes
+        STE.onLangChanged = function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var _a;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            _a = this.$.exportMenu.$.dropdownSelected;
+                            return [4, this.__async("options_editPages_code_exportAs")];
+                        case 1:
+                            _a.innerText = _b.sent();
+                            return [2];
                     }
                 });
-                this.savingInterval = window.setInterval(function () {
-                    if (_this.active && _this.editorManager) {
-                        var val = void 0;
-                        try {
-                            val = _this.editorManager.editor.getValue();
-                            browserAPI.storage.local.set({
-                                editing: {
-                                    val: val,
-                                    id: _this.item.id,
-                                    crmType: window.app.crmTypes
-                                }
-                            });
-                        }
-                        catch (e) { }
+            });
+        };
+        STE.init = function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var _this = this;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            this._init();
+                            this._CEBIinit();
+                            this.$.dropdownMenu.init();
+                            this.$.exportMenu.init();
+                            return [4, this.onLangChanged()];
+                        case 1:
+                            _a.sent();
+                            this.initDropdown();
+                            this.selectorStateChange(0, this.newSettings.value.launchMode);
+                            window.app.$.editorToolsRibbonContainer.classList.remove('editingScript');
+                            window.app.$.editorToolsRibbonContainer.classList.add('editingStylesheet');
+                            window.stylesheetEdit = this;
+                            window.externalEditor.init();
+                            if (window.app.storageLocal.recoverUnsavedData) {
+                                browserAPI.storage.local.set({
+                                    editing: {
+                                        val: this.item.value.stylesheet,
+                                        id: this.item.id,
+                                        crmType: window.app.crmTypes
+                                    }
+                                });
+                                this.savingInterval = window.setInterval(function () {
+                                    if (_this.active && _this.editorManager) {
+                                        var val = void 0;
+                                        try {
+                                            val = _this.editorManager.editor.getValue();
+                                            browserAPI.storage.local.set({
+                                                editing: {
+                                                    val: val,
+                                                    id: _this.item.id,
+                                                    crmType: window.app.crmTypes
+                                                }
+                                            });
+                                        }
+                                        catch (e) { }
+                                    }
+                                    else {
+                                        browserAPI.storage.local.set({
+                                            editing: false
+                                        });
+                                        window.clearInterval(_this.savingInterval);
+                                    }
+                                }, 5000);
+                            }
+                            this.active = true;
+                            setTimeout(function () {
+                                _this._loadEditor();
+                            }, 750);
+                            return [2];
                     }
-                    else {
-                        browserAPI.storage.local.set({
-                            editing: false
-                        });
-                        window.clearInterval(_this.savingInterval);
-                    }
-                }, 5000);
-            }
-            this.active = true;
-            setTimeout(function () {
-                _this._loadEditor();
-            }, 750);
+                });
+            });
         };
         STE._showMainTab = function () {
             this.editorManager.switchToModel('default', this.newSettings.value.stylesheet, this.editorManager.EditorMode.CSS_META);

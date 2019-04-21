@@ -7,6 +7,9 @@ var TypeSwitcherElement;
             this.remainingTypes = [];
             this.onReady();
         };
+        TS.getTitle = function (type) {
+            return this.___("options_typeSwitcher_title", type);
+        };
         TS.onReady = function () {
             if ((this.isScript = this.type === 'script')) {
                 this.isLink = this.isMenu = this.isDivider = this.isStylesheet = false;
@@ -205,6 +208,7 @@ var TypeSwitcherElement;
             }
             editCrmEl.type = item.type;
             editCrmEl.calculateType();
+            editCrmEl.updateName(item.name);
             this.onReady();
             var i;
             var typeChoices = Array.prototype.slice.apply(this.shadowRoot.querySelectorAll('.typeSwitchChoice'));
@@ -220,7 +224,7 @@ var TypeSwitcherElement;
             }
             this.closeTypeSwitchContainer(true);
             window.app.upload();
-            window.app.uploading.showRevertPointToast(revertPoint, 150000);
+            window.app.uploading.showRevertPointToast(revertPoint, 15000);
         };
         TS.is = 'type-switcher';
         TS.isLink = false;

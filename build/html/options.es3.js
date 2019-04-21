@@ -4676,12 +4676,19 @@ var NodeEditBehaviorNamespace,
       return __awaiter(this, void 0, void 0, function () {
         var c,
             d,
-            e = this;return __generator(this, function (f) {
-          switch (f.label) {case 0:
+            e,
+            f,
+            g = this;return __generator(this, function (h) {
+          switch (h.label) {case 0:
               return c = { showContentTypeChooser: 0 === b || 3 === b, showTriggers: 1 < b && 4 !== b, showInsteadOfExecute: 3 === b }, d = { showContentTypeChooser: 0 === a || 3 === a, showTriggers: 1 < a && 4 !== a, showInsteadOfExecute: 3 === a }, d.showTriggers === c.showTriggers ? [3, 2] : [4, this.animateTriggers(c.showTriggers)];case 1:
-              f.sent(), f.label = 2;case 2:
-              return d.showContentTypeChooser !== c.showContentTypeChooser && this.animateContentTypeChooser(c.showContentTypeChooser), c.showInsteadOfExecute !== d.showInsteadOfExecute && (this.$.showOrExecutetxt.innerText = c.showInsteadOfExecute ? "Show" : "Execute"), this.async(function () {
-                e.editorManager && e.editorManager.editor.layout();
+              h.sent(), h.label = 2;case 2:
+              return (d.showContentTypeChooser !== c.showContentTypeChooser && this.animateContentTypeChooser(c.showContentTypeChooser), c.showInsteadOfExecute === d.showInsteadOfExecute) ? [3, 7] : (e = this.$.showOrExecutetxt, c.showInsteadOfExecute ? [4, this.___("options_editPages_code_showOn")] : [3, 4]);case 3:
+              return f = h.sent(), [3, 6];case 4:
+              return [4, this.___("options_editPages_code_executeOn")];case 5:
+              f = h.sent(), h.label = 6;case 6:
+              e.innerText = f, h.label = 7;case 7:
+              return this.async(function () {
+                g.editorManager && g.editorManager.editor.layout();
               }, 500), [2];}
         });
       });
@@ -4739,7 +4746,7 @@ var NodeEditBehaviorNamespace,
   }();a.NEB = b, window.Polymer.NodeEditBehavior = window.Polymer.NodeEditBehavior || a.NEB;
 })(NodeEditBehaviorNamespace || (NodeEditBehaviorNamespace = {}));
 var EchoHtmlElement;(function (a) {
-  a.echoHtmlProperties = { html: { type: String, value: '', observer: 'htmlChanged' }, makelink: { type: Boolean, value: !1 } };var b = function () {
+  a.echoHtmlProperties = { html: { type: String, value: '', observer: 'htmlChanged' }, makelink: { type: Boolean, value: !1 }, inline: { type: Boolean, value: !1 } };var b = function () {
     function b() {}return b._stampHtml = function (a) {
       this.$.content.innerHTML = a;
     }, b._makeLinksFromHtml = function (a) {
@@ -4747,7 +4754,7 @@ var EchoHtmlElement;(function (a) {
     }, b.htmlChanged = function () {
       var a = this.html;this.makelink && (a = this._makeLinksFromHtml(a)), this._stampHtml(a);
     }, (b.ready = function () {
-      this.htmlChanged();
+      this.htmlChanged(), this.inline && this.$.content.classList.add('inline');
     }, b.is = 'echo-html', b.properties = a.echoHtmlProperties, b);
   }();a.EH = b, window.objectify ? window.register(b) : window.addEventListener('RegisterReady', function () {
     window.register(b);
@@ -5738,7 +5745,7 @@ var CrmEditPageElement;(function (a) {
     function b() {}return b.getCreatedBy = function () {
       return this.___("options_crmEditPage_createdByYou", "<b id=\"nodeInfoByYou\" title=\"" + this.___("options_crmEditPage_hasAllPermissions") + "\">You</b>");
     }, b.nodeInfoSource = function () {
-      return this.___(this.isLocal(this.nodeInfo.source) ? "options_crmEditPage_createdOn" : "options_crmEditPage_installedOn", "<b title=\"" + this.getInstallDateTextFormat() + "\">" + this.nodeInfo.installDate + "</b>");
+      return this.___(this.isLocal(this.nodeInfo.source) ? "options_crmEditPage_createdOn" : "options_crmEditPage_installedOn", "<b title=\"" + this.getInstallDate() + "\">" + this.nodeInfo.installDate + "</b>");
     }, b.isLocal = function (a) {
       return !a || "local" === a || this.item.isLocal;
     }, b._nodeInfoExists = function (a) {
@@ -5779,10 +5786,10 @@ var CrmEditPageElement;(function (a) {
           a.hideUpdateMergeDialog();
         }, 250), browserAPI.storage.local.set({ upgradeErrors: window.app.storageLocal.upgradeErrors || {} });
       }, !0, window.app.storageLocal.upgradeErrors && window.app.storageLocal.upgradeErrors[this.item.id]), window.externalEditor.showMergeDialog(b, c), d.open();
-    }, b.getInstallDateTextFormat = function () {
-      if (window.Intl && "object" === babelHelpers["typeof"](window.Intl) && this.nodeInfo) {
+    }, b.getInstallDate = function () {
+      if (window.Intl && "object" === babelHelpers["typeof"](window.Intl) && this.nodeInfo && this.nodeInfo.installDate) {
         var a,
-            b = "1-13-2016" === new Date("1-13-2016").toLocaleDateString() ? "eu" : "na";return "eu" === b ? (a = this.nodeInfo.installDate.split("-"), a = a[1] + "-" + a[0] + "-" + a[2]) : a = this.nodeInfo.installDate, a = new Date(a), Math.floor(new Date(Date.now() - a.getMilliseconds()).getMilliseconds() / 86400000) + " days ago";
+            b = "13-2-2016" === new Date(2016, 1, 13).toLocaleDateString() ? "eu" : "na";return "eu" === b ? (a = this.nodeInfo.installDate.split("-"), a = a[1] + "-" + a[0] + "-" + a[2]) : a = this.nodeInfo.installDate, a = new Date(a), Math.floor(new Date(Date.now() - a.getMilliseconds()).getMilliseconds() / 86400000) + " days ago";
       }return null;
     }, b.ready = function () {
       var a = this;$(this.$$(".popupCont")).click(function (a) {
@@ -5836,88 +5843,89 @@ var MonacoEditorElement,
       }
     }, _e3(t, o);
   };return function (t, o) {
-    function i() {
+    function s() {
       this.constructor = t;
-    }_e3(t, o), t.prototype = null === o ? Object.create(o) : (i.prototype = o.prototype, new i());
+    }_e3(t, o), t.prototype = null === o ? Object.create(o) : (s.prototype = o.prototype, new s());
   };
 }(),
     __assign = undefined && undefined.__assign || function () {
   return __assign = Object.assign || function (e) {
-    for (var t, o = 1, i = arguments.length; o < i; o++) {
-      for (var s in t = arguments[o], t) {
-        Object.prototype.hasOwnProperty.call(t, s) && (e[s] = t[s]);
+    for (var t, o = 1, s = arguments.length; o < s; o++) {
+      for (var i in t = arguments[o], t) {
+        Object.prototype.hasOwnProperty.call(t, i) && (e[i] = t[i]);
       }
     }return e;
   }, __assign.apply(this, arguments);
 },
-    __awaiter = undefined && undefined.__awaiter || function (e, t, o, i) {
-  return new (o || (o = Promise))(function (s, r) {
-    function a(e) {
+    __awaiter = undefined && undefined.__awaiter || function (e, t, o, s) {
+  return new (o || (o = Promise))(function (i, a) {
+    function n(e) {
       try {
-        l(i.next(e));
+        l(s.next(e));
       } catch (t) {
-        r(t);
+        a(t);
       }
-    }function n(e) {
+    }function r(e) {
       try {
-        l(i["throw"](e));
+        l(s["throw"](e));
       } catch (t) {
-        r(t);
+        a(t);
       }
     }function l(e) {
-      e.done ? s(e.value) : new o(function (t) {
+      e.done ? i(e.value) : new o(function (t) {
         t(e.value);
-      }).then(a, n);
-    }l((i = i.apply(e, t || [])).next());
+      }).then(n, r);
+    }l((s = s.apply(e, t || [])).next());
   });
 },
     __generator = undefined && undefined.__generator || function (e, o) {
-  function i(e) {
+  function s(e) {
     return function (t) {
-      return s([e, t]);
+      return i([e, t]);
     };
-  }function s(i) {
-    if (r) throw new TypeError("Generator is already executing.");for (; d;) {
+  }function i(s) {
+    if (a) throw new TypeError("Generator is already executing.");for (; d;) {
       try {
-        if (r = 1, a && (n = 2 & i[0] ? a["return"] : i[0] ? a["throw"] || ((n = a["return"]) && n.call(a), 0) : a.next) && !(n = n.call(a, i[1])).done) return n;switch ((a = 0, n) && (i = [2 & i[0], n.value]), i[0]) {case 0:case 1:
-            n = i;break;case 4:
-            return d.label++, { value: i[1], done: !1 };case 5:
-            d.label++, a = i[1], i = [0];continue;case 7:
-            i = d.ops.pop(), d.trys.pop();continue;default:
-            if ((n = d.trys, !(n = 0 < n.length && n[n.length - 1])) && (6 === i[0] || 2 === i[0])) {
+        if (a = 1, n && (r = 2 & s[0] ? n["return"] : s[0] ? n["throw"] || ((r = n["return"]) && r.call(n), 0) : n.next) && !(r = r.call(n, s[1])).done) return r;switch ((n = 0, r) && (s = [2 & s[0], r.value]), s[0]) {case 0:case 1:
+            r = s;break;case 4:
+            return d.label++, { value: s[1], done: !1 };case 5:
+            d.label++, n = s[1], s = [0];continue;case 7:
+            s = d.ops.pop(), d.trys.pop();continue;default:
+            if ((r = d.trys, !(r = 0 < r.length && r[r.length - 1])) && (6 === s[0] || 2 === s[0])) {
               d = 0;continue;
-            }if (3 === i[0] && (!n || i[1] > n[0] && i[1] < n[3])) {
-              d.label = i[1];break;
-            }if (6 === i[0] && d.label < n[1]) {
-              d.label = n[1], n = i;break;
-            }if (n && d.label < n[2]) {
-              d.label = n[2], d.ops.push(i);break;
-            }n[2] && d.ops.pop(), d.trys.pop();continue;}i = o.call(e, d);
+            }if (3 === s[0] && (!r || s[1] > r[0] && s[1] < r[3])) {
+              d.label = s[1];break;
+            }if (6 === s[0] && d.label < r[1]) {
+              d.label = r[1], r = s;break;
+            }if (r && d.label < r[2]) {
+              d.label = r[2], d.ops.push(s);break;
+            }r[2] && d.ops.pop(), d.trys.pop();continue;}s = o.call(e, d);
       } catch (t) {
-        i = [6, t], a = 0;
+        s = [6, t], n = 0;
       } finally {
-        r = n = 0;
+        a = r = 0;
       }
-    }if (5 & i[0]) throw i[1];return { value: i[0] ? i[1] : void 0, done: !0 };
-  }var r,
-      a,
+    }if (5 & s[0]) throw s[1];return { value: s[0] ? s[1] : void 0, done: !0 };
+  }var a,
       n,
+      r,
       l,
       d = { label: 0, sent: function sent() {
-      if (1 & n[0]) throw n[1];return n[1];
-    }, trys: [], ops: [] };return l = { next: i(0), "throw": i(1), "return": i(2) }, "function" === typeof Symbol && (l[Symbol.iterator] = function () {
+      if (1 & r[0]) throw r[1];return r[1];
+    }, trys: [], ops: [] };return l = { next: s(0), "throw": s(1), "return": s(2) }, "function" === typeof Symbol && (l[Symbol.iterator] = function () {
     return this;
   }), l;
 };(function (e) {
-  var t = { name: "The name of this script", namespace: "The namespace of the script", version: "The script version. This is used for the update check.", author: "The scripts author", description: "A short description.", homepage: "The author's homepage", homepageURL: "The author's homepage", website: "The author's homepage", source: "The author's homepage", icon: "The script's icon in low res", iconURL: "The script's icon in low res", defaulticon: "The script's icon in low res", icon64: "This scripts icon in 64x64 pixels.", icon64URL: "This scripts icon in 64x64 pixels.", updateURL: "An update URL for the userscript", downloadURL: "Defines the URL where the script will be downloaded from when an update was detected", supportURL: "Defines the URL where the user can report issues and get personal support", include: "The pages on which the script should run", match: "The pages on which the script should run", exclude: "Exclude URLs even if they are included by **@include** or **@match**", require: "Points to a javascript file that is loaded and executed before the script itself", resource: "Preloads resources that can be accessed by `GM_getResourceURL` and `GM_getResourceText` by the script", connect: "Domains which are allowed to be retrieved by `GM_xmlhttpRequest`", run_at: "The moment the script is injected (document-start, document-body, document-end, document-idle or document-menu)", "run-at": "The moment the script is injected (document-start, document-body, document-end, document-idle or document-menu)", grant: "Whitelists given `GM_*` functions", noframes: "Makes the script run on the main page but not in iframes", CRM_contentTypes: "The content types on which to run this script as a 6 items long boolean array (e.g. [true, false, true, false, true, false]) (CRM ONLY)", CRM_launchMode: "When to run this script. 0 = Run on clicking, 1 = always run, 2 = run on specified, 3 = show on specified, 4 = disabled. (CRM ONLY)", CRM_stylesheet: "Interpret this as a stylesheet (userstyle) instead of a script (userscript). (CRM ONLY)", CRM_toggle: "A boolean value (true/false) indicating whether to allow toggling this stylesheet on or off. Only used when @CRM_stylesheet is present. (CRM ONLY)", CRM_defaultOn: "A boolean value (true/false) indicating whether this stylesheet is toggled on by default. Only used when @CRM_stylesheet and @CRM_toggle are present. (CRM ONLY)", CRM_libraries: "An array containing stringified objects with a \"url\" and a \"name\" key, pointing to external libraries used in this script.", license: "The license for this script. If none is supplied, it's under exclusive copyright by default", preprocessor: "The css preprocessor to use, choose from 'less', 'stylus', 'uso' or 'default'. For more info check out https://github.com/openstyles/stylus/wiki/Usercss#preprocessor", "var": "A variable that can be changed by the user and is replaced when compiling the stylesheet" },
-      o = function () {
+  function t() {
+    return { name: window.__.sync("options_editPages_metadata_name"), namespace: window.__.sync("options_editPages_metadata_namespace"), version: window.__.sync("options_editPages_metadata_version"), author: window.__.sync("options_editPages_metadata_author"), description: window.__.sync("options_editPages_metadata_description"), homepage: window.__.sync("options_editPages_metadata_homepage"), homepageURL: window.__.sync("options_editPages_metadata_homepageURL"), website: window.__.sync("options_editPages_metadata_website"), source: window.__.sync("options_editPages_metadata_source"), icon: window.__.sync("options_editPages_metadata_icon"), iconURL: window.__.sync("options_editPages_metadata_iconURL"), defaulticon: window.__.sync("options_editPages_metadata_defaulticon"), icon64: window.__.sync("options_editPages_metadata_icon64"), icon64URL: window.__.sync("options_editPages_metadata_icon64URL"), updateURL: window.__.sync("options_editPages_metadata_updateURL"), downloadURL: window.__.sync("options_editPages_metadata_downloadURL"), supportURL: window.__.sync("options_editPages_metadata_supportURL"), include: window.__.sync("options_editPages_metadata_include"), match: window.__.sync("options_editPages_metadata_match"), exclude: window.__.sync("options_editPages_metadata_exclude"), require: window.__.sync("options_editPages_metadata_require"), resource: window.__.sync("options_editPages_metadata_resource"), connect: window.__.sync("options_editPages_metadata_connect"), "run-at": window.__.sync("options_editPages_metadata_runAt"), run_at: window.__.sync("options_editPages_metadata_runAt"), grant: window.__.sync("options_editPages_metadata_grant"), noframes: window.__.sync("options_editPages_metadata_noframes"), CRM_contentTypes: window.__.sync("options_editPages_metadata_CRMContentTypes"), CRM_launchMode: window.__.sync("options_editPages_metadata_CRMLaunchMode"), CRM_stylesheet: window.__.sync("options_editPages_metadata_CRMStylesheet"), CRM_toggle: window.__.sync("options_editPages_metadata_CRMToggle"), CRM_defaultOn: window.__.sync("options_editPages_metadata_CRMDefaultOn"), CRM_libraries: window.__.sync("options_editPages_metadata_CRMLibraries"), license: window.__.sync("options_editPages_metadata_license"), preprocessor: window.__.sync("options_editPages_metadata_preprocessor"), "var": window.__.sync("options_editPages_metadata_var") };
+  }var o = function () {
     function e() {
       this._privateListenerMap = {}, this._publicListenerMap = {};
     }return e.prototype._insertOnce = function (e, t) {
       e.push(function o() {
-        for (var i = [], s = 0; s < arguments.length; s++) {
-          i[s] = arguments[s];
-        }return e.slice(e.indexOf(o, 1)), t.apply(void 0, i);
+        for (var s = [], i = 0; i < arguments.length; i++) {
+          s[i] = arguments[i];
+        }return e.slice(e.indexOf(o, 1)), t.apply(void 0, s);
       });
     }, e.prototype._assertKeyExists = function (e, t) {
       e in t || (t[e] = []);
@@ -5937,18 +5945,18 @@ var MonacoEditorElement,
       }) : [];
     }, e;
   }(),
-      i = function (e) {
+      s = function (e) {
     function t(t, o) {
-      var i = e.call(this) || this;return i._editor = t, i._model = o, i;
+      var s = e.call(this) || this;return s._editor = t, s._model = o, s;
     }return __extends(t, e), t.prototype._isTextarea = function () {
       return "__textarea" in this._editor;
     }, t;
   }(o),
-      s = function (e) {
+      i = function (e) {
     function t(t, o) {
-      var i = e.call(this, t, o) || this;return (i._disposables = [], i._isTextarea()) ? i : (i._onCreate(), window.setTimeout(function () {
-        i._model.isDisposed() || (i._firePrivate("onLoad", []), i._clearListeners("onLoad"));
-      }, 2500), i);
+      var s = e.call(this, t, o) || this;return (s._disposables = [], s._isTextarea()) ? s : (s._onCreate(), window.setTimeout(function () {
+        s._model.isDisposed() || (s._firePrivate("onLoad", []), s._clearListeners("onLoad"));
+      }, 2500), s);
     }return __extends(t, e), t._genDisposable = function (e, t) {
       var o = e();return { dispose: function dispose() {
           t(o);
@@ -5964,15 +5972,15 @@ var MonacoEditorElement,
         e.dispose();
       });
     }, t;
-  }(i),
-      r = function (e) {
+  }(s),
+      a = function (e) {
     function o(t, o) {
-      var i = e.call(this, t, o) || this;return (i._hasMetaBlockChanged = !0, i._decorations = [], i._isMetaDataHighlightDisabled = !1, i._isTextarea()) ? i : (i._attachListeners(), i);
+      var s = e.call(this, t, o) || this;return (s._hasMetaBlockChanged = !0, s._decorations = [], s._isMetaDataHighlightDisabled = !1, s._isTextarea()) ? s : (s._attachListeners(), s);
     }return __extends(o, e), o._containsPosition = function (e, t) {
-      for (var o = 0, i = e.indexes; o < i.length; o++) {
-        var s = i[o],
-            r = s.start,
-            a = s.end;if (new monaco.Range(r.lineNumber, r.column, a.lineNumber, a.column).containsPosition(t)) return !0;
+      for (var o = 0, s = e.indexes; o < s.length; o++) {
+        var i = s[o],
+            a = i.start,
+            n = i.end;if (new monaco.Range(a.lineNumber, a.column, n.lineNumber, n.column).containsPosition(t)) return !0;
       }return !1;
     }, o.prototype._attachListeners = function () {
       var e = this;this._listen("onLoad", function () {
@@ -5987,9 +5995,9 @@ var MonacoEditorElement,
         return e._isMetaDataHighlightDisabled ? [] : e._userScriptGutterHighlightChange();
       }), this._listen("decorate", function () {
         return e._isMetaDataHighlightDisabled ? [] : e._userScriptHighlightChange();
-      }), this._isMetaDataHighlightDisabled = window.app ? window.app.settings.editor.disabledMetaDataHighlight : window.installPage.settings.editor.disabledMetaDataHighlight, this._isDiff(this._editor) || this._disposables.push(this._editor.addAction({ id: "disable-metadata-highlight", label: "Disable Metadata Highlight", run: function run() {
+      }), this._isMetaDataHighlightDisabled = window.app ? window.app.settings.editor.disabledMetaDataHighlight : window.installPage.settings.editor.disabledMetaDataHighlight, this._isDiff(this._editor) || this._disposables.push(this._editor.addAction({ id: "disable-metadata-highlight", label: window.__.sync("options_editPages_monaco_disableMeta"), run: function run() {
           e._isMetaDataHighlightDisabled = !0;
-        } })), this._isDiff(this._editor) || this._disposables.push(this._editor.addAction({ id: "enable-metadata-highlight", label: "Enable Metadata Highlight", run: function run() {
+        } })), this._isDiff(this._editor) || this._disposables.push(this._editor.addAction({ id: "enable-metadata-highlight", label: window.__.sync("options_editPages_monaco_enableMeta"), run: function run() {
           e._isMetaDataHighlightDisabled = !1;
         } })), this._defineMetaOnModel(), this._listen("onModelContentChange", function (t) {
         e._hasMetaBlockChanged = !0, e._shouldUpdateDecorations(t) && e._doModelUpdate();
@@ -5999,55 +6007,55 @@ var MonacoEditorElement,
           return e.getMetaBlock();
         } });
     }, o.prototype._getMetaOutlines = function () {
-      var e = this._model.getValue();if ((-1 === e.indexOf(o._userScriptStart) || -1 === e.indexOf(o._userScriptEnd)) && (-1 === e.indexOf(o._userStyleStart) || -1 === e.indexOf(o._userStyleEnd))) return this._metaBlock = null;for (var t, i = e.split("\n"), s = [], r = { start: null, end: null }, a = 0; a < i.length; a++) {
-        if (t = i[a], -1 !== t.indexOf(o._userScriptStart) || -1 !== t.indexOf(o._userStyleStart)) {
-          var n = t.indexOf(o._userScriptStart);-1 === n && (n = t.indexOf(o._userStyleStart)), r.start || (r.start = new monaco.Position(a + 1, n));
+      var e = this._model.getValue();if ((-1 === e.indexOf(o._userScriptStart) || -1 === e.indexOf(o._userScriptEnd)) && (-1 === e.indexOf(o._userStyleStart) || -1 === e.indexOf(o._userStyleEnd))) return this._metaBlock = null;for (var t, s = e.split("\n"), i = [], a = { start: null, end: null }, n = 0; n < s.length; n++) {
+        if (t = s[n], -1 !== t.indexOf(o._userScriptStart) || -1 !== t.indexOf(o._userStyleStart)) {
+          var r = t.indexOf(o._userScriptStart);-1 === r && (r = t.indexOf(o._userStyleStart)), a.start || (a.start = new monaco.Position(n + 1, r));
         }if (-1 !== t.indexOf(o._userScriptEnd) || -1 !== t.indexOf(o._userStyleEnd)) {
-          var n = t.indexOf(o._userScriptEnd);-1 === n && (n = t.indexOf(o._userStyleEnd)), r.end || (r.end = new monaco.Position(a + 1, n + o._userScriptEnd.length)), s.push({ start: r.start, end: r.end }), r.start = r.end = null;
+          var r = t.indexOf(o._userScriptEnd);-1 === r && (r = t.indexOf(o._userStyleEnd)), a.end || (a.end = new monaco.Position(n + 1, r + o._userScriptEnd.length)), i.push({ start: a.start, end: a.end }), a.start = a.end = null;
         }
-      }return 0 === s.length && (this._metaBlock = null), s;
+      }return 0 === i.length && (this._metaBlock = null), i;
     }, o.prototype._getMetaContent = function (e) {
-      for (var t = this._model.getValue(), s = {}, r = o._metaPropRegex, a = t.split("\n"), n = { tag: null, content: null }, l = 0, d = e; l < d.length; l++) {
-        for (var p = d[l], c = p.start, u = p.end, g = c.lineNumber; g < u.lineNumber; g++) {
-          var i = a[g],
-              _ = r.exec(i);if (_) {
-            n.tag && n.content && (n.tag in s ? s[n.tag].push(n.content) : s[n.tag] = [n.content], n.tag = n.content = null);var h = _[1],
-                m = _[3];if (!h || !m) continue;n.tag = h, n.content = m;
-          } else n.content += i;
+      for (var t = this._model.getValue(), s = {}, a = o._metaPropRegex, n = t.split("\n"), r = { tag: null, content: null }, l = 0, d = e; l < d.length; l++) {
+        for (var _ = d[l], p = _.start, c = _.end, g = p.lineNumber; g < c.lineNumber; g++) {
+          var i = n[g],
+              m = a.exec(i);if (m) {
+            r.tag && r.content && (r.tag in s ? s[r.tag].push(r.content) : s[r.tag] = [r.content], r.tag = r.content = null);var u = m[1],
+                y = m[3];if (!u || !y) continue;r.tag = u, r.content = y;
+          } else r.content += i;
         }
       }return s;
     }, o.prototype._isDifferent = function (e, t) {
       if (!e || !t) return !0;if (e.indexes.length !== t.indexes.length) return !1;for (var o = 0; o < e.indexes.length; o++) {
-        var i = e.indexes[o],
-            s = t.indexes[o];if (!i.start.equals(s.start) || !i.end.equals(s.end)) return !1;
-      }var r = [];for (var a in e) {
-        if (!(a in t)) return !1;r.push(a);
-      }for (var a in t) {
-        if (!(a in e)) return !1;-1 === r.indexOf(a) && r.push(a);
-      }for (var n = 0, l = r; n < l.length; n++) {
-        var a = l[n],
-            d = e.content[a],
-            p = t.content[a],
-            c = Array.isArray(d),
-            u = Array.isArray(p);if (c !== u) return !1;if (c) {
-          for (var g, _ = 0, h = d; _ < h.length; _++) {
-            if (g = h[_], -1 === p.indexOf(g)) return !1;
-          }for (var g, m = 0, y = p; m < y.length; m++) {
-            if (g = y[m], -1 === d.indexOf(g)) return !1;
+        var s = e.indexes[o],
+            i = t.indexes[o];if (!s.start.equals(i.start) || !s.end.equals(i.end)) return !1;
+      }var a = [];for (var n in e) {
+        if (!(n in t)) return !1;a.push(n);
+      }for (var n in t) {
+        if (!(n in e)) return !1;-1 === a.indexOf(n) && a.push(n);
+      }for (var r = 0, l = a; r < l.length; r++) {
+        var n = l[r],
+            d = e.content[n],
+            _ = t.content[n],
+            p = Array.isArray(d),
+            c = Array.isArray(_);if (p !== c) return !1;if (p) {
+          for (var g, m = 0, u = d; m < u.length; m++) {
+            if (g = u[m], -1 === _.indexOf(g)) return !1;
+          }for (var g, y = 0, h = _; y < h.length; y++) {
+            if (g = h[y], -1 === d.indexOf(g)) return !1;
           }
-        } else if (d !== p) return !1;
+        } else if (d !== _) return !1;
       }return !0;
     }, o.prototype.getMetaBlock = function () {
       if (!this._hasMetaBlockChanged) return this._metaBlock;var e = this._metaBlock,
           t = this._getMetaOutlines();if (!t) return null;var o = this._getMetaContent(t),
-          i = this._metaBlock = { indexes: t, content: o };return this._isDifferent(e, i) && (!e && (e = { indexes: [{ start: new monaco.Position(0, 0), end: new monaco.Position(0, 0) }], content: {} }), this._firePublic("metaChange", [e, i])), i;
+          s = this._metaBlock = { indexes: t, content: o };return this._isDifferent(e, s) && (!e && (e = { indexes: [{ start: new monaco.Position(0, 0), end: new monaco.Position(0, 0) }], content: {} }), this._firePublic("metaChange", [e, s])), s;
     }, o.prototype._getKeyDescription = function (e) {
-      return e in t ? "Metadata key `" + e + "`:\n" + t[e] : "Metadata key `" + e + "`, unknown key";
+      var o = t();return e in o ? window.__.sync("options_editPages_monaco_keyDescription", e, o[e]) : window.__.sync("options_editPages_monaco_keyDescriptionUnknown", e);
     }, o.prototype._isInMetaRange = function (e) {
       if (!this._metaBlock) return !1;for (var t = 0, o = this._metaBlock.indexes; t < o.length; t++) {
-        var i = o[t],
-            s = i.start,
-            r = i.end;if (monaco.Range.areIntersectingOrTouching({ startColumn: s.column, startLineNumber: s.lineNumber, endColumn: r.column, endLineNumber: r.lineNumber }, e)) return !0;
+        var s = o[t],
+            i = s.start,
+            a = s.end;if (monaco.Range.areIntersectingOrTouching({ startColumn: i.column, startLineNumber: i.lineNumber, endColumn: a.column, endLineNumber: a.lineNumber }, e)) return !0;
       }return !1;
     }, o.prototype._userScriptGutterHighlightChange = function () {
       return this._getMetaOutlines() ? this.getMetaBlock().indexes.map(function (e) {
@@ -6055,19 +6063,19 @@ var MonacoEditorElement,
             o = e.end;return { range: new monaco.Range(t.lineNumber, t.column, o.lineNumber, o.column), options: { isWholeLine: !0, linesDecorationsClassName: "userScriptGutterHighlight", stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges } };
       }) : [];
     }, o.prototype._userScriptHighlightChange = function () {
-      var e = this._model.getValue();if (!this.getMetaBlock()) return null;for (var t = o._metaPropRegex, s = e.split("\n"), r = [], a = 0; a < s.length; a++) {
-        var i = s[a],
-            n = t.exec(i);if (n) {
-          var l = n[1],
-              d = n[3],
-              p = l ? i.indexOf(l) : 0,
-              c = l ? p + l.length : 0,
-              u = a + 1;if (l && r.push({ range: new monaco.Range(u, p, u, c + 1), options: { stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges, inlineClassName: "userScriptKeyHighlight", hoverMessage: this._getKeyDescription(l), isWholeLine: !1 } }), d) {
-            var g = i.slice(c).indexOf(d) + c,
-                _ = g + 1;r.push({ range: new monaco.Range(u, _, u, _ + d.length), options: { stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges, inlineClassName: "userScriptValueHighlight", hoverMessage: "Value `" + d + "` for key `" + l + "`", isWholeLine: !1 } });
+      var e = this._model.getValue();if (!this.getMetaBlock()) return null;for (var t = o._metaPropRegex, s = e.split("\n"), a = [], n = 0; n < s.length; n++) {
+        var i = s[n],
+            r = t.exec(i);if (r) {
+          var l = r[1],
+              d = r[3],
+              _ = l ? i.indexOf(l) : 0,
+              p = l ? _ + l.length : 0,
+              c = n + 1;if (l && a.push({ range: new monaco.Range(c, _, c, p + 1), options: { stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges, inlineClassName: "userScriptKeyHighlight", hoverMessage: this._getKeyDescription(l), isWholeLine: !1 } }), d) {
+            var g = i.slice(p).indexOf(d) + p,
+                m = g + 1;a.push({ range: new monaco.Range(c, m, c, m + d.length), options: { stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges, inlineClassName: "userScriptValueHighlight", hoverMessage: window.__.sync("options_editPages_monaco_valueForKey", d, l), isWholeLine: !1 } });
           }
         }
-      }return r;
+      }return a;
     }, o.prototype._doDecorationUpdate = function (e) {
       this._isDiff(this._editor) || (this._editor.getModel() === this._model ? this._decorations = this._editor.deltaDecorations(this._decorations, e) : this._decorations = this._editor.deltaDecorations(this._decorations, []));
     }, o.prototype._shouldUpdateDecorations = function (e) {
@@ -6083,74 +6091,78 @@ var MonacoEditorElement,
         return null !== e;
       });this._doDecorationUpdate(this._formatDecorations(e));
     }, o._metaTagProvider = { provideCompletionItems: function provideCompletionItems() {
-        return [{ label: "==UserScript==", kind: monaco.languages.CompletionItemKind.Property, insertText: "==UserScript==", detail: "UserScript start tag", documentation: "The start tag for a UserScript metadata block" }, { label: "==/UserScript==", kind: monaco.languages.CompletionItemKind.Property, insertText: "==/UserScript==", detail: "UserScript end tag", documentation: "The end tag for a UserScript metadata block" }, { label: "==UserStyle==", kind: monaco.languages.CompletionItemKind.Property, insertText: "==UserStyle==", detail: "UserStyle start tag", documentation: "The start tag for a UserStyle metadata block" }, { label: "==/UserStyle==", kind: monaco.languages.CompletionItemKind.Property, insertText: "==/UserStyle==", detail: "UserStyle end tag", documentation: "The end tag for a UserStyle metadata block" }];
-      } }, o._metaKeyProvider = { provideCompletionItems: function provideCompletionItems(e, i) {
-        var s = new monaco.Range(i.lineNumber, 0, i.lineNumber, i.column),
-            r = e.getValueInRange(s),
-            a = e._metaBlock;if (!a || o._containsPosition(a, i)) {
-          var n = r.split("@"),
-              l = n[0].length;n = n.slice(1);for (var d = 0, p = n; d < p.length; d++) {
-            var c = p[d],
-                u = "@" + c,
-                g = null;if (g = /@(\w*)/.exec(u)) {
-              var _ = l + u.indexOf(g[0]) + 1,
-                  h = new monaco.Range(i.lineNumber, _, i.lineNumber, _ + g[0].length);if (h.containsPosition(i)) return { isIncomplete: !0, items: Object.getOwnPropertyNames(t).map(function (e) {
-                  var o = t[e];return { label: "@" + e, kind: monaco.languages.CompletionItemKind.Property, insertText: "@" + e, detail: "Metadata key", documentation: o };
-                }) };
-            }l += u.length;
+        return [{ label: "==UserScript==", kind: monaco.languages.CompletionItemKind.Property, insertText: "==UserScript==", detail: window.__.sync("options_editPages_monaco_scriptStart"), documentation: window.__.sync("options_editPages_monaco_startTagUserscript") }, { label: "==/UserScript==", kind: monaco.languages.CompletionItemKind.Property, insertText: "==/UserScript==", detail: window.__.sync("options_editPages_monaco_scriptEnd"), documentation: window.__.sync("options_editPages_monaco_endTagUserscript") }, { label: "==UserStyle==", kind: monaco.languages.CompletionItemKind.Property, insertText: "==UserStyle==", detail: window.__.sync("options_editPages_monaco_styleStart"), documentation: window.__.sync("options_editPages_monaco_startTagUserstyle") }, { label: "==/UserStyle==", kind: monaco.languages.CompletionItemKind.Property, insertText: "==/UserStyle==", detail: window.__.sync("options_editPages_monaco_styleEnd"), documentation: window.__.sync("options_editPages_monaco_endTagUserstyle") }];
+      } }, o._metaKeyProvider = { provideCompletionItems: function provideCompletionItems(e, s) {
+        var i = new monaco.Range(s.lineNumber, 0, s.lineNumber, s.column),
+            a = e.getValueInRange(i),
+            n = e._metaBlock;if (!n || o._containsPosition(n, s)) {
+          var r = a.split("@"),
+              l = r[0].length;r = r.slice(1);for (var d = function d(e) {
+            var o = "@" + e,
+                i = null;if (i = /@(\w*)/.exec(o)) {
+              var a = l + o.indexOf(i[0]) + 1,
+                  n = new monaco.Range(s.lineNumber, a, s.lineNumber, a + i[0].length);if (n.containsPosition(s)) {
+                var r = t();return { value: { isIncomplete: !0, items: Object.getOwnPropertyNames(r).map(function (e) {
+                      var t = r[e];return { label: "@" + e, kind: monaco.languages.CompletionItemKind.Property, insertText: "@" + e, detail: window.__.sync("options_editPages_monaco_metaKey"), documentation: t };
+                    }) } };
+              }
+            }l += o.length;
+          }, _ = 0, p = r; _ < p.length; _++) {
+            var c = p[_],
+                g = d(c);if ("object" === ("undefined" === typeof g ? "undefined" : babelHelpers["typeof"](g))) return g.value;
           }
         }return [];
       } }, o._userScriptStart = "==UserScript==", o._userStyleStart = "==UserStyle==", o._userScriptEnd = "==/UserScript==", o._userStyleEnd = "==/UserStyle==", o._metaPropRegex = /@(\w+)(\s+)(.+)?/, o;
-  }(s),
-      a = function (e) {
+  }(i),
+      n = function (e) {
     function t(t, o) {
-      var i = e.call(this, t, o) || this;return (i.metaBlockChanged = !0, i._isTextarea()) ? i : (f.Completion.register("javascript", r._metaTagProvider), f.Completion.register("javascript", r._metaKeyProvider), f.Completion.register("typescript", r._metaTagProvider), f.Completion.register("typescript", r._metaKeyProvider), i._disposables.push({ dispose: function dispose() {
+      var s = e.call(this, t, o) || this;return (s.metaBlockChanged = !0, s._isTextarea()) ? s : (f.Completion.register("javascript", a._metaTagProvider), f.Completion.register("javascript", a._metaKeyProvider), f.Completion.register("typescript", a._metaTagProvider), f.Completion.register("typescript", a._metaKeyProvider), s._disposables.push({ dispose: function dispose() {
           f.Completion.clearAll();
-        } }), i);
+        } }), s);
     }return __extends(t, e), t.getSettings = function () {
       return {};
     }, t;
-  }(r);e.MonacoEditorScriptMetaMods = a;var n = function (e) {
+  }(a);e.MonacoEditorScriptMetaMods = n;var r = function (e) {
     function t(t, o) {
-      var i = e.call(this, t, o) || this;return (i._underlineDisabled = !1, i._currentStylesheetRules = "", i._styleLines = [], i._isTextarea()) ? i : (f.Completion.register("css", r._metaTagProvider), f.Completion.register("css", r._metaKeyProvider), f.Completion.register("less", r._metaTagProvider), f.Completion.register("less", r._metaKeyProvider), i._disposables.push({ dispose: function dispose() {
+      var s = e.call(this, t, o) || this;return (s._underlineDisabled = !1, s._currentStylesheetRules = "", s._styleLines = [], s._isTextarea()) ? s : (f.Completion.register("css", a._metaTagProvider), f.Completion.register("css", a._metaKeyProvider), f.Completion.register("less", a._metaTagProvider), f.Completion.register("less", a._metaKeyProvider), s._disposables.push({ dispose: function dispose() {
           f.Completion.clearAll();
-        } }), i._listen("shouldDecorate", function (e) {
+        } }), s._listen("shouldDecorate", function (e) {
         if (e.isFlush) return !0;for (var t = 0, o = e.changes; t < o.length; t++) {
-          var s = o[t],
-              r = [s.range.startLineNumber];s.range.endLineNumber !== s.range.startLineNumber && r.push(s.range.endLineNumber);for (var a, n = 0, l = r; n < l.length; n++) {
-            if (a = l[n], -1 < i._styleLines.indexOf(a)) return !0;for (var d, p = i._model.getLineContent(a), c = i._getCssRuleParts(p), u = 0, g = c; u < g.length; u++) {
-              if (d = g[u], i._findColor(0, d.text)) return !0;
+          var i = o[t],
+              a = [i.range.startLineNumber];i.range.endLineNumber !== i.range.startLineNumber && a.push(i.range.endLineNumber);for (var n, r = 0, l = a; r < l.length; r++) {
+            if (n = l[r], -1 < s._styleLines.indexOf(n)) return !0;for (var d, _ = s._model.getLineContent(n), p = s._getCssRuleParts(_), c = 0, g = p; c < g.length; c++) {
+              if (d = g[c], s._findColor(0, d.text)) return !0;
             }
           }
         }return !1;
-      }), i._listen("decorate", function () {
-        return i._highlightColors();
-      }), i._disposables.push(s._genDisposable(function () {
+      }), s._listen("decorate", function () {
+        return s._highlightColors();
+      }), s._disposables.push(i._genDisposable(function () {
         return window.setInterval(function () {
-          !i._underlineDisabled && window.app.item && i._markUnderlines();
+          !s._underlineDisabled && window.app.item && s._markUnderlines();
         }, 50);
       }, function (e) {
         window.clearInterval(e);
-      })), i._underlineDisabled = window.app ? window.app.settings.editor.cssUnderlineDisabled : window.installPage.settings.editor.cssUnderlineDisabled, i._isDiff(i._editor) || (i._disposables.push(i._editor.addAction({ id: "disable-css-underline", label: "Disable CSS underline", run: function run() {
-          i._underlineDisabled = !0;
-        } })), i._disposables.push(i._editor.addAction({ id: "enable-css-underline", label: "Enable CSS Underline", run: function run() {
-          i._underlineDisabled = !1;
-        } }))), i);
+      })), s._underlineDisabled = window.app ? window.app.settings.editor.cssUnderlineDisabled : window.installPage.settings.editor.cssUnderlineDisabled, s._isDiff(s._editor) || (s._disposables.push(s._editor.addAction({ id: "disable-css-underline", label: window.__.sync("options_editPages_monaco_disableUnderline"), run: function run() {
+          s._underlineDisabled = !0;
+        } })), s._disposables.push(s._editor.addAction({ id: "enable-css-underline", label: window.__.sync("options_editPages_monaco_enableUnderline"), run: function run() {
+          s._underlineDisabled = !1;
+        } }))), s);
     }return __extends(t, e), t.prototype._getCssRuleParts = function (e) {
-      for (var o = null, i = []; o = t._cssRuleRegex.exec(e);) {
-        var s = e.indexOf(o[0]),
-            r = s + o[0].length;i.push({ text: o[0], start: s }), e = e.slice(0, s) + this._stringRepeat("-", o[0].length) + e.slice(r);
-      }return i;
-    }, t.prototype._findColor = function (e, o, i) {
-      void 0 === i && (i = 0);for (var s = 0, r = t._cssColorNames; s < r.length; s++) {
-        var a = r[s],
-            n = -1;if (-1 < (n = o.toLowerCase().indexOf(a))) return { pos: new monaco.Range(e + 1, n + i + 1, e + 1, n + i + a.length + 1), color: a };
+      for (var o = null, s = []; o = t._cssRuleRegex.exec(e);) {
+        var i = e.indexOf(o[0]),
+            a = i + o[0].length;s.push({ text: o[0], start: i }), e = e.slice(0, i) + this._stringRepeat("-", o[0].length) + e.slice(a);
+      }return s;
+    }, t.prototype._findColor = function (e, o, s) {
+      void 0 === s && (s = 0);for (var i = 0, a = t._cssColorNames; i < a.length; i++) {
+        var n = a[i],
+            r = -1;if (-1 < (r = o.toLowerCase().indexOf(n))) return { pos: new monaco.Range(e + 1, r + s + 1, e + 1, r + s + n.length + 1), color: n };
       }var l = null;if (l = t._hexRegex.exec(o)) {
-        var n = o.indexOf(l[1]);return { pos: new monaco.Range(e + 1, n + i + 1, e + 1, n + i + l[1].length + 1), color: l[1] };
+        var r = o.indexOf(l[1]);return { pos: new monaco.Range(e + 1, r + s + 1, e + 1, r + s + l[1].length + 1), color: l[1] };
       }if (l = t._rgbRegex.exec(o)) {
-        var n = o.indexOf(l[0]);return { pos: new monaco.Range(e + 1, n + i + 1, e + 1, n + i + l[0].length + 1), color: l[0] };
+        var r = o.indexOf(l[0]);return { pos: new monaco.Range(e + 1, r + s + 1, e + 1, r + s + l[0].length + 1), color: l[0] };
       }if (l = t._rgbaRegex.exec(o)) {
-        var n = o.indexOf(l[0]);return { pos: new monaco.Range(e + 1, n + i + 1, e + 1, n + i + l[0].length + 1), color: l[0] };
+        var r = o.indexOf(l[0]);return { pos: new monaco.Range(e + 1, r + s + 1, e + 1, r + s + l[0].length + 1), color: l[0] };
       }return null;
     }, t.prototype._stringRepeat = function (e, t) {
       for (var o = "", s = 0; s < t; s++) {
@@ -6158,10 +6170,10 @@ var MonacoEditorElement,
       }return o;
     }, t.prototype._getColors = function () {
       for (var e = this._model.getValue(), t = e.split("\n"), o = [], s = 0; s < t.length; s++) {
-        for (var i = t[s], r = null, a = this._getCssRuleParts(i), n = 0, l = a; n < l.length; n++) {
-          var d = l[n],
-              p = d.text,
-              c = d.start;(r = this._findColor(s, p, c)) && o.push(r);
+        for (var i = t[s], a = null, n = this._getCssRuleParts(i), r = 0, l = n; r < l.length; r++) {
+          var d = l[r],
+              _ = d.text,
+              p = d.start;(a = this._findColor(s, _, p)) && o.push(a);
         }
       }return o;
     }, t.prototype._highlightColors = function () {
@@ -6177,14 +6189,14 @@ var MonacoEditorElement,
           for (var s = 0; s < o.classList.length; s++) {
             if (0 === o.classList[s].indexOf("color")) {
               var i = o.classList[s].slice(5),
-                  r = o.classList[s];e.push(["." + r + "::before", "background-color: " + i]), t += "" + r + i;
+                  a = o.classList[s];e.push(["." + a + "::before", "background-color: " + i]), t += "" + a + i;
             }
           }
-        }), t === this._currentStylesheetRules) return;for (var i = ("script" === window.app.item.type ? window.scriptEdit : window.stylesheetEdit).$.editor._getStylesheet(), s = i.sheet; 0 !== s.rules.length;) {
-          s.deleteRule(0);
+        }), t === this._currentStylesheetRules) return;for (var s = ("script" === window.app.item.type ? window.scriptEdit : window.stylesheetEdit).$.editor._getStylesheet(), i = s.sheet; 0 !== i.rules.length;) {
+          i.deleteRule(0);
         }this._currentStylesheetRules = t, e.forEach(function (e) {
           var t = e[0],
-              o = e[1];s.addRule(t, o);
+              o = e[1];i.addRule(t, o);
         });
       }
     }, t.getSettings = function () {
@@ -6194,45 +6206,45 @@ var MonacoEditorElement,
     }).sort(function (e, t) {
       return t.length - e.length;
     }), t._hexRegex = /#((([a-f]|[A-F]){8})|(([a-f]|[A-F]){6})|(([a-f]|[A-F]){3}))[^a-f|A-F]/, t._rgbRegex = /rgb\((\d{1,3}),(\s*)?(\d{1,3}),(\s*)?(\d{1,3})\)/, t._rgbaRegex = /rgb\((\d{1,3}),(\s*)?(\d{1,3}),(\s*)?(\d{1,3})\),(\s*)?(\d{1,3})\)/, t;
-  }(r),
+  }(a),
       l = function (e) {
-    function t(o, i) {
-      var s = e.call(this, o, i) || this;if (s._isTextarea()) return s;var r = i.getValue();return s._findSchema(r) || i.setValue(s._addSchemaKey(r)), t.enableSchema(), s._disposables.push({ dispose: function dispose() {
+    function t(o, s) {
+      var i = e.call(this, o, s) || this;if (i._isTextarea()) return i;var a = s.getValue();return i._findSchema(a) || s.setValue(i._addSchemaKey(a)), t.enableSchema(), i._disposables.push({ dispose: function dispose() {
           t.disableSchema();
-        } }), s;
+        } }), i;
     }return __extends(t, e), t.prototype._addSchemaKey = function (e) {
       var t = "\t\"$schema\": \"crm-settings.json\"";if (0 === e.split("\n").join("").trim().length) return "{\n" + t + "\n}";var o = e.split("\n");for (var s in o) {
-        var r = o[s];0 === r.trim().indexOf("{") && (1 < r.trim().length ? (o[s] = "{", o.splice(~~s + 1, 0, t, r.trim().slice(1))) : o.splice(~~s + 1, 0, t));
+        var a = o[s];0 === a.trim().indexOf("{") && (1 < a.trim().length ? (o[s] = "{", o.splice(~~s + 1, 0, t, a.trim().slice(1))) : o.splice(~~s + 1, 0, t));
       }return o.join("\n");
     }, t.prototype._findSchema = function (e) {
       e = e.replace(/\/\*.*?\*\//g, "");var t = e.split("\n");for (var o in t) {
-        if (-1 < t[o].indexOf("//")) for (var i, s = !1, r = 0; r < t[o].length; r++) {
-          if (i = t[o][r], "\\" === i) continue;else "\"" === i ? s = !s : s || "/" !== i || "/" !== t[o][r + 1] || (t[o] = t[o].slice(0, r));
+        if (-1 < t[o].indexOf("//")) for (var s, i = !1, a = 0; a < t[o].length; a++) {
+          if (s = t[o][a], "\\" === s) continue;else "\"" === s ? i = !i : i || "/" !== s || "/" !== t[o][a + 1] || (t[o] = t[o].slice(0, a));
         }
       }try {
-        var a = JSON.parse(e);return !!("$schema" in a);
+        var n = JSON.parse(e);return !!("$schema" in n);
       } catch (e) {
         return !0;
       }
     }, t.disableSchema = function () {
       monaco.languages.json.jsonDefaults.setDiagnosticsOptions({ allowComments: !0 });
     }, t.enableSchema = function () {
-      monaco.languages.json.jsonDefaults.setDiagnosticsOptions({ allowComments: !1, schemas: [{ uri: "crm-settings.json", schema: { type: "object", properties: { $schema: { type: "string", "enum": ["crm-settings.json"] } }, additionalProperties: { title: "The name of the option", type: "object", oneOf: [{ type: "object", properties: { type: { title: "A number type option", type: "string", "enum": ["number"] }, minimum: { title: "The minimum value of the number", type: "number" }, maximum: { title: "The maximum value of the number", type: "number" }, descr: { title: "A description for this option", type: "string" }, defaultValue: { title: "The default value for this option", type: "number" }, value: { title: "The value of this option (set to null for unset)", description: "The value of this option, changing it here will have the same effect as changing it in the options dialog", type: ["number", "null"] } } }, { type: "object", properties: { type: { title: "A string type option", type: "string", "enum": ["string"] }, maxLength: { title: "The maximum length of the string", type: "number" }, format: { title: "A regex format that the string has to follow", type: "string" }, descr: { title: "A description for this option", type: "string" }, defaultValue: { title: "The default value for this option", type: "string" }, value: { title: "The value of this option (set to null for unset)", description: "The value of this option, changing it here will have the same effect as changing it in the options dialog", type: ["string", "null"] } } }, { type: "object", properties: { type: { title: "A choice type option", type: "string", "enum": ["choice"] }, selected: { title: "The selected value's index", type: "number" }, descr: { title: "A description for this option", type: "string" }, values: { title: "The possible values of this option", type: "array", items: { type: ["string", "number"] } } } }, { type: "object", properties: { type: { title: "A choice type option", type: "string", "enum": ["color"] }, descr: { title: "A description for this option", type: "string" }, defaultValue: { title: "The default value for this option", type: "string" }, value: { title: "The value of this option (set to null for unset)", description: "The value of this option, changing it here will have the same effect as changing it in the options dialog", type: ["string", "null"] } } }, { type: "object", properties: { type: { title: "A boolean type option", type: "string", "enum": ["boolean"] }, descr: { title: "A description for this option", type: "string" }, defaultValue: { title: "The default value for this option", type: "boolean" }, value: { title: "The value of this option (set to null for unset)", description: "The value of this option, changing it here will have the same effect as changing it in the options dialog", type: ["boolean", "null"] } } }, { type: "object", properties: { type: { title: "An array type option", type: "string", "enum": ["array"] }, maxItems: { title: "The maximum number of array items", type: "number" }, items: { title: "The type of items this array contains (array or string)", type: "string", "enum": ["string", "number"] }, descr: { title: "A description for this option", type: "string" }, defaultValue: { title: "The default value for this option", type: "array", items: { type: ["string", "number"] } }, value: { title: "The value of this option (set to null for unset)", description: "The value of this option, changing it here will have the same effect as changing it in the options dialog", type: ["array", "null"], items: { type: ["string", "number"] } } }, required: ["items"] }] } } }], validate: !0 });
+      var e = { type: "object", properties: { $schema: { type: "string", "enum": ["crm-settings.json"] } }, additionalProperties: { title: window.__.sync("options_editPages_monaco_optionName"), type: "object", oneOf: [{ type: "object", properties: { type: { title: window.__.sync("options_editPages_monaco_numberOption"), type: "string", "enum": ["number"] }, minimum: { title: window.__.sync("options_editPages_monaco_minValue"), type: "number" }, maximum: { title: window.__.sync("options_editPages_monaco_maxValue"), type: "number" }, descr: { title: window.__.sync("options_editPages_monaco_descr"), type: "string" }, defaultValue: { title: window.__.sync("options_editPages_monaco_defaultValue"), type: "number" }, value: { title: window.__.sync("options_editPages_monaco_value"), description: window.__.sync("options_editPages_monaco_valueExpanded"), type: ["number", "null"] } } }, { type: "object", properties: { type: { title: window.__.sync("options_editPages_monaco_stringOption"), type: "string", "enum": ["string"] }, maxLength: { title: window.__.sync("options_editPages_monaco_maxLength"), type: "number" }, format: { title: window.__.sync("options_editPages_monaco_format"), type: "string" }, descr: { title: window.__.sync("options_editPages_monaco_descr"), type: "string" }, defaultValue: { title: window.__.sync("options_editPages_monaco_defaultValue"), type: "string" }, value: { title: window.__.sync("options_editPages_monaco_value"), description: window.__.sync("options_editPages_monaco_valueExpanded"), type: ["string", "null"] } } }, { type: "object", properties: { type: { title: window.__.sync("options_editPages_monaco_choiceOption"), type: "string", "enum": ["choice"] }, selected: { title: window.__.sync("options_editPages_monaco_selected"), type: "number" }, descr: { title: window.__.sync("options_editPages_monaco_descr"), type: "string" }, values: { title: window.__.sync("options_editPages_monaco_values"), type: "array", items: { type: ["string", "number"] } } } }, { type: "object", properties: { type: { title: window.__.sync("options_editPages_monaco_colorOption"), type: "string", "enum": ["color"] }, descr: { title: window.__.sync("options_editPages_monaco_descr"), type: "string" }, defaultValue: { title: window.__.sync("options_editPages_monaco_defaultValue"), type: "string" }, value: { title: window.__.sync("options_editPages_monaco_value"), description: window.__.sync("options_editPages_monaco_valueExpanded"), type: ["string", "null"] } } }, { type: "object", properties: { type: { title: window.__.sync("options_editPages_monaco_booleanOption"), type: "string", "enum": ["boolean"] }, descr: { title: window.__.sync("options_editPages_monaco_descr"), type: "string" }, defaultValue: { title: window.__.sync("options_editPages_monaco_defaultValue"), type: "boolean" }, value: { title: window.__.sync("options_editPages_monaco_value"), description: window.__.sync("options_editPages_monaco_valueExpanded"), type: ["boolean", "null"] } } }, { type: "object", properties: { type: { title: window.__.sync("options_editPages_monaco_arrayOption"), type: "string", "enum": ["array"] }, maxItems: { title: window.__.sync("options_editPages_monaco_maxItems"), type: "number" }, items: { title: window.__.sync("options_editPages_monaco_items"), type: "string", "enum": ["string", "number"] }, descr: { title: window.__.sync("options_editPages_monaco_descr"), type: "string" }, defaultValue: { title: window.__.sync("options_editPages_monaco_defaultValue"), type: "array", items: { type: ["string", "number"] } }, value: { title: window.__.sync("options_editPages_monaco_value"), description: window.__.sync("options_editPages_monaco_valueExpanded"), type: ["array", "null"], items: { type: ["string", "number"] } } }, required: ["items"] }] } };monaco.languages.json.jsonDefaults.setDiagnosticsOptions({ allowComments: !1, schemas: [{ uri: "crm-settings.json", schema: e }], validate: !0 });
     }, t.getSettings = function () {
       return {};
     }, t;
-  }(s),
+  }(i),
       d = function (e) {
-    function t(t, o, i) {
-      var s = i.node,
-          r = i.isBackground,
-          a = e.call(this, t, o) || this;return (a._libraries = [], a._registrationDisposables = [], a._node = s, a._isBackground = r, a._isTextarea()) ? a : (a._enable(), a._isDiff(a._editor) || a._disposables.push(a._editor.onDidChangeModel(function (t) {
-        t.newModelUrl === o.uri ? a._enable() : a._disable();
-      })), a._disposables.push({ dispose: function dispose() {
-          a._registrationDisposables.forEach(function (e) {
+    function t(t, o, s) {
+      var i = s.node,
+          a = s.isBackground,
+          n = e.call(this, t, o) || this;return (n._libraries = [], n._registrationDisposables = [], n._node = i, n._isBackground = a, n._isTextarea()) ? n : (n._enable(), n._isDiff(n._editor) || n._disposables.push(n._editor.onDidChangeModel(function (t) {
+        t.newModelUrl === o.uri ? n._enable() : n._disable();
+      })), n._disposables.push({ dispose: function dispose() {
+          n._registrationDisposables.forEach(function (e) {
             e.dispose();
           });
-        } }), a);
+        } }), n);
     }return __extends(t, e), t.prototype._enable = function () {
       return __awaiter(this, void 0, void 0, function () {
         var e;return __generator(this, function (t) {
@@ -6251,12 +6263,12 @@ var MonacoEditorElement,
       return t ? e.value.backgroundLibraries : e.value.libraries;
     }, t.prototype._getLibrary = function (e) {
       return __awaiter(this, void 0, void 0, function () {
-        var t, o, i, s, r;return __generator(this, function (a) {
-          switch (a.label) {case 0:
+        var t, o, s, i, a;return __generator(this, function (n) {
+          switch (n.label) {case 0:
               return e ? [4, browserAPI.storage.local.get()] : [2, !1];case 1:
-              for (t = a.sent(), o = t.libraries, (i = 0, s = o); i < s.length; i++) {
-                if (r = s[i], r.name === e) {
-                  if (r.ts && r.ts.enabled) return [2, r.ts.code.compiled];break;
+              for (t = n.sent(), o = t.libraries, (s = 0, i = o); s < i.length; s++) {
+                if (a = i[s], a.name === e) {
+                  if (a.ts && a.ts.enabled) return [2, a.ts.code.compiled];break;
                 }
               }return [2, !1];}
         });
@@ -6282,15 +6294,15 @@ var MonacoEditorElement,
     }, t.getSettings = function () {
       return {};
     }, t;
-  }(a);e.MonacoEditorTSLibrariesMetaMods = d;var p,
-      c = function () {
+  }(n);e.MonacoEditorTSLibrariesMetaMods = d;var _,
+      p = function () {
     function e(e, t) {
       this._options = t, this._models = [], this.__textarea = !0;var o = t.model;o && (this._model = o, this._models = "original" in o ? [o.original, o.modified] : [o]), this._genBaseElements(e), o && ("original" in o ? (this._addModelListenersBase(o.original), this._addModelListenersBase(o.modified)) : this._addModelListenersBase(o));
     }return e.prototype._genBaseElements = function (e) {
       var t = document.createElement("div");t.classList.add("monacoTextareaContainer"), e.appendChild(t), this._baseElements = { container: t };
     }, e.prototype._totalCharIndexToPosition = function (e, t) {
       var o = e.split("\n");for (var s in o) {
-        var r = o[s];if (0 >= t - r.length) return { line: ~~s, char: t - r.length };
+        var a = o[s];if (0 >= t - a.length) return { line: ~~s, char: t - a.length };
       }return { line: o.length - 1, char: o[o.length - 1].length };
     }, e.prototype._addModelListenersBase = function (e) {
       this._models.push(e), this._addModelListeners(e);
@@ -6317,28 +6329,28 @@ var MonacoEditorElement,
     }, e.prototype.getSelected = function () {
       for (var e, t = 0, o = this._textareaElements; t < o.length; t++) {
         if (e = o[t], !!e) {
-          var i = e.selectionStart,
-              s = e.selectionEnd,
-              r = e.value.substring(i, s);return { from: __assign({}, this._totalCharIndexToPosition(e.value, i), { totalChar: i }), to: __assign({}, this._totalCharIndexToPosition(e.value, s), { totalChar: s }), content: r };
+          var s = e.selectionStart,
+              i = e.selectionEnd,
+              a = e.value.substring(s, i);return { from: __assign({}, this._totalCharIndexToPosition(e.value, s), { totalChar: s }), to: __assign({}, this._totalCharIndexToPosition(e.value, i), { totalChar: i }), content: a };
         }
       }return null;
     }, e;
   }(),
-      u = function (e) {
+      c = function (e) {
     function t(t, o) {
-      var i = e.call(this, t, o) || this;return i._genElements(t), i._textarea.addEventListener("keydown", function () {
+      var s = e.call(this, t, o) || this;return s._genElements(t), s._textarea.addEventListener("keydown", function () {
         window.setTimeout(function () {
-          i._model.setValue(i._textarea.value, i._textarea);
+          s._model.setValue(s._textarea.value, s._textarea);
         }, 0);
-      }), o.model && (i._textarea.value = o.model.getValue()), i;
+      }), o.model && (s._textarea.value = o.model.getValue()), s;
     }return __extends(t, e), t.prototype._genElements = function (e) {
       this._textarea = this._genTextarea(), this._textareaElements = [this._textarea], e.appendChild(this._textarea);
     }, t.prototype._isActiveModel = function (e) {
       return this._model === e;
     }, t.prototype._addModelListeners = function (e) {
       var t = this;e.listen("change", function (o) {
-        var i = o.newValue,
-            s = o.src;t._isActiveModel(e) && s !== t._textarea && (t._textarea.value = i);
+        var s = o.newValue,
+            i = o.src;t._isActiveModel(e) && i !== t._textarea && (t._textarea.value = s);
       });
     }, t.prototype._getValue = function () {
       return this._model.getValue();
@@ -6351,10 +6363,10 @@ var MonacoEditorElement,
     }, (t.prototype.setValue = function (e) {
       this._model.setValue(e);
     }, t);
-  }(c),
+  }(p),
       g = function (e) {
     function t(t, o) {
-      var i = e.call(this, t, o) || this;return i.__diff = !0, i._genElements(), o.model && (i._textareas.original.value = o.model.original.getValue(), i._textareas.modified.value = o.model.modified.getValue()), i;
+      var s = e.call(this, t, o) || this;return s.__diff = !0, s._genElements(), o.model && (s._textareas.original.value = o.model.original.getValue(), s._textareas.modified.value = o.model.modified.getValue()), s;
     }return __extends(t, e), t.prototype._genElements = function () {
       var e = this._genTextarea(),
           t = this._genTextarea();e.classList.add("monacoOriginalTextarea"), t.classList.add("monacoModifiedTextarea"), this._textareas = { original: e, modified: t }, this._textareaElements = [e, t], this._baseElements.container.classList.add("diffContainer"), this._baseElements.container.appendChild(e), this._baseElements.container.appendChild(t);
@@ -6366,8 +6378,8 @@ var MonacoEditorElement,
       return this._model.modified === e;
     }, t.prototype._addModelListeners = function (e) {
       var t = this;e.listen("change", function (o) {
-        var i = o.newValue,
-            s = o.src;t._isActiveOriginalModel(e) ? s !== t._textareas.original && (t._textareas.original.value = i) : t._isActiveModifiedModel(e) && s !== t._textareas.modified && (t._textareas.modified.value = i);
+        var s = o.newValue,
+            i = o.src;t._isActiveOriginalModel(e) ? i !== t._textareas.original && (t._textareas.original.value = s) : t._isActiveModifiedModel(e) && i !== t._textareas.modified && (t._textareas.modified.value = s);
       });
     }, t.prototype._getValue = function () {
       return this._model.modified.getValue();
@@ -6378,8 +6390,8 @@ var MonacoEditorElement,
     }, t.prototype.setModel = function (e) {
       this._assertModelAdded(e.original), this._assertModelAdded(e.modified), this._model = e, this._setTextareaValues(e);
     }, t;
-  }(c),
-      _ = function (e) {
+  }(p),
+      m = function (e) {
     function t(t) {
       var o = e.call(this) || this;return o.setValue(t), o;
     }return __extends(t, e), t.prototype.getValue = function () {
@@ -6388,37 +6400,37 @@ var MonacoEditorElement,
       var o = this._value;this._value = e, this._value !== o && this._firePublic("change", [{ oldValue: o, newValue: this._value, src: t }]);
     }, t.prototype.dispose = function () {}, t;
   }(o),
-      h = { noSpinner: { type: Boolean, notify: !0, value: !1 } };(function (e) {
+      u = { noSpinner: { type: Boolean, notify: !0, value: !1 } };(function (e) {
     e[e.CSS = 0] = "CSS", e[e.JS = 1] = "JS", e[e.TS = 2] = "TS", e[e.JSON = 3] = "JSON", e[e.JSON_OPTIONS = 4] = "JSON_OPTIONS", e[e.JS_META = 5] = "JS_META", e[e.TS_META = 6] = "TS_META", e[e.CSS_META = 7] = "CSS_META", e[e.LESS = 8] = "LESS", e[e.LESS_META = 9] = "LESS_META", e[e.PLAIN_TEXT = 10] = "PLAIN_TEXT";
-  })(p || (p = {}));var m;(function (e) {
+  })(_ || (_ = {}));var y;(function (e) {
     e[e.TS_LIBRARIES_META = 0] = "TS_LIBRARIES_META";
-  })(m || (m = {}));var y = function () {
+  })(y || (y = {}));var h = function () {
     function e() {}return e._typeIsCss = function (e) {
-      return e === p.CSS || e === p.CSS_META || e === p.LESS || e === p.LESS_META;
+      return e === _.CSS || e === _.CSS_META || e === _.LESS || e === _.LESS_META;
     }, e._typeIsTS = function (e) {
-      return e === p.TS || e === p.TS_META;
+      return e === _.TS || e === _.TS_META;
     }, e._typeIsLESS = function (e) {
-      return e === p.LESS || e === p.LESS_META;
+      return e === _.LESS || e === _.LESS_META;
     }, e._typeIsJS = function (e) {
-      return e === p.JS || e === p.JS_META;
+      return e === _.JS || e === _.JS_META;
     }, e._typeIsJSON = function (e) {
-      return e === p.JSON || e === p.JSON_OPTIONS;
+      return e === _.JSON || e === _.JSON_OPTIONS;
     }, e._getSettings = function (e) {
-      switch (e) {case p.CSS_META:case p.LESS_META:
-          return n.getSettings();case p.TS_META:
-          return a.getSettings();case p.JSON_OPTIONS:
-          return l.getSettings();}if ("object" === ("undefined" === typeof e ? "undefined" : babelHelpers["typeof"](e))) switch (e.mode) {case m.TS_LIBRARIES_META:
+      switch (e) {case _.CSS_META:case _.LESS_META:
+          return r.getSettings();case _.TS_META:
+          return n.getSettings();case _.JSON_OPTIONS:
+          return l.getSettings();}if ("object" === ("undefined" === typeof e ? "undefined" : babelHelpers["typeof"](e))) switch (e.mode) {case y.TS_LIBRARIES_META:
           return d.getSettings();}return {};
     }, e._getTypeHandler = function (e, t, o) {
-      switch (e) {case p.CSS_META:case p.LESS_META:
-          return new n(t, o);case p.JS_META:case p.TS_META:
-          return new a(t, o);case p.JSON_OPTIONS:
-          return new l(t, o);}if ("object" === ("undefined" === typeof e ? "undefined" : babelHelpers["typeof"](e))) switch (e.mode) {case m.TS_LIBRARIES_META:
+      switch (e) {case _.CSS_META:case _.LESS_META:
+          return new r(t, o);case _.JS_META:case _.TS_META:
+          return new n(t, o);case _.JSON_OPTIONS:
+          return new l(t, o);}if ("object" === ("undefined" === typeof e ? "undefined" : babelHelpers["typeof"](e))) switch (e.mode) {case y.TS_LIBRARIES_META:
           return new d(t, o, e.config);}return null;
     }, e._getLanguage = function (e) {
       return this._typeIsCss(e) ? "css" : this._typeIsJS(e) ? "javascript" : this._typeIsTS(e) ? "typescript" : this._typeIsJSON(e) ? "json" : "text/plain";
     }, e.initTSLibrariesMode = function (e, t) {
-      return { custom: !0, config: { node: e, isBackground: t }, mode: m.TS_LIBRARIES_META };
+      return { custom: !0, config: { node: e, isBackground: t }, mode: y.TS_LIBRARIES_META };
     }, e._mergeArrays = function (e, t) {
       for (var o = 0; o < t.length; o++) {
         e[o] = e[o] && "object" === babelHelpers["typeof"](t[o]) && void 0 !== e[o] && null !== e[o] ? Array.isArray(t[o]) ? this._mergeArrays(e[o], t[o]) : this._mergeObjects(e[o], t[o]) : t[o];
@@ -6442,45 +6454,45 @@ var MonacoEditorElement,
       return 30 <= this._getChromeVersion();
     }, e.create = function (e, t, o) {
       return __awaiter(this, void 0, void 0, function () {
-        var i,
-            s,
-            r,
-            a = this;return __generator(this, function (n) {
-          switch (n.label) {case 0:
-              return i = this._getLanguage(e), this._createInfo = { method: "create", options: t, override: o }, this._isTypescript = this._typeIsTS(e), this._isLess = this._typeIsLESS(e), this.options = t, [4, this.setMonacoEditorScopes(function () {
-                if (a._supportsMonaco()) {
-                  var e = monaco.editor.createModel(t.value, i);return a.editor = window.monaco.editor.create(a.$.editorElement, a._mergeObjects({ model: e }, t), o), e;
-                }var s = new _(t.value);return a.editor = new u(a.$.editorElement, { model: s }), s;
+        var s,
+            i,
+            a,
+            n = this;return __generator(this, function (r) {
+          switch (r.label) {case 0:
+              return s = this._getLanguage(e), this._createInfo = { method: "create", options: t, override: o }, this._isTypescript = this._typeIsTS(e), this._isLess = this._typeIsLESS(e), this.options = t, [4, this.setMonacoEditorScopes(function () {
+                if (n._supportsMonaco()) {
+                  var e = monaco.editor.createModel(t.value, s);return n.editor = window.monaco.editor.create(n.$.editorElement, n._mergeObjects({ model: e }, t), o), e;
+                }var i = new m(t.value);return n.editor = new c(n.$.editorElement, { model: i }), i;
               })];case 1:
-              return s = n.sent(), this.editor.updateOptions(this._getSettings(e)), r = this._getTypeHandler(e, this.editor, s), this._models["default"] = { models: [this.editor.getModel()], handlers: [r], state: null, editorType: e }, [2, this];}
+              return i = r.sent(), this.editor.updateOptions(this._getSettings(e)), a = this._getTypeHandler(e, this.editor, i), this._models["default"] = { models: [this.editor.getModel()], handlers: [a], state: null, editorType: e }, [2, this];}
         });
       });
-    }, e.createDiff = function (e, t, o, i) {
-      var s = e[0],
-          r = e[1];return __awaiter(this, void 0, void 0, function () {
+    }, e.createDiff = function (e, t, o, s) {
+      var i = e[0],
+          a = e[1];return __awaiter(this, void 0, void 0, function () {
         var e,
-            a,
             n,
+            r,
             l,
-            d = this;return __generator(this, function (p) {
-          switch (p.label) {case 0:
-              return e = this._getLanguage(t), this._createInfo = { method: "diff", values: [s, r], language: e, editorType: t, options: o, override: i }, this._isTypescript = this._typeIsTS(t), this._isLess = this._typeIsLESS(t), this.options = o, [4, this.setMonacoEditorScopes(function () {
-                d.editor = d._supportsMonaco() ? monaco.editor.createDiffEditor(d.$.editorElement, o, i) : new g(d.$.editorElement, {});
+            d = this;return __generator(this, function (_) {
+          switch (_.label) {case 0:
+              return e = this._getLanguage(t), this._createInfo = { method: "diff", values: [i, a], language: e, editorType: t, options: o, override: s }, this._isTypescript = this._typeIsTS(t), this._isLess = this._typeIsLESS(t), this.options = o, [4, this.setMonacoEditorScopes(function () {
+                d.editor = d._supportsMonaco() ? monaco.editor.createDiffEditor(d.$.editorElement, o, s) : new g(d.$.editorElement, {});
               })];case 1:
-              return p.sent(), this._supportsMonaco() ? (a = monaco.editor.createModel(s, e), n = monaco.editor.createModel(r, e)) : (a = new _(s), n = new _(r)), this.editor.updateOptions(this._getSettings(t)), this.editor.setModel({ original: a, modified: n }), l = [this._getTypeHandler(t, this.editor, a), this._getTypeHandler(t, this.editor, n)], this._models["default"] = { editorType: t, handlers: l, models: [a, n], state: null }, [2, this];}
+              return _.sent(), this._supportsMonaco() ? (n = monaco.editor.createModel(i, e), r = monaco.editor.createModel(a, e)) : (n = new m(i), r = new m(a)), this.editor.updateOptions(this._getSettings(t)), this.editor.setModel({ original: n, modified: r }), l = [this._getTypeHandler(t, this.editor, n), this._getTypeHandler(t, this.editor, r)], this._models["default"] = { editorType: t, handlers: l, models: [n, r], state: null }, [2, this];}
         });
       });
     }, e.createFrom = function (e) {
       return __awaiter(this, void 0, void 0, function () {
         var t,
             o,
-            i,
-            s = this;return __generator(this, function (r) {
-          switch (r.label) {case 0:
+            s,
+            i = this;return __generator(this, function (a) {
+          switch (a.label) {case 0:
               return this._createInfo && "from" === this._createInfo.method && this._createInfo.from.removeChild(this), t = e.editor, o = e.getCurrentModel().editorType, this._createInfo = { method: "from", from: e, modelId: e.getCurrentModelId() }, this._isTypescript = this._typeIsTS(o), this._isLess = this._typeIsLESS(o), [4, this.setMonacoEditorScopes(function () {
-                s.editor = s._supportsMonaco() ? window.monaco.editor.create(s.$.editorElement, s._mergeObjects({ model: t.getModel() }, s.options)) : new u(s.$.editorElement, { model: t.getModel() });
+                i.editor = i._supportsMonaco() ? window.monaco.editor.create(i.$.editorElement, i._mergeObjects({ model: t.getModel() }, i.options)) : new c(i.$.editorElement, { model: t.getModel() });
               })];case 1:
-              return r.sent(), this.editor.updateOptions(this._getSettings(o)), i = this._getTypeHandler(o, this.editor, this.editor.getModel()), this._models["default"] = { models: [this.editor.getModel()], handlers: [i], state: null, editorType: o }, e.addChild(this), [2, this];}
+              return a.sent(), this.editor.updateOptions(this._getSettings(o)), s = this._getTypeHandler(o, this.editor, this.editor.getModel()), this._models["default"] = { models: [this.editor.getModel()], handlers: [s], state: null, editorType: o }, e.addChild(this), [2, this];}
         });
       });
     }, e.isDiff = function () {
@@ -6493,14 +6505,14 @@ var MonacoEditorElement,
       this.isDiff(this.editor) || this.editor.setValue(e);
     }, e.reset = function () {
       return __awaiter(this, void 0, void 0, function () {
-        var e, t, o;return __generator(this, function (i) {
-          switch (i.label) {case 0:
+        var e, t, o;return __generator(this, function (s) {
+          switch (s.label) {case 0:
               return (e = this._createInfo, t = this.getCurrentModel(), !t) ? [2, null] : (o = t.editorType, this.destroy(), "create" === e.method ? [4, this.create(o, e.options, e.override)] : [3, 2]);case 1:
-              return [2, i.sent()];case 2:
+              return [2, s.sent()];case 2:
               return "diff" === e.method ? [4, this.createDiff(e.values, e.editorType, e.options, e.override)] : [3, 4];case 3:
-              return [2, i.sent()];case 4:
+              return [2, s.sent()];case 4:
               return [4, this.createFrom(e.from)];case 5:
-              return [2, i.sent()];}
+              return [2, s.sent()];}
         });
       });
     }, e.addChild = function (e) {
@@ -6512,51 +6524,51 @@ var MonacoEditorElement,
     }, e.setLess = function (e) {
       var t = this;if (this._isLess !== e) {
         if ("from" === this._createInfo.method) return void this._createInfo.from.setLess(e);var o = this.getCurrentModelId(),
-            i = this.getCurrentModel(),
-            s = e ? "less" : "javascript",
-            r = i.models;i.handlers.forEach(function (e) {
+            s = this.getCurrentModel(),
+            i = e ? "less" : "javascript",
+            a = s.models;s.handlers.forEach(function (e) {
           e.destroy();
-        });var a = r.map(function (e) {
-          return monaco.editor.createModel(e.getValue(), s);
-        });for (var n in f.hasScope(this) ? this.setNewModels(a) : (this.setNewModels([f.getNullModel()]), f.onHasScope(this, function () {
-          t.setNewModels(a);
-        })), r.forEach(function (e) {
+        });var n = a.map(function (e) {
+          return monaco.editor.createModel(e.getValue(), i);
+        });for (var r in f.hasScope(this) ? this.setNewModels(n) : (this.setNewModels([f.getNullModel()]), f.onHasScope(this, function () {
+          t.setNewModels(n);
+        })), a.forEach(function (e) {
           return e.dispose();
-        }), i.handlers = a.map(function (e) {
-          return t._getTypeHandler(i.editorType, t.editor, e);
-        }), i.models = a, this._models) {
-          n !== o && delete this._models[n];
+        }), s.handlers = n.map(function (e) {
+          return t._getTypeHandler(s.editorType, t.editor, e);
+        }), s.models = n, this._models) {
+          r !== o && delete this._models[r];
         }this._isLess = e, this._children.forEach(function (o) {
-          o._isLess = e;var i = o._createInfo.modelId,
-              s = t.getModel(i);t.isDiff(o.editor) || o.editor.setModel(s.models[0]);
+          o._isLess = e;var s = o._createInfo.modelId,
+              i = t.getModel(s);t.isDiff(o.editor) || o.editor.setModel(i.models[0]);
         });
       }
     }, e.setTypescript = function (e) {
       var t = this;if (this._isTypescript !== e) {
         if ("from" === this._createInfo.method) return void this._createInfo.from.setTypescript(e);var o = this.getCurrentModelId(),
-            i = this.getCurrentModel(),
-            s = e ? "typescript" : "javascript",
-            r = i.models;i.handlers.forEach(function (e) {
+            s = this.getCurrentModel(),
+            i = e ? "typescript" : "javascript",
+            a = s.models;s.handlers.forEach(function (e) {
           e.destroy();
-        });var a = r.map(function (e) {
-          return monaco.editor.createModel(e.getValue(), s);
-        });for (var n in f.hasScope(this) ? this.setNewModels(a) : (this.setNewModels([f.getNullModel()]), f.onHasScope(this, function () {
-          t.setNewModels(a);
-        })), r.forEach(function (e) {
+        });var n = a.map(function (e) {
+          return monaco.editor.createModel(e.getValue(), i);
+        });for (var r in f.hasScope(this) ? this.setNewModels(n) : (this.setNewModels([f.getNullModel()]), f.onHasScope(this, function () {
+          t.setNewModels(n);
+        })), a.forEach(function (e) {
           return e.dispose();
-        }), i.handlers = a.map(function (e) {
-          return t._getTypeHandler(i.editorType, t.editor, e);
-        }), i.models = a, this._models) {
-          n !== o && delete this._models[n];
+        }), s.handlers = n.map(function (e) {
+          return t._getTypeHandler(s.editorType, t.editor, e);
+        }), s.models = n, this._models) {
+          r !== o && delete this._models[r];
         }this._isTypescript = e, this._children.forEach(function (o) {
-          o._isTypescript = e;var i = o._createInfo.modelId,
-              s = t.getModel(i);t.isDiff(o.editor) || o.editor.setModel(s.models[0]);
+          o._isTypescript = e;var s = o._createInfo.modelId,
+              i = t.getModel(s);t.isDiff(o.editor) || o.editor.setModel(i.models[0]);
         });
       }
     }, e.addModel = function (e, t, o) {
       if (!this.hasModel(e)) {
-        var i = monaco.editor.createModel(t, this._getLanguage(o)),
-            s = this._getTypeHandler(o, this.editor, i);this._models[e] = { models: [i], handlers: [s], state: null, editorType: o };
+        var s = monaco.editor.createModel(t, this._getLanguage(o)),
+            i = this._getTypeHandler(o, this.editor, s);this._models[e] = { models: [s], handlers: [i], state: null, editorType: o };
       }
     }, e.hasModel = function (e) {
       return e in this._models;
@@ -6564,8 +6576,8 @@ var MonacoEditorElement,
       return this._models[e];
     }, e.switchToModel = function (e, t, o) {
       if (this.hasModel(e) || this.addModel(e, t, o), this.getCurrentModelId() !== e) {
-        var i = this.editor.saveViewState(),
-            s = this.getCurrentModelId();s in this._models && (this._models[s].state = i);var r = this._models[e];this.editor.setModel(r.models[0]), this.editor.restoreViewState(r.state), this.editor.focus();
+        var s = this.editor.saveViewState(),
+            i = this.getCurrentModelId();i in this._models && (this._models[i].state = s);var a = this._models[e];this.editor.setModel(a.models[0]), this.editor.restoreViewState(a.state), this.editor.focus();
       }
     }, e.getCurrentModelId = function () {
       for (var e in this._models) {
@@ -6584,14 +6596,14 @@ var MonacoEditorElement,
           t = window.jslint(e, {}, window.app.jsLintGlobals.slice()).warnings;return t.map(function (e) {
         var t = e.column,
             o = e.line,
-            i = e.message;return { col: t, line: o, message: i };
+            s = e.message;return { col: t, line: o, message: s };
       });
     }, e._runCssLint = function () {
       var e = this.getCurrentModel().models[0].getValue(),
           t = window.CSSLint.verify(e).messages;return t.map(function (e) {
         var t = e.col,
             o = e.line,
-            i = e.message;return { col: t, line: o, message: i };
+            s = e.message;return { col: t, line: o, message: s };
       });
     }, e._showLintResults = function (e, t) {
       "__textarea" in this.editor || monaco.editor.setModelMarkers(this.getCurrentModel().models[0], e, t.map(function (e) {
@@ -6599,14 +6611,16 @@ var MonacoEditorElement,
       }));
     }, e.runLinter = function () {
       return __awaiter(this, void 0, void 0, function () {
-        var e;return __generator(this, function (t) {
-          switch (t.label) {case 0:
+        var e, t, o;return __generator(this, function (s) {
+          switch (s.label) {case 0:
               return e = this._models[this.getCurrentModelId()].editorType, this._typeIsJS(e) ? [4, f.Libraries.runFile("js/libraries/jslint.js")] : [3, 2];case 1:
-              return t.sent(), this._showLintResults("jslint", this._runJsLint()), [3, 6];case 2:
-              return this._typeIsTS(e) ? (alert("No linting possible in typescript mode"), [3, 6]) : [3, 3];case 3:
-              return this._typeIsLESS(e) ? (alert("No linting possible in LESS/stylus mode"), [3, 6]) : [3, 4];case 4:
-              return this._typeIsCss(e) ? [4, f.Libraries.runFile("js/libraries/csslint.js")] : [3, 6];case 5:
-              t.sent(), this._showLintResults("csslint", this._runCssLint()), t.label = 6;case 6:
+              return s.sent(), this._showLintResults("jslint", this._runJsLint()), [3, 8];case 2:
+              return this._typeIsTS(e) ? (t = alert, [4, window.__("options_editPages_monaco_lintingDisabled", "typescript")]) : [3, 4];case 3:
+              return t.apply(void 0, [s.sent()]), [3, 8];case 4:
+              return this._typeIsLESS(e) ? (o = alert, [4, window.__("options_editPages_monaco_lintingDisabled", "LESS/stylus")]) : [3, 6];case 5:
+              return o.apply(void 0, [s.sent()]), [3, 8];case 6:
+              return this._typeIsCss(e) ? [4, f.Libraries.runFile("js/libraries/csslint.js")] : [3, 8];case 7:
+              s.sent(), this._showLintResults("csslint", this._runCssLint()), s.label = 8;case 8:
               return [2];}
         });
       });
@@ -6641,7 +6655,7 @@ var MonacoEditorElement,
       }
     }, e.ready = function () {
       this._showSpinner(), this._models = {}, this._children = [], f.setup();
-    }, e.is = "monaco-editor", e.EditorMode = p, e.CustomEditorModes = m, e.properties = h, e.options = null, e._createInfo = null, e._tempLayoutInfo = null, e);
+    }, e.is = "monaco-editor", e.EditorMode = _, e.CustomEditorModes = y, e.properties = u, e.options = null, e._createInfo = null, e._tempLayoutInfo = null, e);
   }(),
       f = function () {
     function e() {}e.setScope = function (e) {
@@ -6651,7 +6665,7 @@ var MonacoEditorElement,
         });
       }, 500), this._scopeListeners = this._scopeListeners.filter(function (t) {
         var o = t.scope,
-            i = t.listener;return o !== e || (i(), !1);
+            s = t.listener;return o !== e || (s(), !1);
       });
     }, e.hasScope = function (e) {
       return this.currentScope === e;
@@ -6675,17 +6689,18 @@ var MonacoEditorElement,
       return this.currentScope.shadowRoot;
     }, e._defineProperties = function () {
       var e = this,
-          o = [{ label: "==UserScript==", kind: monaco.languages.CompletionItemKind.Property, insertText: "==UserScript==", detail: "UserScript start tag", documentation: "The start tag for a UserScript metadata block" }, { label: "==/UserScript==", kind: monaco.languages.CompletionItemKind.Property, insertText: "==/UserScript==", detail: "UserScript end tag", documentation: "The end tag for a UserScript metadata block" }],
-          i = { isIncomplete: !0, items: Object.getOwnPropertyNames(t).map(function (e) {
-          var o = t[e];return { label: "@" + e, kind: monaco.languages.CompletionItemKind.Property, insertText: "@" + e, detail: "Metadata key", documentation: o };
+          o = [{ label: "==UserScript==", kind: monaco.languages.CompletionItemKind.Property, insertText: "==UserScript==", detail: "UserScript start tag", documentation: window.__.sync("options_editPages_monaco_startTagUserscript") }, { label: "==/UserScript==", kind: monaco.languages.CompletionItemKind.Property, insertText: "==/UserScript==", detail: "UserScript end tag", documentation: window.__.sync("options_editPages_monaco_endTagUserscript") }],
+          s = t(),
+          i = { isIncomplete: !0, items: Object.getOwnPropertyNames(s).map(function (e) {
+          var t = s[e];return { label: "@" + e, kind: monaco.languages.CompletionItemKind.Property, insertText: "@" + e, detail: window.__.sync("options_editPages_monaco_metaKey"), documentation: t };
         }) };Object.defineProperties(this, { getLocalBodyShadowRoot: { get: function get() {
             return e._getShadowRoot();
           } }, caretRangeFromPoint: { get: function get() {
             return function (t) {
-              for (var o = 0, i = e._scopes; o < i.length; o++) {
-                var s = i[o],
-                    r = s[0],
-                    a = s[1];if (t.viewDomNode === a.getDomNode()) return e.Caret.caretRangeFromPoint.bind(r.shadowRoot);
+              for (var o = 0, s = e._scopes; o < s.length; o++) {
+                var i = s[o],
+                    a = i[0],
+                    n = i[1];if (t.viewDomNode === n.getDomNode()) return e.Caret.caretRangeFromPoint.bind(a.shadowRoot);
               }return document.caretRangeFromPoint.bind(document);
             };
           } }, _metaTagCompletions: { get: function get() {
@@ -6711,7 +6726,7 @@ var MonacoEditorElement,
       });
     }, e._captureMonacoErrors = function () {
       window.onerror = function (e, t) {
-        return -1 < t.indexOf("vs/editor/editor.main.js") ? (console.log("Caught monaco editor error (ignore these)"), !0) : void 0;
+        return -1 < t.indexOf("vs/editor/editor.main.js") ? (console.log(window.__.sync("options_editPages_monaco_monacoError")), !0) : void 0;
       };
     }, e._createNullModel = function () {
       this._nullModel = monaco.editor.createModel("");
@@ -6727,58 +6742,58 @@ var MonacoEditorElement,
           });
         });
       }));
-    };var o, i, s, r;return e._setup = !1, e.monacoReady = null, e.currentScope = null, e._scopeListeners = [], e._nullModel = null, e._scopes = [], e.Caret = (o = function () {
+    };var o, s, i, a;return e._setup = !1, e.monacoReady = null, e.currentScope = null, e._scopeListeners = [], e._nullModel = null, e._scopes = [], e.Caret = (o = function () {
       function t() {}return t.getCharWidth = function (e, t) {
-        var o = e + t;if (this._charCache[o]) return this._charCache[o];var i = this._charCanvas.getContext("2d");i.font = t;var s = i.measureText(e),
-            r = s.width;return this._charCache[o] = r, r;
+        var o = e + t;if (this._charCache[o]) return this._charCache[o];var s = this._charCanvas.getContext("2d");s.font = t;var i = s.measureText(e),
+            a = i.width;return this._charCache[o] = a, a;
       }, t.caretRangeFromPoint = function (t, o) {
         for (var s = this.elementFromPoint(t, o); s.firstChild.nodeType !== s.firstChild.TEXT_NODE;) {
           s = s.lastChild;
-        }var r,
-            a = s.getBoundingClientRect(),
-            n = window.getComputedStyle(s, null).getPropertyValue("font"),
+        }var a,
+            n = s.getBoundingClientRect(),
+            r = window.getComputedStyle(s, null).getPropertyValue("font"),
             l = s.innerText,
-            d = a.left,
-            p = 0;if (t > a.left + a.width) p = l.length;else for (var c = 0; c < l.length + 1; c++) {
-          if (r = e.Caret.getCharWidth(l.charAt(c), n) / 2, d += r, t < d) {
-            p = c;break;
-          }d += r;
-        }var i = document.createRange();return i.setStart(s.firstChild, p), i.setEnd(s.firstChild, p), i;
+            d = n.left,
+            _ = 0;if (t > n.left + n.width) _ = l.length;else for (var p = 0; p < l.length + 1; p++) {
+          if (a = e.Caret.getCharWidth(l.charAt(p), r) / 2, d += a, t < d) {
+            _ = p;break;
+          }d += a;
+        }var i = document.createRange();return i.setStart(s.firstChild, _), i.setEnd(s.firstChild, _), i;
       }, t;
-    }(), o._charCache = {}, o._charCanvas = document.createElement("canvas"), o), e.StyleHack = (i = function () {
+    }(), o._charCache = {}, o._charCanvas = document.createElement("canvas"), o), e.StyleHack = (s = function () {
       function e() {}return e.copyThemeScope = function (e) {
         if (this.monacoStyleElement = this.monacoStyleElement || document.getElementsByClassName("monaco-colors")[0], e.shadowRoot.children[0] !== this.monacoStyleElement) {
           var t = this.monacoStyleElement.cloneNode(!0);e.shadowRoot.insertBefore(t, e.shadowRoot.children[0]);
         }
       }, e;
-    }(), i.monacoStyleElement = null, i), e.Completion = (s = function () {
+    }(), s.monacoStyleElement = null, s), e.Completion = (i = function () {
       function e() {}return e.register = function (e, t) {
-        this._enabledCompletions[e] = this._enabledCompletions[e] || [];for (var o, i = 0, s = this._enabledCompletions[e]; i < s.length; i++) {
-          if (o = s[i], o.completion === t) return;
+        this._enabledCompletions[e] = this._enabledCompletions[e] || [];for (var o, s = 0, i = this._enabledCompletions[e]; s < i.length; s++) {
+          if (o = i[s], o.completion === t) return;
         }this._enabledCompletions[e].push({ completion: t, disposable: monaco.languages.registerCompletionItemProvider(e, t) });
       }, e.clearAll = function () {
         for (var e in this._enabledCompletions) {
-          for (var t, o = 0, i = this._enabledCompletions[e]; o < i.length; o++) {
-            t = i[o], t.disposable.dispose();
+          for (var t, o = 0, s = this._enabledCompletions[e]; o < s.length; o++) {
+            t = s[o], t.disposable.dispose();
           }
         }
       }, e;
-    }(), s._enabledCompletions = {}, s), e.Fetching = (r = function () {
+    }(), i._enabledCompletions = {}, i), e.Fetching = (a = function () {
       function e() {}return e._isWebPageEnv = function () {
         return "http:" === location.protocol || "https:" === location.protocol;
       }, e.loadFile = function (e) {
-        var t = this;return new window.Promise(function (o, i) {
-          var s = new window.XMLHttpRequest(),
-              r = t._isWebPageEnv() ? "" + t.BASE + e : browserAPI.runtime.getURL(e);s.open("GET", r), s.onreadystatechange = function () {
-            s.readyState === XMLHttpRequest.DONE && (200 === s.status ? (t._fetchedFiles[e] = s.responseText, o(s.responseText)) : i(new Error("Failed XHR")));
-          }, s.send();
+        var t = this;return new window.Promise(function (o, s) {
+          var i = new window.XMLHttpRequest(),
+              a = t._isWebPageEnv() ? "" + t.BASE + e : browserAPI.runtime.getURL(e);i.open("GET", a), i.onreadystatechange = function () {
+            i.readyState === XMLHttpRequest.DONE && (200 === i.status ? (t._fetchedFiles[e] = i.responseText, o(i.responseText)) : s(new Error("Failed XHR")));
+          }, i.send();
         });
       }, e.isLoaded = function (e) {
         return e in this._fetchedFiles;
       }, e.getLoadedFile = function (e) {
         return this._fetchedFiles[e];
       }, e;
-    }(), r._fetchedFiles = {}, r.BASE = "../", r), e.Libraries = function () {
+    }(), a._fetchedFiles = {}, a.BASE = "../", a), e.Libraries = function () {
       function e() {}return e.readFile = function (e) {
         return __awaiter(this, void 0, void 0, function () {
           return __generator(this, function (t) {
@@ -6789,10 +6804,10 @@ var MonacoEditorElement,
         });
       }, e.runFile = function (e, t) {
         return __awaiter(this, void 0, void 0, function () {
-          var o;return __generator(this, function (i) {
-            switch (i.label) {case 0:
+          var o;return __generator(this, function (s) {
+            switch (s.label) {case 0:
                 return this._parent().Fetching.isLoaded(e) ? [2] : (o = document.createElement("script"), o.src = browserAPI.runtime.getURL(e), document.body.appendChild(o), t ? [4, window.onExists(t)] : [3, 2]);case 1:
-                i.sent(), i.label = 2;case 2:
+                s.sent(), s.label = 2;case 2:
                 return [2];}
           });
         });
@@ -6800,8 +6815,8 @@ var MonacoEditorElement,
         return window.MonacoEditorHookManager;
       }, e;
     }(), e;
-  }();e.MonacoEditorHookManager = f;window.MonacoEditorHookManager = f, window.objectify ? window.register(y) : window.addEventListener("RegisterReady", function () {
-    window.register(y);
+  }();e.MonacoEditorHookManager = f;window.MonacoEditorHookManager = f, window.objectify ? window.register(h) : window.addEventListener("RegisterReady", function () {
+    window.register(h);
   });
 })(MonacoEditorElement || (MonacoEditorElement = {}));
 var monacoCommand = function () {
@@ -7004,12 +7019,16 @@ var monacoCommand = function () {
               c = a.unchangedEditorSettings.zoom;a.unchangedEditorSettings.zoom = b, JSON.stringify(a.unchangedEditorSettings) !== JSON.stringify(window.app.settings.editor) && a.reloadEditor(), b !== c && window.app.updateEditorZoom(), a.fullscreen && (a.$.settingsContainer.style.height = "345px", a.$.settingsContainer.style.overflowX = "hidden", a.$.bubbleCont.style.position = "absolute", a.$.bubbleCont.style.zIndex = "auto");
         } });
     }, a.fillEditorOptions = function (a) {
-      if ("script" === this.item.type) {
-        var b = this,
-            c = a;c.$.keyBindingsTemplate.items = b.keyBindings, c.$.keyBindingsTemplate.render(), window.app.settings.editor.keyBindings = window.app.settings.editor.keyBindings || { goToDef: b.keyBindings[0].defaultKey, rename: b.keyBindings[1].defaultKey }, Array.prototype.slice.apply(c.$.keyBindingsTemplate.querySelectorAll("paper-input")).forEach(function (a) {
-          a.setAttribute("data-prev-value", a.$$("input").value);
+      return __awaiter(this, void 0, void 0, function () {
+        var b, c, d;return __generator(this, function (e) {
+          switch (e.label) {case 0:
+              return "script" === this.item.type ? (b = this, c = a, [4, b.getKeyBindings()]) : [3, 2];case 1:
+              d = e.sent(), c.$.keyBindingsTemplate.items = d, c.$.keyBindingsTemplate.render(), window.app.settings.editor.keyBindings = window.app.settings.editor.keyBindings || { goToDef: d[0].defaultKey, rename: d[1].defaultKey }, Array.prototype.slice.apply(c.$.keyBindingsTemplate.querySelectorAll("paper-input")).forEach(function (a) {
+                a.setAttribute("data-prev-value", a.$$("input").value);
+              }), e.label = 2;case 2:
+              return "white" === window.app.settings.editor.theme ? a.$.editorThemeSettingWhite.classList.add("currentTheme") : a.$.editorThemeSettingWhite.classList.remove("currentTheme"), "dark" === window.app.settings.editor.theme ? a.$.editorThemeSettingDark.classList.add("currentTheme") : a.$.editorThemeSettingDark.classList.remove("currentTheme"), a.$.editorThemeFontSizeInput.$$("input").value = window.app.settings.editor.zoom || "100", [2];}
         });
-      }"white" === window.app.settings.editor.theme ? a.$.editorThemeSettingWhite.classList.add("currentTheme") : a.$.editorThemeSettingWhite.classList.remove("currentTheme"), "dark" === window.app.settings.editor.theme ? a.$.editorThemeSettingDark.classList.add("currentTheme") : a.$.editorThemeSettingDark.classList.remove("currentTheme"), a.$.editorThemeFontSizeInput.$$("input").value = window.app.settings.editor.zoom || "100";
+      });
     }, a._showFullscreenOptions = function () {
       window.app.$.fullscreenEditorToggle.style.display = "none", window.setTransform(window.app.$.fullscreenSettingsContainer, "translateX(0)");
     }, a.scrollbarsUpdate = function (a) {
@@ -7045,474 +7064,514 @@ var monacoCommand = function () {
     } };
 })(CodeEditBehaviorNamespace || (CodeEditBehaviorNamespace = {})), window.Polymer.CodeEditBehavior = window.Polymer.CodeEditBehavior || CodeEditBehaviorNamespace.CEB;
 var CodeEditBehaviorNamespace,
-    __awaiter = undefined && undefined.__awaiter || function (a, b, c, d) {
-  return new (c || (c = Promise))(function (e, f) {
-    function g(a) {
+    __awaiter = undefined && undefined.__awaiter || function (e, t, i, o) {
+  return new (i || (i = Promise))(function (n, r) {
+    function s(e) {
       try {
-        i(d.next(a));
-      } catch (a) {
-        f(a);
+        d(o.next(e));
+      } catch (t) {
+        r(t);
       }
-    }function h(a) {
+    }function a(e) {
       try {
-        i(d["throw"](a));
-      } catch (a) {
-        f(a);
+        d(o["throw"](e));
+      } catch (t) {
+        r(t);
       }
-    }function i(a) {
-      a.done ? e(a.value) : new c(function (b) {
-        b(a.value);
-      }).then(g, h);
-    }i((d = d.apply(a, b || [])).next());
+    }function d(e) {
+      e.done ? n(e.value) : new i(function (t) {
+        t(e.value);
+      }).then(s, a);
+    }d((o = o.apply(e, t || [])).next());
   });
 },
-    __generator = undefined && undefined.__generator || function (a, b) {
-  function c(a) {
-    return function (b) {
-      return d([a, b]);
+    __generator = undefined && undefined.__generator || function (e, i) {
+  function o(e) {
+    return function (t) {
+      return r([e, t]);
     };
-  }function d(c) {
-    if (e) throw new TypeError("Generator is already executing.");for (; g;) {
+  }function r(o) {
+    if (n) throw new TypeError("Generator is already executing.");for (; l;) {
       try {
-        if (e = 1, f && (h = 2 & c[0] ? f["return"] : c[0] ? f["throw"] || ((h = f["return"]) && h.call(f), 0) : f.next) && !(h = h.call(f, c[1])).done) return h;switch ((f = 0, h) && (c = [2 & c[0], h.value]), c[0]) {case 0:case 1:
-            h = c;break;case 4:
-            return g.label++, { value: c[1], done: !1 };case 5:
-            g.label++, f = c[1], c = [0];continue;case 7:
-            c = g.ops.pop(), g.trys.pop();continue;default:
-            if ((h = g.trys, !(h = 0 < h.length && h[h.length - 1])) && (6 === c[0] || 2 === c[0])) {
-              g = 0;continue;
-            }if (3 === c[0] && (!h || c[1] > h[0] && c[1] < h[3])) {
-              g.label = c[1];break;
-            }if (6 === c[0] && g.label < h[1]) {
-              g.label = h[1], h = c;break;
-            }if (h && g.label < h[2]) {
-              g.label = h[2], g.ops.push(c);break;
-            }h[2] && g.ops.pop(), g.trys.pop();continue;}c = b.call(a, g);
-      } catch (a) {
-        c = [6, a], f = 0;
+        if (n = 1, s && (a = 2 & o[0] ? s["return"] : o[0] ? s["throw"] || ((a = s["return"]) && a.call(s), 0) : s.next) && !(a = a.call(s, o[1])).done) return a;switch ((s = 0, a) && (o = [2 & o[0], a.value]), o[0]) {case 0:case 1:
+            a = o;break;case 4:
+            return l.label++, { value: o[1], done: !1 };case 5:
+            l.label++, s = o[1], o = [0];continue;case 7:
+            o = l.ops.pop(), l.trys.pop();continue;default:
+            if ((a = l.trys, !(a = 0 < a.length && a[a.length - 1])) && (6 === o[0] || 2 === o[0])) {
+              l = 0;continue;
+            }if (3 === o[0] && (!a || o[1] > a[0] && o[1] < a[3])) {
+              l.label = o[1];break;
+            }if (6 === o[0] && l.label < a[1]) {
+              l.label = a[1], a = o;break;
+            }if (a && l.label < a[2]) {
+              l.label = a[2], l.ops.push(o);break;
+            }a[2] && l.ops.pop(), l.trys.pop();continue;}o = i.call(e, l);
+      } catch (t) {
+        o = [6, t], s = 0;
       } finally {
-        e = h = 0;
+        n = a = 0;
       }
-    }if (5 & c[0]) throw c[1];return { value: c[0] ? c[1] : void 0, done: !0 };
-  }var e,
-      f,
-      h,
-      i,
-      g = { label: 0, sent: function sent() {
-      if (1 & h[0]) throw h[1];return h[1];
-    }, trys: [], ops: [] };return i = { next: c(0), "throw": c(1), "return": c(2) }, "function" === typeof Symbol && (i[Symbol.iterator] = function () {
+    }if (5 & o[0]) throw o[1];return { value: o[0] ? o[1] : void 0, done: !0 };
+  }var n,
+      s,
+      a,
+      d,
+      l = { label: 0, sent: function sent() {
+      if (1 & a[0]) throw a[1];return a[1];
+    }, trys: [], ops: [] };return d = { next: o(0), "throw": o(1), "return": o(2) }, "function" === typeof Symbol && (d[Symbol.iterator] = function () {
     return this;
-  }), i;
-};(function (a) {
-  var b = function () {
-    function a() {}return a.setThemeWhite = function () {
+  }), d;
+};(function (e) {
+  var t = function () {
+    function e() {}return e.setThemeWhite = function () {
       this.$.editorThemeSettingWhite.classList.add("currentTheme"), this.$.editorThemeSettingDark.classList.remove("currentTheme"), window.app.settings.editor.theme = "white", window.app.upload();
-    }, a.setThemeDark = function () {
+    }, e.setThemeDark = function () {
       this.$.editorThemeSettingWhite.classList.remove("currentTheme"), this.$.editorThemeSettingDark.classList.add("currentTheme"), window.app.settings.editor.theme = "dark", window.app.upload();
-    }, a.fontSizeChange = function () {
-      var a = this;this.async(function () {
-        window.app.settings.editor.zoom = a.$.editorThemeFontSizeInput.$$("input").value + "", window.app.upload();
+    }, e.fontSizeChange = function () {
+      var e = this;this.async(function () {
+        window.app.settings.editor.zoom = e.$.editorThemeFontSizeInput.$$("input").value + "", window.app.upload();
       }, 50);
-    }, a.finishEditing = function () {
-      browserAPI.storage.local.set({ editing: null }), window.useOptionsCompletions = !1, this.hideCodeOptions(), this.optionsShown && this.hideOptions(), Array.prototype.slice.apply(this.shadowRoot.querySelectorAll(".editorTab")).forEach(function (a) {
-        a.classList.remove("active");
+    }, e.finishEditing = function () {
+      browserAPI.storage.local.set({ editing: null }), window.useOptionsCompletions = !1, this.hideCodeOptions(), this.optionsShown && this.hideOptions(), Array.prototype.slice.apply(this.shadowRoot.querySelectorAll(".editorTab")).forEach(function (e) {
+        e.classList.remove("active");
       }), this.$$(".mainEditorTab").classList.add("active");
-    }, a.insertSnippet = function (a, b, c) {
-      void 0 === c && (c = !1);var d = a.getEditorInstance().getEditorAsMonaco();if (a.editorManager.isTextarea(d)) {
-        var e = d.getSelected(),
-            f = e.from,
-            g = e.to,
-            h = e.content,
-            j = c ? b : b.replace(/%s/g, h),
-            k = d.getValue(),
-            l = k.slice(0, f.totalChar) + j + k.slice(g.totalChar);a.editorManager.isDiff(d) || d.setValue(l);
+    }, e.insertSnippet = function (e, t, o) {
+      void 0 === o && (o = !1);var n = e.getEditorInstance().getEditorAsMonaco();if (e.editorManager.isTextarea(n)) {
+        var r = n.getSelected(),
+            s = r.from,
+            a = r.to,
+            d = r.content,
+            l = o ? t : t.replace(/%s/g, d),
+            p = n.getValue(),
+            g = p.slice(0, s.totalChar) + l + p.slice(a.totalChar);e.editorManager.isDiff(n) || n.setValue(g);
       } else {
-        var m = d.getSelections();if (1 === m.length && 0 === m[0].toString().length && 0 === m[0].getPosition().lineNumber && 0 === m[0].getPosition().column) for (var n = d.getValue().split("\n"), o = ["//", "/*", "*/", "*", " *"], p = 0; p < n.length; p++) {
-          for (var i, q = 0, r = o; q < r.length; q++) {
-            if (i = r[q], 0 === n[p].indexOf(i)) continue;
-          }m[0] = new monaco.Selection(p, 0, p, 0);break;
-        }var s = m.map(function (a) {
-          var d = c ? b : b.replace(/%s/g, a.toString());return window.monacoCommands.createReplaceCommand(a.cloneRange(), d);
-        });a.editorManager.isDiff(d) || d.executeCommands("snippet", s);
+        var c = n.getSelections();if (1 === c.length && 0 === c[0].toString().length && 0 === c[0].getPosition().lineNumber && 0 === c[0].getPosition().column) for (var u = n.getValue().split("\n"), h = ["//", "/*", "*/", "*", " *"], m = 0; m < u.length; m++) {
+          for (var i, b = 0, y = h; b < y.length; b++) {
+            if (i = y[b], 0 === u[m].indexOf(i)) continue;
+          }c[0] = new monaco.Selection(m, 0, m, 0);break;
+        }var f = c.map(function (e) {
+          var i = o ? t : t.replace(/%s/g, e.toString());return window.monacoCommands.createReplaceCommand(e.cloneRange(), i);
+        });e.editorManager.isDiff(n) || n.executeCommands("snippet", f);
       }
-    }, a.popOutToolsRibbon = function () {
+    }, e.popOutToolsRibbon = function () {
       window.doc.editorToolsRibbonContainer.animate([{ marginLeft: "0" }, { marginLeft: "-200px" }], { duration: 800, easing: "cubic-bezier(0.215, 0.610, 0.355, 1.000)" }).onfinish = function () {
         window.doc.editorToolsRibbonContainer.style.marginLeft = "-200px", window.doc.editorToolsRibbonContainer.classList.remove("visible");
       };
-    }, a.toggleFullScreen = function () {
+    }, e.toggleFullScreen = function () {
       this.fullscreen ? this.exitFullScreen() : this.enterFullScreen();
-    }, a.isFullscreen = function () {
+    }, e.isFullscreen = function () {
       return this.fullscreen;
-    }, a.toggleOptions = function () {
+    }, e.toggleOptions = function () {
       this.optionsShown ? this.hideOptions() : this.showOptions();
-    }, a.initToolsRibbon = function () {
-      var a = this;"script" === this.item.type && (window.app.$.paperLibrariesSelector.init(), window.app.$.paperGetPageProperties.init(function (b) {
-        a.insertSnippet(a, b);
+    }, e.initToolsRibbon = function () {
+      var e = this;"script" === this.item.type && (window.app.$.paperLibrariesSelector.init(), window.app.$.paperGetPageProperties.init(function (t) {
+        e.insertSnippet(e, t);
       }));
-    }, a.popInRibbons = function () {
-      var a,
-          b = this,
-          c = window.app.$.editorCurrentScriptTitle;window.app.storageLocal.shrinkTitleRibbon ? (window.doc.editorTitleRibbon.style.fontSize = "40%", c.style.padding = "0", a = "-18px") : a = "-51px", window.setDisplayFlex(c), c.style.marginTop = a;var d = [{ marginTop: a }, { marginTop: "0" }];c.style.marginLeft = "-200px", this.initToolsRibbon(), setTimeout(function () {
-        window.setDisplayFlex(window.doc.editorToolsRibbonContainer), window.app.storageLocal.hideToolsRibbon ? window.doc.editorToolsRibbonContainer.classList.add("visible") : $(window.doc.editorToolsRibbonContainer).animate({ marginLeft: "0" }, { duration: 500, easing: $.bez([0.215, 0.61, 0.355, 1]), step: function step(a) {
-            window.addCalcFn(window.doc.fullscreenEditorEditor, "width", "100vw - 200px - " + a + "px"), window.doc.fullscreenEditorEditor.style.marginLeft = a + 200 + "px", b.fullscreenEditorManager.editor.layout();
+    }, e.popInRibbons = function () {
+      var e,
+          t = this,
+          i = window.app.$.editorCurrentScriptTitle;window.app.storageLocal.shrinkTitleRibbon ? (window.doc.editorTitleRibbon.style.fontSize = "40%", i.style.padding = "0", e = "-18px") : e = "-51px", window.setDisplayFlex(i), i.style.marginTop = e;var o = [{ marginTop: e }, { marginTop: "0" }];i.style.marginLeft = "-200px", this.initToolsRibbon(), setTimeout(function () {
+        window.setDisplayFlex(window.doc.editorToolsRibbonContainer), window.app.storageLocal.hideToolsRibbon ? window.doc.editorToolsRibbonContainer.classList.add("visible") : $(window.doc.editorToolsRibbonContainer).animate({ marginLeft: "0" }, { duration: 500, easing: $.bez([0.215, 0.61, 0.355, 1]), step: function step(e) {
+            window.addCalcFn(window.doc.fullscreenEditorEditor, "width", "100vw - 200px - " + e + "px"), window.doc.fullscreenEditorEditor.style.marginLeft = e + 200 + "px", t.fullscreenEditorManager.editor.layout();
           } });
       }, 200), setTimeout(function () {
-        var a = window.app.util.getDummy();a.style.height = "0", $(a).animate({ height: "50px" }, { duration: 500, easing: $.bez([0.215, 0.61, 0.355, 1]), step: function step(a) {
-            window.addCalcFn(window.doc.fullscreenEditorEditor, "height", "100vw - " + a + "px"), window.addCalcFn(window.doc.fullscreenEditorHorizontal, "height", "100vh - " + a + "px"), b.fullscreenEditorManager.editor.layout();
-          } }), c.animate(d, { duration: 500, easing: "cubic-bezier(0.215, 0.610, 0.355, 1.000)" }).onfinish = function () {
-          c.style.marginTop = "0", void 0 !== d[0].marginLeft && (c.style.marginLeft = "0");
+        var e = window.app.util.getDummy();e.style.height = "0", $(e).animate({ height: "50px" }, { duration: 500, easing: $.bez([0.215, 0.61, 0.355, 1]), step: function step(e) {
+            window.addCalcFn(window.doc.fullscreenEditorEditor, "height", "100vw - " + e + "px"), window.addCalcFn(window.doc.fullscreenEditorHorizontal, "height", "100vh - " + e + "px"), t.fullscreenEditorManager.editor.layout();
+          } }), i.animate(o, { duration: 500, easing: "cubic-bezier(0.215, 0.610, 0.355, 1.000)" }).onfinish = function () {
+          i.style.marginTop = "0", void 0 !== o[0].marginLeft && (i.style.marginLeft = "0");
         };
       }, 200);
-    }, a.popOutRibbons = function () {
-      var a,
-          b = this,
-          c = window.app.$.editorCurrentScriptTitle;window.app.storageLocal.shrinkTitleRibbon ? (window.doc.editorTitleRibbon.style.fontSize = "40%", c.style.padding = "0", a = "-18px") : a = "-51px", window.setDisplayFlex(c), c.style.marginTop = "0";var d = [{ marginTop: "0" }, { marginTop: a }];c.style.marginLeft = "-200px", setTimeout(function () {
-        window.setDisplayFlex(window.doc.editorToolsRibbonContainer);var a = window.app.storageLocal && window.app.storageLocal.hideToolsRibbon || !1;a ? window.doc.editorToolsRibbonContainer.classList.add("visible") : $(window.doc.editorToolsRibbonContainer).animate({ marginLeft: "-200px" }, { duration: 500, easing: "linear", step: function step(a) {
-            window.addCalcFn(window.doc.fullscreenEditorEditor, "width", "100vw - 200px - " + a + "px"), window.doc.fullscreenEditorEditor.style.marginLeft = a + 200 + "px", b.fullscreenEditorManager.editor.layout();
+    }, e.popOutRibbons = function () {
+      var e,
+          t = this,
+          i = window.app.$.editorCurrentScriptTitle;window.app.storageLocal.shrinkTitleRibbon ? (window.doc.editorTitleRibbon.style.fontSize = "40%", i.style.padding = "0", e = "-18px") : e = "-51px", window.setDisplayFlex(i), i.style.marginTop = "0";var o = [{ marginTop: "0" }, { marginTop: e }];i.style.marginLeft = "-200px", setTimeout(function () {
+        window.setDisplayFlex(window.doc.editorToolsRibbonContainer);var e = window.app.storageLocal && window.app.storageLocal.hideToolsRibbon || !1;e ? window.doc.editorToolsRibbonContainer.classList.add("visible") : $(window.doc.editorToolsRibbonContainer).animate({ marginLeft: "-200px" }, { duration: 500, easing: "linear", step: function step(e) {
+            window.addCalcFn(window.doc.fullscreenEditorEditor, "width", "100vw - 200px - " + e + "px"), window.doc.fullscreenEditorEditor.style.marginLeft = e + 200 + "px", t.fullscreenEditorManager.editor.layout();
           } });
       }, 200), setTimeout(function () {
-        var e = window.app.util.getDummy();e.style.height = "50px", $(e).animate({ height: "0" }, { duration: 500, easing: "linear", step: function step(a) {
-            window.addCalcFn(window.doc.fullscreenEditorEditor, "height", "100vw - " + a + "px"), window.addCalcFn(window.doc.fullscreenEditorHorizontal, "height", "100vh - " + a + "px"), b.fullscreenEditorManager.editor.layout();
-          } }), c.animate(d, { duration: 500, easing: "linear" }).onfinish = function () {
-          c.style.marginTop = a, void 0 !== d[0].marginLeft && (c.style.marginLeft = a);
+        var n = window.app.util.getDummy();n.style.height = "50px", $(n).animate({ height: "0" }, { duration: 500, easing: "linear", step: function step(e) {
+            window.addCalcFn(window.doc.fullscreenEditorEditor, "height", "100vw - " + e + "px"), window.addCalcFn(window.doc.fullscreenEditorHorizontal, "height", "100vh - " + e + "px"), t.fullscreenEditorManager.editor.layout();
+          } }), i.animate(o, { duration: 500, easing: "linear" }).onfinish = function () {
+          i.style.marginTop = e, void 0 !== o[0].marginLeft && (i.style.marginLeft = e);
         };
       }, 200);
-    }, a.exitFullScreen = function () {
-      var a = this;this.fullscreen && (this.fullscreen = !1, this.popOutRibbons(), setTimeout(function () {
-        var b = window.doc.fullscreenEditorEditor;a.$.editorFullScreen.children[0].innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"48\" height=\"48\" viewBox=\"0 0 48 48\"><path d=\"M14 28h-4v10h10v-4h-6v-6zm-4-8h4v-6h6v-4H10v10zm24 14h-6v4h10V28h-4v6zm-6-24v4h6v6h4V10H28z\"/></svg>", $(b).animate({ width: a.preFullscreenEditorDimensions.width, height: a.preFullscreenEditorDimensions.height, marginTop: a.preFullscreenEditorDimensions.marginTop, marginLeft: a.preFullscreenEditorDimensions.marginLeft }, { duration: 500, easing: "easeOutCubic", complete: function complete() {
-            b.style.marginLeft = "0", b.style.marginTop = "0", window.addCalcFn(b, "width", "", !0), window.addCalcFn(b, "height", "", !0), b.style.width = "0", b.style.height = "0", a.fullscreenEditorManager.destroy(), a.editorManager.claimScope(), window.doc.fullscreenEditor.style.display = "none";
+    }, e.exitFullScreen = function () {
+      var e = this;this.fullscreen && (this.fullscreen = !1, this.popOutRibbons(), setTimeout(function () {
+        var t = window.doc.fullscreenEditorEditor;e.$.editorFullScreen.children[0].innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"48\" height=\"48\" viewBox=\"0 0 48 48\"><path d=\"M14 28h-4v10h10v-4h-6v-6zm-4-8h4v-6h6v-4H10v10zm24 14h-6v4h10V28h-4v6zm-6-24v4h6v6h4V10H28z\"/></svg>", $(t).animate({ width: e.preFullscreenEditorDimensions.width, height: e.preFullscreenEditorDimensions.height, marginTop: e.preFullscreenEditorDimensions.marginTop, marginLeft: e.preFullscreenEditorDimensions.marginLeft }, { duration: 500, easing: "easeOutCubic", complete: function complete() {
+            t.style.marginLeft = "0", t.style.marginTop = "0", window.addCalcFn(t, "width", "", !0), window.addCalcFn(t, "height", "", !0), t.style.width = "0", t.style.height = "0", e.fullscreenEditorManager.destroy(), e.editorManager.claimScope(), window.doc.fullscreenEditor.style.display = "none";
           } });
       }, 700));
-    }, a.enterFullScreen = function () {
+    }, e.enterFullScreen = function () {
       return __awaiter(this, void 0, void 0, function () {
-        var a = this;return __generator(this, function () {
-          return [2, new Promise(function (b) {
-            return __awaiter(a, void 0, void 0, function () {
-              var a,
-                  c,
-                  d,
-                  e,
-                  f,
-                  g,
-                  h,
+        var e = this;return __generator(this, function () {
+          return [2, new Promise(function (t) {
+            return __awaiter(e, void 0, void 0, function () {
+              var e,
                   i,
-                  j,
-                  k,
-                  l = this;return __generator(this, function (m) {
-                switch (m.label) {case 0:
-                    return this.fullscreen ? (b(null), [2, null]) : (this.fullscreen = !0, window.doc.fullscreenEditor.style.display = "block", a = this.editorManager.editor.getDomNode().getBoundingClientRect(), c = window.doc.fullscreenEditorEditor, d = c.style, d.marginLeft = this.preFullscreenEditorDimensions.marginLeft = a.left + "px", d.marginTop = this.preFullscreenEditorDimensions.marginTop = a.top + "px", window.addCalcFn(c, "height", "", !0), window.addCalcFn(c, "width", "", !0), d.height = this.preFullscreenEditorDimensions.height = a.height + "px", d.width = this.preFullscreenEditorDimensions.width = a.width + "px", d.position = "absolute", "script" === this.item.type && (e = this, f = "main" === e.editorMode ? e.newSettings.value.libraries : e.newSettings.value.backgroundLibraries || [], window.app.$.paperLibrariesSelector.updateLibraries(f, this.newSettings, this.editorMode), e.newSettings.value.ts && e.newSettings.value.ts.enabled ? window.app.$.editorTypescript.classList.add("active") : window.app.$.editorTypescript.classList.remove("active")), g = this, [4, c.createFrom(this.editorManager)]);case 1:
-                    return g.fullscreenEditorManager = m.sent(), h = window.crmEditPage.$.horizontalCenterer, i = h.getBoundingClientRect(), j = i.width + 20, k = i.height, void 0 === window.app.storageLocal.hideToolsRibbon ? (browserAPI.storage.local.set({ hideToolsRibbon: !1 }), window.app.storageLocal.hideToolsRibbon = !1, window.doc.showHideToolsRibbonButton.classList.add("hidden")) : window.app.storageLocal.hideToolsRibbon ? window.doc.showHideToolsRibbonButton.classList.add("hidden") : window.doc.showHideToolsRibbonButton.classList.remove("hidden"), void 0 === window.app.storageLocal.shrinkTitleRibbon ? (browserAPI.storage.local.set({ shrinkTitleRibbon: !1 }), window.app.storageLocal.shrinkTitleRibbon = !1, window.setTransform(window.doc.shrinkTitleRibbonButton, "rotate(270deg)")) : window.app.storageLocal.shrinkTitleRibbon ? window.setTransform(window.doc.shrinkTitleRibbonButton, "rotate(90deg)") : window.setTransform(window.doc.shrinkTitleRibbonButton, "rotate(270deg)"), document.documentElement.style.overflow = "hidden", c.style.display = "-wekbit-flex", c.style.display = "flex", this.fullscreenEditorManager.editor.layout(), $(c).animate({ width: j, height: k, marginTop: 0, marginLeft: 0 }, { duration: 500, easing: "easeOutCubic", step: function step() {
-                        l.fullscreenEditorManager.editor.layout();
+                  o,
+                  n,
+                  r,
+                  s,
+                  a,
+                  d,
+                  l,
+                  p,
+                  g = this;return __generator(this, function (c) {
+                switch (c.label) {case 0:
+                    return this.fullscreen ? (t(null), [2, null]) : (this.fullscreen = !0, window.doc.fullscreenEditor.style.display = "block", e = this.editorManager.editor.getDomNode().getBoundingClientRect(), i = window.doc.fullscreenEditorEditor, o = i.style, o.marginLeft = this.preFullscreenEditorDimensions.marginLeft = e.left + "px", o.marginTop = this.preFullscreenEditorDimensions.marginTop = e.top + "px", window.addCalcFn(i, "height", "", !0), window.addCalcFn(i, "width", "", !0), o.height = this.preFullscreenEditorDimensions.height = e.height + "px", o.width = this.preFullscreenEditorDimensions.width = e.width + "px", o.position = "absolute", "script" === this.item.type && (n = this, r = "main" === n.editorMode ? n.newSettings.value.libraries : n.newSettings.value.backgroundLibraries || [], window.app.$.paperLibrariesSelector.updateLibraries(r, this.newSettings, this.editorMode), n.newSettings.value.ts && n.newSettings.value.ts.enabled ? window.app.$.editorTypescript.classList.add("active") : window.app.$.editorTypescript.classList.remove("active")), s = this, [4, i.createFrom(this.editorManager)]);case 1:
+                    return s.fullscreenEditorManager = c.sent(), a = window.crmEditPage.$.horizontalCenterer, d = a.getBoundingClientRect(), l = d.width + 20, p = d.height, void 0 === window.app.storageLocal.hideToolsRibbon ? (browserAPI.storage.local.set({ hideToolsRibbon: !1 }), window.app.storageLocal.hideToolsRibbon = !1, window.doc.showHideToolsRibbonButton.classList.add("hidden")) : window.app.storageLocal.hideToolsRibbon ? window.doc.showHideToolsRibbonButton.classList.add("hidden") : window.doc.showHideToolsRibbonButton.classList.remove("hidden"), void 0 === window.app.storageLocal.shrinkTitleRibbon ? (browserAPI.storage.local.set({ shrinkTitleRibbon: !1 }), window.app.storageLocal.shrinkTitleRibbon = !1, window.setTransform(window.doc.shrinkTitleRibbonButton, "rotate(270deg)")) : window.app.storageLocal.shrinkTitleRibbon ? window.setTransform(window.doc.shrinkTitleRibbonButton, "rotate(90deg)") : window.setTransform(window.doc.shrinkTitleRibbonButton, "rotate(270deg)"), document.documentElement.style.overflow = "hidden", i.style.display = "-wekbit-flex", i.style.display = "flex", this.fullscreenEditorManager.editor.layout(), $(i).animate({ width: l, height: p, marginTop: 0, marginLeft: 0 }, { duration: 500, easing: "easeOutCubic", step: function step() {
+                        g.fullscreenEditorManager.editor.layout();
                       }, complete: function complete() {
-                        l.fullscreenEditorManager.editor.layout(), l.style.width = "100vw", l.style.height = "100vh", window.addCalcFn(window.app.$.fullscreenEditorHorizontal, "height", "", !0), window.app.$.fullscreenEditorHorizontal.style.height = "100vh", l.popInRibbons(), b(null);
+                        g.fullscreenEditorManager.editor.layout(), g.style.width = "100vw", g.style.height = "100vh", window.addCalcFn(window.app.$.fullscreenEditorHorizontal, "height", "", !0), window.app.$.fullscreenEditorHorizontal.style.height = "100vh", g.popInRibbons(), t(null);
                       } }), [2];}
               });
             });
           })];
         });
       });
-    }, a.showOptions = function () {
-      var a = this;if (this.optionsShown = !0, this.unchangedEditorSettings = $.extend(!0, {}, window.app.settings.editor), this.fullscreen) return this.fillEditorOptions(window.app), void this._showFullscreenOptions();var b = this.getEditorInstance().editor.getDomNode().getBoundingClientRect().width,
-          c = this.getEditorInstance().editor.getDomNode().getBoundingClientRect().height,
-          d = Math.sqrt(b * b + c * c) + 200,
-          e = -d,
-          f = 2 * d;this.$.bubbleCont.parentElement.style.width = b + "px", this.$.bubbleCont.parentElement.style.height = c + "px", this.$.editorOptionsContainer.style.width = b + "px", this.$.editorOptionsContainer.style.height = c + "px", this.$$("#editorThemeFontSizeInput").value = window.app.settings.editor.zoom, this.fillEditorOptions(this), $(this.$.settingsShadow).css({ width: "50px", height: "50px", borderRadius: "50%", marginTop: "-25px", marginRight: "-25px" }).animate({ width: f, height: f, marginTop: e, marginRight: e }, { duration: 500, easing: "linear", progress: function progress(b) {
-          a.$.editorOptionsContainer.style.marginLeft = -500 - b.tweens[3].now + "px", a.$.editorOptionsContainer.style.marginTop = -b.tweens[2].now + "px";
+    }, e.showOptions = function () {
+      var e = this;if (this.optionsShown = !0, this.unchangedEditorSettings = $.extend(!0, {}, window.app.settings.editor), this.fullscreen) return this.fillEditorOptions(window.app), void this._showFullscreenOptions();var t = this.getEditorInstance().editor.getDomNode().getBoundingClientRect().width,
+          i = this.getEditorInstance().editor.getDomNode().getBoundingClientRect().height,
+          o = Math.sqrt(t * t + i * i) + 200,
+          n = -o,
+          r = 2 * o;this.$.bubbleCont.parentElement.style.width = t + "px", this.$.bubbleCont.parentElement.style.height = i + "px", this.$.editorOptionsContainer.style.width = t + "px", this.$.editorOptionsContainer.style.height = i + "px", this.$$("#editorThemeFontSizeInput").value = window.app.settings.editor.zoom, this.fillEditorOptions(this), $(this.$.settingsShadow).css({ width: "50px", height: "50px", borderRadius: "50%", marginTop: "-25px", marginRight: "-25px" }).animate({ width: r, height: r, marginTop: n, marginRight: n }, { duration: 500, easing: "linear", progress: function progress(t) {
+          e.$.editorOptionsContainer.style.marginLeft = -500 - t.tweens[3].now + "px", e.$.editorOptionsContainer.style.marginTop = -t.tweens[2].now + "px";
         } });
-    }, a._hideFullscreenOptions = function () {
+    }, e._hideFullscreenOptions = function () {
       window.setTransform(window.app.$.fullscreenSettingsContainer, "translateX(500px)"), window.setTimeout(function () {
         window.app.$.fullscreenEditorToggle.style.display = "block";
       }, 500);
-    }, a.hideOptions = function () {
-      var a = this;this.optionsShown = !1, this.fullscreen && this._hideFullscreenOptions();this.$.editorFullScreen.style.display = "block", $(this.$.settingsShadow).animate({ width: 0, height: 0, marginTop: 0, marginRight: 0 }, { duration: 500, easing: "linear", progress: function progress(b) {
-          a.$.editorOptionsContainer.style.marginLeft = -500 - b.tweens[3].now + "px", a.$.editorOptionsContainer.style.marginTop = -b.tweens[2].now + "px";
+    }, e.hideOptions = function () {
+      var e = this;this.optionsShown = !1, this.fullscreen && this._hideFullscreenOptions();this.$.editorFullScreen.style.display = "block", $(this.$.settingsShadow).animate({ width: 0, height: 0, marginTop: 0, marginRight: 0 }, { duration: 500, easing: "linear", progress: function progress(t) {
+          e.$.editorOptionsContainer.style.marginLeft = -500 - t.tweens[3].now + "px", e.$.editorOptionsContainer.style.marginTop = -t.tweens[2].now + "px";
         }, complete: function complete() {
-          var b = window.app.settings.editor.zoom,
-              c = a.unchangedEditorSettings.zoom;a.unchangedEditorSettings.zoom = b, JSON.stringify(a.unchangedEditorSettings) !== JSON.stringify(window.app.settings.editor) && a.reloadEditor(), b !== c && window.app.updateEditorZoom(), a.fullscreen && (a.$.settingsContainer.style.height = "345px", a.$.settingsContainer.style.overflowX = "hidden", a.$.bubbleCont.style.position = "absolute", a.$.bubbleCont.style.zIndex = "auto");
+          var t = window.app.settings.editor.zoom,
+              i = e.unchangedEditorSettings.zoom;e.unchangedEditorSettings.zoom = t, JSON.stringify(e.unchangedEditorSettings) !== JSON.stringify(window.app.settings.editor) && e.reloadEditor(), t !== i && window.app.updateEditorZoom(), e.fullscreen && (e.$.settingsContainer.style.height = "345px", e.$.settingsContainer.style.overflowX = "hidden", e.$.bubbleCont.style.position = "absolute", e.$.bubbleCont.style.zIndex = "auto");
         } });
-    }, a.fillEditorOptions = function (a) {
-      if ("script" === this.item.type) {
-        var b = this,
-            c = a;c.$.keyBindingsTemplate.items = b.keyBindings, c.$.keyBindingsTemplate.render(), window.app.settings.editor.keyBindings = window.app.settings.editor.keyBindings || { goToDef: b.keyBindings[0].defaultKey, rename: b.keyBindings[1].defaultKey }, Array.prototype.slice.apply(c.$.keyBindingsTemplate.querySelectorAll("paper-input")).forEach(function (a) {
-          a.setAttribute("data-prev-value", a.$$("input").value);
+    }, e.fillEditorOptions = function (e) {
+      return __awaiter(this, void 0, void 0, function () {
+        var t, i, o;return __generator(this, function (n) {
+          switch (n.label) {case 0:
+              return "script" === this.item.type ? (t = this, i = e, [4, t.getKeyBindings()]) : [3, 2];case 1:
+              o = n.sent(), i.$.keyBindingsTemplate.items = o, i.$.keyBindingsTemplate.render(), window.app.settings.editor.keyBindings = window.app.settings.editor.keyBindings || { goToDef: o[0].defaultKey, rename: o[1].defaultKey }, Array.prototype.slice.apply(i.$.keyBindingsTemplate.querySelectorAll("paper-input")).forEach(function (e) {
+                e.setAttribute("data-prev-value", e.$$("input").value);
+              }), n.label = 2;case 2:
+              return "white" === window.app.settings.editor.theme ? e.$.editorThemeSettingWhite.classList.add("currentTheme") : e.$.editorThemeSettingWhite.classList.remove("currentTheme"), "dark" === window.app.settings.editor.theme ? e.$.editorThemeSettingDark.classList.add("currentTheme") : e.$.editorThemeSettingDark.classList.remove("currentTheme"), e.$.editorThemeFontSizeInput.$$("input").value = window.app.settings.editor.zoom || "100", [2];}
         });
-      }"white" === window.app.settings.editor.theme ? a.$.editorThemeSettingWhite.classList.add("currentTheme") : a.$.editorThemeSettingWhite.classList.remove("currentTheme"), "dark" === window.app.settings.editor.theme ? a.$.editorThemeSettingDark.classList.add("currentTheme") : a.$.editorThemeSettingDark.classList.remove("currentTheme"), a.$.editorThemeFontSizeInput.$$("input").value = window.app.settings.editor.zoom || "100";
-    }, a._showFullscreenOptions = function () {
+      });
+    }, e._showFullscreenOptions = function () {
       window.app.$.fullscreenEditorToggle.style.display = "none", window.setTransform(window.app.$.fullscreenSettingsContainer, "translateX(0)");
-    }, a.scrollbarsUpdate = function (a) {
-      a !== this.verticalVisible && (this.buttonsContainer.style.right = a ? "29px" : "11px", this.verticalVisible = !this.verticalVisible);
-    }, (a.getEditorInstance = function () {
+    }, e.scrollbarsUpdate = function (e) {
+      e !== this.verticalVisible && (this.buttonsContainer.style.right = e ? "29px" : "11px", this.verticalVisible = !this.verticalVisible);
+    }, (e.getEditorInstance = function () {
       return "script" === this.item.type ? window.scriptEdit.fullscreen ? window.scriptEdit.fullscreenEditorManager : window.scriptEdit.editorManager : window.stylesheetEdit.fullscreen ? window.stylesheetEdit.fullscreenEditorManager : window.stylesheetEdit.editorManager;
-    }, a.showCodeOptions = function () {
-      window.useOptionsCompletions = !0;var a = "string" === typeof this.item.value.options ? this.item.value.options : JSON.stringify(this.item.value.options, null, "\t");this.editorManager.switchToModel("options", a, this.editorManager.EditorMode.JSON_OPTIONS);
-    }, a.hideCodeOptions = function () {
+    }, e.showCodeOptions = function () {
+      window.useOptionsCompletions = !0;var e = "string" === typeof this.item.value.options ? this.item.value.options : JSON.stringify(this.item.value.options, null, "\t");this.editorManager.switchToModel("options", e, this.editorManager.EditorMode.JSON_OPTIONS);
+    }, e.hideCodeOptions = function () {
       window.useOptionsCompletions && (window.useOptionsCompletions = !1);
-    }, a.getAutoUpdateState = function () {
+    }, e.getAutoUpdateState = function () {
       return "script" !== this.newSettings.type && "stylesheet" !== this.newSettings.type || "local" === this.newSettings.nodeInfo.source ? [!1, !0] : this.newSettings.nodeInfo && this.newSettings.nodeInfo.source ? [this.newSettings.nodeInfo.source.autoUpdate, !1] : [!0, !1];
-    }, a.setUpdateIcons = function (a, b) {
-      return b ? void (this.$.updateIcon.style.display = "none") : void (a ? (this.$.updateEnabled.classList.remove("hidden"), this.$.updateDisabled.classList.add("hidden")) : (this.$.updateEnabled.classList.add("hidden"), this.$.updateDisabled.classList.remove("hidden")));
-    }, a.initUI = function () {
-      var a = this;this.$.dropdownMenu.addEventListener("expansionStateChange", function (b) {
-        var c = b.detail,
-            d = c.state;"opening" === d ? a.editorManager.setDefaultHeight() : "closed" === d ? a.editorManager.stopTempLayout() : "opened" === d && a.editorManager.setTempLayout();
-      });var b = this.getAutoUpdateState(),
-          c = b[0],
-          d = b[1];this.setUpdateIcons(c, d);
-    }, a.toggleAutoUpdate = function () {
+    }, e.setUpdateIcons = function (e, t) {
+      return t ? void (this.$.updateIcon.style.display = "none") : void (e ? (this.$.updateEnabled.classList.remove("hidden"), this.$.updateDisabled.classList.add("hidden")) : (this.$.updateEnabled.classList.add("hidden"), this.$.updateDisabled.classList.remove("hidden")));
+    }, e.initUI = function () {
+      var e = this;this.$.dropdownMenu.addEventListener("expansionStateChange", function (t) {
+        var i = t.detail,
+            o = i.state;"opening" === o ? e.editorManager.setDefaultHeight() : "closed" === o ? e.editorManager.stopTempLayout() : "opened" === o && e.editorManager.setTempLayout();
+      });var t = this.getAutoUpdateState(),
+          i = t[0],
+          o = t[1];this.setUpdateIcons(i, o);
+    }, e.toggleAutoUpdate = function () {
       ("script" === this.newSettings.type || "stylesheet" === this.newSettings.type) && "local" !== this.newSettings.nodeInfo.source && this.newSettings.nodeInfo && (this.newSettings.nodeInfo.source.autoUpdate = !this.newSettings.nodeInfo.source.autoUpdate, this.setUpdateIcons(this.newSettings.nodeInfo.source.autoUpdate, !1));
-    }, a._CEBIinit = function () {
-      var a = this;window.addEventListener("resize", function () {
-        a.fullscreen && a.active && a.fullscreenEditorManager.editor.layout();
+    }, e._CEBIinit = function () {
+      var e = this;window.addEventListener("resize", function () {
+        e.fullscreen && e.active && e.fullscreenEditorManager.editor.layout();
       }), this.initUI();
-    }, a.properties = {}, a.savingInterval = 0, a.active = !1, a.editorManager = null, a.fullscreenEditorManager = null, a.verticalVisible = !1, a.horizontalVisible = !1, a.settingsEl = null, a.buttonsContainer = null, a.editorHeight = 0, a.editorWidth = 0, a.showTriggers = !1, a.showContentTypeChooser = !1, a.optionsShown = !1, a.fullscreen = !1, a.preFullscreenEditorDimensions = {}, a.editorMode = "main", a);
-  }();a.CEB = b;window.codeEditBehavior = { getActive: function getActive() {
+    }, e.properties = {}, e.savingInterval = 0, e.active = !1, e.editorManager = null, e.fullscreenEditorManager = null, e.verticalVisible = !1, e.horizontalVisible = !1, e.settingsEl = null, e.buttonsContainer = null, e.editorHeight = 0, e.editorWidth = 0, e.showTriggers = !1, e.showContentTypeChooser = !1, e.optionsShown = !1, e.fullscreen = !1, e.preFullscreenEditorDimensions = {}, e.editorMode = "main", e);
+  }();e.CEB = t;window.codeEditBehavior = { getActive: function getActive() {
       return window.scriptEdit && window.scriptEdit.active ? window.scriptEdit : window.stylesheetEdit && window.stylesheetEdit.active ? window.stylesheetEdit : null;
     }, getEditor: function getEditor() {
       return this.getActive() && this.getActive().editorManager;
     } };
 })(CodeEditBehaviorNamespace || (CodeEditBehaviorNamespace = {})), window.Polymer.CodeEditBehavior = window.Polymer.CodeEditBehavior || CodeEditBehaviorNamespace.CEB;var ScriptEditElement,
-    __awaiter = undefined && undefined.__awaiter || function (a, b, c, d) {
-  return new (c || (c = Promise))(function (e, f) {
-    function g(a) {
+    __awaiter = undefined && undefined.__awaiter || function (e, t, i, o) {
+  return new (i || (i = Promise))(function (n, r) {
+    function s(e) {
       try {
-        i(d.next(a));
-      } catch (a) {
-        f(a);
+        d(o.next(e));
+      } catch (t) {
+        r(t);
       }
-    }function h(a) {
+    }function a(e) {
       try {
-        i(d["throw"](a));
-      } catch (a) {
-        f(a);
+        d(o["throw"](e));
+      } catch (t) {
+        r(t);
       }
-    }function i(a) {
-      a.done ? e(a.value) : new c(function (b) {
-        b(a.value);
-      }).then(g, h);
-    }i((d = d.apply(a, b || [])).next());
+    }function d(e) {
+      e.done ? n(e.value) : new i(function (t) {
+        t(e.value);
+      }).then(s, a);
+    }d((o = o.apply(e, t || [])).next());
   });
 },
-    __generator = undefined && undefined.__generator || function (a, b) {
-  function c(a) {
-    return function (b) {
-      return d([a, b]);
+    __generator = undefined && undefined.__generator || function (e, i) {
+  function o(e) {
+    return function (t) {
+      return r([e, t]);
     };
-  }function d(c) {
-    if (e) throw new TypeError("Generator is already executing.");for (; g;) {
+  }function r(o) {
+    if (n) throw new TypeError("Generator is already executing.");for (; l;) {
       try {
-        if (e = 1, f && (h = 2 & c[0] ? f["return"] : c[0] ? f["throw"] || ((h = f["return"]) && h.call(f), 0) : f.next) && !(h = h.call(f, c[1])).done) return h;switch ((f = 0, h) && (c = [2 & c[0], h.value]), c[0]) {case 0:case 1:
-            h = c;break;case 4:
-            return g.label++, { value: c[1], done: !1 };case 5:
-            g.label++, f = c[1], c = [0];continue;case 7:
-            c = g.ops.pop(), g.trys.pop();continue;default:
-            if ((h = g.trys, !(h = 0 < h.length && h[h.length - 1])) && (6 === c[0] || 2 === c[0])) {
-              g = 0;continue;
-            }if (3 === c[0] && (!h || c[1] > h[0] && c[1] < h[3])) {
-              g.label = c[1];break;
-            }if (6 === c[0] && g.label < h[1]) {
-              g.label = h[1], h = c;break;
-            }if (h && g.label < h[2]) {
-              g.label = h[2], g.ops.push(c);break;
-            }h[2] && g.ops.pop(), g.trys.pop();continue;}c = b.call(a, g);
-      } catch (a) {
-        c = [6, a], f = 0;
+        if (n = 1, s && (a = 2 & o[0] ? s["return"] : o[0] ? s["throw"] || ((a = s["return"]) && a.call(s), 0) : s.next) && !(a = a.call(s, o[1])).done) return a;switch ((s = 0, a) && (o = [2 & o[0], a.value]), o[0]) {case 0:case 1:
+            a = o;break;case 4:
+            return l.label++, { value: o[1], done: !1 };case 5:
+            l.label++, s = o[1], o = [0];continue;case 7:
+            o = l.ops.pop(), l.trys.pop();continue;default:
+            if ((a = l.trys, !(a = 0 < a.length && a[a.length - 1])) && (6 === o[0] || 2 === o[0])) {
+              l = 0;continue;
+            }if (3 === o[0] && (!a || o[1] > a[0] && o[1] < a[3])) {
+              l.label = o[1];break;
+            }if (6 === o[0] && l.label < a[1]) {
+              l.label = a[1], a = o;break;
+            }if (a && l.label < a[2]) {
+              l.label = a[2], l.ops.push(o);break;
+            }a[2] && l.ops.pop(), l.trys.pop();continue;}o = i.call(e, l);
+      } catch (t) {
+        o = [6, t], s = 0;
       } finally {
-        e = h = 0;
+        n = a = 0;
       }
-    }if (5 & c[0]) throw c[1];return { value: c[0] ? c[1] : void 0, done: !0 };
-  }var e,
-      f,
-      h,
-      i,
-      g = { label: 0, sent: function sent() {
-      if (1 & h[0]) throw h[1];return h[1];
-    }, trys: [], ops: [] };return i = { next: c(0), "throw": c(1), "return": c(2) }, "function" === typeof Symbol && (i[Symbol.iterator] = function () {
+    }if (5 & o[0]) throw o[1];return { value: o[0] ? o[1] : void 0, done: !0 };
+  }var n,
+      s,
+      a,
+      d,
+      l = { label: 0, sent: function sent() {
+      if (1 & a[0]) throw a[1];return a[1];
+    }, trys: [], ops: [] };return d = { next: o(0), "throw": o(1), "return": o(2) }, "function" === typeof Symbol && (d[Symbol.iterator] = function () {
     return this;
-  }), i;
-};(function (a) {
-  a.scriptEditProperties = { item: { type: Object, value: {}, notify: !0 } };var b = function () {
-    function b() {}return b.isTsEnabled = function () {
+  }), d;
+};(function (e) {
+  e.scriptEditProperties = { item: { type: Object, value: {}, notify: !0 } };var t = function () {
+    function t() {}return t.isTsEnabled = function () {
       return this.item.value && this.item.value.ts && this.item.value.ts.enabled;
-    }, b.toggleBackgroundLibs = function () {
-      var a = this;this.async(function () {
-        var b = a.$.paperLibrariesShowbackground.checked;b ? a.$.paperLibrariesSelector.updateLibraries(a.item.value.backgroundLibraries, a.newSettings, "background") : a.$.paperLibrariesSelector.updateLibraries(a.item.value.libraries, a.newSettings, "main");
+    }, t.toggleBackgroundLibs = function () {
+      var e = this;this.async(function () {
+        var t = e.$.paperLibrariesShowbackground.checked;t ? e.$.paperLibrariesSelector.updateLibraries(e.item.value.backgroundLibraries, e.newSettings, "background") : e.$.paperLibrariesSelector.updateLibraries(e.item.value.libraries, e.newSettings, "main");
       }, 0);
-    }, b.getKeyBindingValue = function (a) {
-      return window.app.settings && window.app.settings.editor.keyBindings[a.storageKey] || a.defaultKey;
-    }, b._toggleTypescriptButton = function () {
-      var a = null !== this.$.editorTypescript.getAttribute("active");a ? this.$.editorTypescript.removeAttribute("active") : this.$.editorTypescript.setAttribute("active", "active");
-    }, b.jsLintGlobalsChange = function () {
-      var a = this;this.async(function () {
-        var b = a.$.editorJSLintGlobalsInput.$$("input").value.split(",").map(function (a) {
-          return a.trim();
-        });browserAPI.storage.local.set({ jsLintGlobals: b }), window.app.jsLintGlobals = b;
+    }, t.getKeyBindingValue = function (e) {
+      return window.app.settings && window.app.settings.editor.keyBindings[e.storageKey] || e.defaultKey;
+    }, t._toggleTypescriptButton = function () {
+      var e = null !== this.$.editorTypescript.getAttribute("active");e ? this.$.editorTypescript.removeAttribute("active") : this.$.editorTypescript.setAttribute("active", "active");
+    }, t.jsLintGlobalsChange = function () {
+      var e = this;this.async(function () {
+        var t = e.$.editorJSLintGlobalsInput.$$("input").value.split(",").map(function (e) {
+          return e.trim();
+        });browserAPI.storage.local.set({ jsLintGlobals: t }), window.app.jsLintGlobals = t;
       }, 0);
-    }, b.toggleTypescript = function () {
-      var a = null === this.$.editorTypescript.getAttribute("active");this._toggleTypescriptButton(), this.newSettings.value.ts ? this.newSettings.value.ts.enabled = a : this.newSettings.value.ts = { enabled: a, backgroundScript: {}, script: {} }, this.getEditorInstance().setTypescript(a);
-    }, b.openDocs = function () {
+    }, t.toggleTypescript = function () {
+      var e = null === this.$.editorTypescript.getAttribute("active");this._toggleTypescriptButton(), this.newSettings.value.ts ? this.newSettings.value.ts.enabled = e : this.newSettings.value.ts = { enabled: e, backgroundScript: {}, script: {} }, this.getEditorInstance().setTypescript(e);
+    }, t.openDocs = function () {
       window.open("http://sanderronde.github.io/CustomRightClickMenu/documentation/classes/crm.crmapi.instance.html", "_blank");
-    }, b.onKeyBindingKeyDown = function (a) {
-      var b = window.app.util.findElementWithTagname(a, "paper-input"),
-          c = ~~b.getAttribute("data-index");this._createKeyBindingListener(b, this.keyBindings[c]);
-    }, b.clearTriggerAndNotifyMetaTags = function (a) {
-      return 1 === this.shadowRoot.querySelectorAll(".executionTrigger").length ? (window.doc.messageToast.text = "You need to have at least one trigger", void window.doc.messageToast.show()) : void this.clearTrigger(a);
-    }, b._disableButtons = function () {
+    }, t.onKeyBindingKeyDown = function (t) {
+      return __awaiter(this, void 0, void 0, function () {
+        var e, i, o, n;return __generator(this, function (r) {
+          switch (r.label) {case 0:
+              return e = window.app.util.findElementWithTagname(t, "paper-input"), i = ~~e.getAttribute("data-index"), o = this._createKeyBindingListener, n = [e], [4, this.getKeyBindings()];case 1:
+              return o.apply(this, n.concat([r.sent()[i]])), [2];}
+        });
+      });
+    }, t.clearTriggerAndNotifyMetaTags = function (t) {
+      return 1 === this.shadowRoot.querySelectorAll(".executionTrigger").length ? (window.doc.messageToast.text = "You need to have at least one trigger", void window.doc.messageToast.show()) : void this.clearTrigger(t);
+    }, t._disableButtons = function () {
       this.$.dropdownMenu.disable();
-    }, b._enableButtons = function () {
+    }, t._enableButtons = function () {
       this.$.dropdownMenu.enable();
-    }, b._saveEditorContents = function () {
+    }, t._saveEditorContents = function () {
       if ("background" === this.editorMode) this.newSettings.value.backgroundScript = this.editorManager.editor.getValue();else if ("main" === this.editorMode) this.newSettings.value.script = this.editorManager.editor.getValue();else if ("options" === this.editorMode) try {
         this.newSettings.value.options = JSON.parse(this.editorManager.editor.getValue());
-      } catch (a) {
+      } catch (t) {
         this.newSettings.value.options = this.editorManager.editor.getValue();
       }
-    }, b._changeTab = function (a) {
-      if (a !== this.editorMode) {
-        var b = this.item.value.ts && this.item.value.ts.enabled;"main" === a ? ("background" === this.editorMode && (this.newSettings.value.backgroundScript = this.editorManager.editor.getValue()), this.editorMode = "main", this._enableButtons(), this.editorManager.switchToModel("default", this.newSettings.value.script, b ? this.editorManager.EditorMode.TS_META : this.editorManager.EditorMode.JS_META)) : "background" === a && ("main" === this.editorMode && (this.newSettings.value.script = this.editorManager.editor.getValue()), this.editorMode = "background", this._disableButtons(), this.editorManager.switchToModel("background", this.newSettings.value.backgroundScript || "", b ? this.editorManager.EditorMode.TS_META : this.editorManager.EditorMode.JS_META));var c = window.scriptEdit.shadowRoot.querySelector("main" === a ? ".mainEditorTab" : ".backgroundEditorTab");Array.prototype.slice.apply(window.scriptEdit.shadowRoot.querySelectorAll(".editorTab")).forEach(function (a) {
-          a.classList.remove("active");
-        }), c.classList.add("active");
+    }, t._changeTab = function (e) {
+      if (e !== this.editorMode) {
+        var t = this.item.value.ts && this.item.value.ts.enabled;"main" === e ? ("background" === this.editorMode && (this.newSettings.value.backgroundScript = this.editorManager.editor.getValue()), this.editorMode = "main", this._enableButtons(), this.editorManager.switchToModel("default", this.newSettings.value.script, t ? this.editorManager.EditorMode.TS_META : this.editorManager.EditorMode.JS_META)) : "background" === e && ("main" === this.editorMode && (this.newSettings.value.script = this.editorManager.editor.getValue()), this.editorMode = "background", this._disableButtons(), this.editorManager.switchToModel("background", this.newSettings.value.backgroundScript || "", t ? this.editorManager.EditorMode.TS_META : this.editorManager.EditorMode.JS_META));var i = window.scriptEdit.shadowRoot.querySelector("main" === e ? ".mainEditorTab" : ".backgroundEditorTab");Array.prototype.slice.apply(window.scriptEdit.shadowRoot.querySelectorAll(".editorTab")).forEach(function (e) {
+          e.classList.remove("active");
+        }), i.classList.add("active");
       }
-    }, b.switchBetweenScripts = function (a) {
-      if (a.classList.remove("optionsEditorTab"), "options" === this.editorMode) try {
+    }, t.switchBetweenScripts = function (e) {
+      if (e.classList.remove("optionsEditorTab"), "options" === this.editorMode) try {
         this.newSettings.value.options = JSON.parse(this.editorManager.editor.getValue());
-      } catch (a) {
+      } catch (t) {
         this.newSettings.value.options = this.editorManager.editor.getValue();
       }this.hideCodeOptions(), this._initKeyBindings();
-    }, b.changeTabEvent = function (a) {
-      var b = window.app.util.findElementWithClassName(a, "editorTab"),
-          c = b.classList.contains("mainEditorTab"),
-          d = b.classList.contains("backgroundEditorTab"),
-          e = b.classList.contains("librariesTab"),
-          f = b.classList.contains("optionsTab");e || this.$.codeTabContentContainer.classList.remove("showLibs"), c && "main" !== this.editorMode ? (this.switchBetweenScripts(b), this._changeTab("main")) : d && "background" !== this.editorMode ? (this.switchBetweenScripts(b), this._changeTab("background")) : f && "options" !== this.editorMode ? ("main" === this.editorMode ? this.newSettings.value.script = this.editorManager.editor.getValue() : "background" === this.editorMode && (this.newSettings.value.backgroundScript = this.editorManager.editor.getValue()), this.showCodeOptions(), this.editorMode = "options") : e && "libraries" !== this.editorMode && (this.$.codeTabContentContainer.classList.add("showLibs"), this.$.paperLibrariesSelector.updateLibraries(this.newSettings.value.libraries, this.newSettings, "main"), this.editorMode = "libraries"), Array.prototype.slice.apply(window.scriptEdit.shadowRoot.querySelectorAll(".editorTab")).forEach(function (a) {
-        a.classList.remove("active");
-      }), b.classList.add("active");
-    }, b._getExportData = function () {
-      var a = {};return this.save(null, a), this.$.dropdownMenu.selected = 0, a;
-    }, b.exportScriptAsCRM = function () {
+    }, t.changeTabEvent = function (t) {
+      var e = window.app.util.findElementWithClassName(t, "editorTab"),
+          i = e.classList.contains("mainEditorTab"),
+          o = e.classList.contains("backgroundEditorTab"),
+          n = e.classList.contains("librariesTab"),
+          r = e.classList.contains("optionsTab");n || this.$.codeTabContentContainer.classList.remove("showLibs"), i && "main" !== this.editorMode ? (this.switchBetweenScripts(e), this._changeTab("main")) : o && "background" !== this.editorMode ? (this.switchBetweenScripts(e), this._changeTab("background")) : r && "options" !== this.editorMode ? ("main" === this.editorMode ? this.newSettings.value.script = this.editorManager.editor.getValue() : "background" === this.editorMode && (this.newSettings.value.backgroundScript = this.editorManager.editor.getValue()), this.showCodeOptions(), this.editorMode = "options") : n && "libraries" !== this.editorMode && (this.$.codeTabContentContainer.classList.add("showLibs"), this.$.paperLibrariesSelector.updateLibraries(this.newSettings.value.libraries, this.newSettings, "main"), this.editorMode = "libraries"), Array.prototype.slice.apply(window.scriptEdit.shadowRoot.querySelectorAll(".editorTab")).forEach(function (e) {
+        e.classList.remove("active");
+      }), e.classList.add("active");
+    }, t._getExportData = function () {
+      var e = {};return this.save(null, e), this.$.dropdownMenu.selected = 0, e;
+    }, t.exportScriptAsCRM = function () {
       window.app.editCRM.exportSingleNode(this._getExportData(), "CRM");
-    }, b.exportScriptAsUserscript = function () {
+    }, t.exportScriptAsUserscript = function () {
       window.app.editCRM.exportSingleNode(this._getExportData(), "Userscript");
-    }, b.cancelChanges = function () {
-      var a = this;this.fullscreen && this.exitFullScreen(), window.setTimeout(function () {
-        a.finishEditing(), window.externalEditor.cancelOpenFiles(), a.editorManager.destroy(), a.fullscreenEditorManager && a.fullscreenEditorManager.destroy(), a.active = !1;
+    }, t.cancelChanges = function () {
+      var e = this;this.fullscreen && this.exitFullScreen(), window.setTimeout(function () {
+        e.finishEditing(), window.externalEditor.cancelOpenFiles(), e.editorManager.destroy(), e.fullscreenEditorManager && e.fullscreenEditorManager.destroy(), e.active = !1;
       }, this.fullscreen ? 500 : 0);
-    }, b._getMetaTagValues = function () {
-      var a = this.editorManager.getModel("default").handlers[0];return a && a.getMetaBlock && a.getMetaBlock() && a.getMetaBlock().content;
-    }, b.saveChanges = function (a) {
-      a.value.metaTags = this._getMetaTagValues() || {}, a.value.launchMode = this.$.dropdownMenu.selected, this._saveEditorContents(), this.finishEditing(), window.externalEditor.cancelOpenFiles(), this.editorManager.destroy(), this.fullscreenEditorManager && this.fullscreenEditorManager.destroy(), this.editorMode = "main", this._enableButtons(), this.active = !1;
-    }, b._onPermissionsDialogOpen = function (a, b) {
-      var c,
-          d,
-          e = this,
-          f = Array.prototype.slice.apply(window.app.shadowRoot.querySelectorAll(".requestPermissionsShowBot")),
-          g = [];f.forEach(function (a) {
-        e._permissionDialogListeners.forEach(function (b) {
-          a.removeEventListener("click", b);
-        });var b = function b() {
-          c = $(a).parent().parent().children(".requestPermissionsPermissionBotCont")[0], d = $(a).find(".requestPermissionsSvg")[0], d.__rotated ? (window.setTransform(d, "rotate(90deg)"), d.rotated = !1) : (window.setTransform(d, "rotate(270deg)"), d.rotated = !0), c.animation && c.animation.reverse ? c.animation.reverse() : c.animation = c.animate([{ height: "0" }, { height: c.scrollHeight + "px" }], { duration: 250, easing: "cubic-bezier(0.215, 0.610, 0.355, 1.000)", fill: "both" });
-        };g.push(b), a.addEventListener("click", b);
-      }), this._permissionDialogListeners = g;var h,
-          i = Array.prototype.slice.apply(window.app.shadowRoot.querySelectorAll(".requestPermissionButton"));i.forEach(function (c) {
-        c.__listener && c.removeEventListener("click", c.__listener);var d = function d() {
-          h = c.previousElementSibling.previousElementSibling.textContent;if (!c.checked) b.permissions.splice(b.permissions.indexOf(h), 1);else if (-1 === Array.prototype.slice.apply(a).indexOf(h)) {
-            if (!browserAPI.permissions) return void window.app.util.showToast("Not asking for permission " + h + " as your browser does not support asking for permissions");browserAPI.permissions.request({ permissions: [h] }).then(function (a) {
-              a ? (browserAPI.storage.local.get().then(function (a) {
-                var b = a.requestPermissions;b.splice(b.indexOf(h), 1), browserAPI.storage.local.set({ requestPermissions: b });
-              }), b.permissions = b.permissions || [], b.permissions.push(h)) : c.checked = !1;
+    }, t._getMetaTagValues = function () {
+      var e = this.editorManager.getModel("default").handlers[0];return e && e.getMetaBlock && e.getMetaBlock() && e.getMetaBlock().content;
+    }, t.saveChanges = function (e) {
+      e.value.metaTags = this._getMetaTagValues() || {}, e.value.launchMode = this.$.dropdownMenu.selected, this._saveEditorContents(), this.finishEditing(), window.externalEditor.cancelOpenFiles(), this.editorManager.destroy(), this.fullscreenEditorManager && this.fullscreenEditorManager.destroy(), this.editorMode = "main", this._enableButtons(), this.active = !1;
+    }, t._onPermissionsDialogOpen = function (e, t) {
+      var i,
+          o,
+          n = this,
+          r = Array.prototype.slice.apply(window.app.shadowRoot.querySelectorAll(".requestPermissionsShowBot")),
+          s = [];r.forEach(function (e) {
+        n._permissionDialogListeners.forEach(function (t) {
+          e.removeEventListener("click", t);
+        });var t = function t() {
+          i = $(e).parent().parent().children(".requestPermissionsPermissionBotCont")[0], o = $(e).find(".requestPermissionsSvg")[0], o.__rotated ? (window.setTransform(o, "rotate(90deg)"), o.rotated = !1) : (window.setTransform(o, "rotate(270deg)"), o.rotated = !0), i.animation && i.animation.reverse ? i.animation.reverse() : i.animation = i.animate([{ height: "0" }, { height: i.scrollHeight + "px" }], { duration: 250, easing: "cubic-bezier(0.215, 0.610, 0.355, 1.000)", fill: "both" });
+        };s.push(t), e.addEventListener("click", t);
+      }), this._permissionDialogListeners = s;var a,
+          d = Array.prototype.slice.apply(window.app.shadowRoot.querySelectorAll(".requestPermissionButton"));d.forEach(function (i) {
+        i.__listener && i.removeEventListener("click", i.__listener);var o = function o() {
+          a = i.previousElementSibling.previousElementSibling.textContent;if (!i.checked) t.permissions.splice(t.permissions.indexOf(a), 1);else if (-1 === Array.prototype.slice.apply(e).indexOf(a)) {
+            if (!browserAPI.permissions) return void window.app.util.showToast("Not asking for permission " + a + " as your browser does not support asking for permissions");browserAPI.permissions.request({ permissions: [a] }).then(function (e) {
+              e ? (browserAPI.storage.local.get().then(function (t) {
+                var e = t.requestPermissions;e.splice(e.indexOf(a), 1), browserAPI.storage.local.set({ requestPermissions: e });
+              }), t.permissions = t.permissions || [], t.permissions.push(a)) : i.checked = !1;
             });
-          } else b.permissions = b.permissions || [], b.permissions.push(h);
-        };c.addEventListener("click", d), c.__listener = d;
+          } else t.permissions = t.permissions || [], t.permissions.push(a);
+        };i.addEventListener("click", o), i.__listener = o;
       });
-    }, b.openPermissionsDialog = function (a) {
-      var b = this;return new Promise(function (c) {
-        return __awaiter(b, void 0, void 0, function () {
-          var b,
-              d,
-              e,
-              f,
-              g,
-              h,
-              i,
-              j,
-              k,
-              l,
-              m,
-              n,
+    }, t.openPermissionsDialog = function (e) {
+      var t = this;return new Promise(function (i) {
+        return __awaiter(t, void 0, void 0, function () {
+          var t,
               o,
-              p,
-              q,
+              n,
               r,
-              s = this;return __generator(this, function (t) {
-            switch (t.label) {case 0:
-                return a && "tap" !== a.type ? (b = a, d = a) : (b = this.item, d = this.newSettings), browserAPI.permissions ? [4, browserAPI.permissions.getAll()] : [3, 2];case 1:
-                return f = t.sent(), [3, 3];case 2:
-                f = { permissions: [] }, t.label = 3;case 3:
-                return e = f.permissions, browserAPI.permissions || window.app.util.showToast("Not toggling for browser permissions as your browser does not support them"), b.permissions || (b.permissions = []), g = b.permissions, h = window.app.templates.getScriptPermissions(), i = b.nodeInfo && b.nodeInfo.permissions || [], j = [], k = [], l = [], m = [], h.forEach(function (a) {
-                  n = -1 < i.indexOf(a), o = -1 < g.indexOf(a), p = { name: a, toggled: o, required: n, description: window.app.templates.getPermissionDescription(a) }, n && o ? j.push(p) : n && !o ? k.push(p) : !n && o ? l.push(p) : m.push(p);
-                }), q = l, q.push.apply(q, j), q.push.apply(q, k), q.push.apply(q, m), window.app.$.scriptPermissionsTemplate.items = q, window.app.shadowRoot.querySelector(".requestPermissionsScriptName").innerHTML = "Managing permisions for script \"" + b.name, r = window.app.$.scriptPermissionDialog, r.addEventListener("iron-overlay-opened", function () {
-                  s._onPermissionsDialogOpen(e, d);
-                }), r.addEventListener("iron-overlay-closed", function () {
-                  c(null);
-                }), r.open(), [2];}
+              s,
+              a,
+              d,
+              l,
+              p,
+              g,
+              c,
+              u,
+              h,
+              m,
+              b,
+              y,
+              f = this;return __generator(this, function (v) {
+            switch (v.label) {case 0:
+                return e && "tap" !== e.type ? (t = e, o = e) : (t = this.item, o = this.newSettings), browserAPI.permissions ? [4, browserAPI.permissions.getAll()] : [3, 2];case 1:
+                return r = v.sent(), [3, 3];case 2:
+                r = { permissions: [] }, v.label = 3;case 3:
+                return n = r.permissions, browserAPI.permissions || window.app.util.showToast("Not toggling for browser permissions as your browser does not support them"), t.permissions || (t.permissions = []), s = t.permissions, a = window.app.templates.getScriptPermissions(), d = t.nodeInfo && t.nodeInfo.permissions || [], l = [], p = [], g = [], c = [], a.forEach(function (e) {
+                  u = -1 < d.indexOf(e), h = -1 < s.indexOf(e), m = { name: e, toggled: h, required: u, description: window.app.templates.getPermissionDescription(e) }, u && h ? l.push(m) : u && !h ? p.push(m) : !u && h ? g.push(m) : c.push(m);
+                }), b = g, b.push.apply(b, l), b.push.apply(b, p), b.push.apply(b, c), window.app.$.scriptPermissionsTemplate.items = b, window.app.shadowRoot.querySelector(".requestPermissionsScriptName").innerHTML = "Managing permisions for script \"" + t.name, y = window.app.$.scriptPermissionDialog, y.addEventListener("iron-overlay-opened", function () {
+                  f._onPermissionsDialogOpen(n, o);
+                }), y.addEventListener("iron-overlay-closed", function () {
+                  i(null);
+                }), y.open(), [2];}
           });
         });
       });
-    }, b.reloadEditor = function () {
+    }, t.reloadEditor = function () {
       if (this.editorManager) if ("main" === this.editorMode) this.newSettings.value.script = this.editorManager.editor.getValue();else if ("background" === this.editorMode) this.newSettings.value.backgroundScript = this.editorManager.editor.getValue();else try {
         this.newSettings.value.options = JSON.parse(this.editorManager.editor.getValue());
-      } catch (a) {
+      } catch (t) {
         this.newSettings.value.options = this.editorManager.editor.getValue();
-      }var a;if (a = "main" === this.editorMode ? this.newSettings.value.script : "background" === this.editorMode ? this.newSettings.value.backgroundScript : "string" === typeof this.newSettings.value.options ? this.newSettings.value.options : JSON.stringify(this.newSettings.value.options), this.fullscreen) {
-        this.fullscreenEditorManager.reset();var b = this.fullscreenEditorManager.editor;this.fullscreenEditorManager.isDiff(b) || b.setValue(a);
+      }var e;if (e = "main" === this.editorMode ? this.newSettings.value.script : "background" === this.editorMode ? this.newSettings.value.backgroundScript : "string" === typeof this.newSettings.value.options ? this.newSettings.value.options : JSON.stringify(this.newSettings.value.options), this.fullscreen) {
+        this.fullscreenEditorManager.reset();var t = this.fullscreenEditorManager.editor;this.fullscreenEditorManager.isDiff(t) || t.setValue(e);
       } else {
-        this.editorManager.reset();var b = this.editorManager.editor;this.editorManager.isDiff(b) || b.setValue(a);
+        this.editorManager.reset();var t = this.editorManager.editor;this.editorManager.isDiff(t) || t.setValue(e);
       }
-    }, b._createKeyBindingListener = function (a, b) {
-      var c = this;return function (d) {
-        if (d.preventDefault(), (16 > d.keyCode || 18 < d.keyCode) && (d.altKey || d.shiftKey || d.ctrlKey)) {
-          var e = [];d.ctrlKey && e.push("Ctrl"), d.altKey && e.push("Alt"), d.shiftKey && e.push("Shift"), e.push(String.fromCharCode(d.keyCode));var f = a.value = e.join("-");a.setAttribute("data-prev-value", f), window.app.settings.editor.keyBindings = window.app.settings.editor.keyBindings || { goToDef: c.keyBindings[0].defaultKey, rename: c.keyBindings[1].defaultKey }, window.app.settings.editor.keyBindings[b.storageKey] = f, c._initKeyBinding(b);
-        }a.value = a.getAttribute("data-prev-value") || "";
+    }, t._createKeyBindingListener = function (e, t) {
+      var i = this;return function (o) {
+        return __awaiter(i, void 0, void 0, function () {
+          var i, n, r;return __generator(this, function (s) {
+            switch (s.label) {case 0:
+                return (o.preventDefault(), !(16 > o.keyCode || 18 < o.keyCode)) ? [3, 2] : o.altKey || o.shiftKey || o.ctrlKey ? (i = [], o.ctrlKey && i.push("Ctrl"), o.altKey && i.push("Alt"), o.shiftKey && i.push("Shift"), i.push(String.fromCharCode(o.keyCode)), n = e.value = i.join("-"), e.setAttribute("data-prev-value", n), [4, this.getKeyBindings()]) : [3, 2];case 1:
+                r = s.sent(), window.app.settings.editor.keyBindings = window.app.settings.editor.keyBindings || { goToDef: r[0].defaultKey, rename: r[1].defaultKey }, window.app.settings.editor.keyBindings[t.storageKey] = n, this._initKeyBinding(t), s.label = 2;case 2:
+                return e.value = e.getAttribute("data-prev-value") || "", [2];}
+          });
+        });
       };
-    }, b._translateKeyCombination = function (a) {
-      for (var b, c = [], d = 0, e = a.split("-"); d < e.length; d++) {
-        b = e[d], "Ctrl" === b ? c.push(monaco.KeyMod.CtrlCmd) : "Alt" === b ? c.push(monaco.KeyMod.Alt) : "Shift" === b ? c.push(monaco.KeyMod.Shift) : monaco.KeyCode["KEY_" + b.toUpperCase()] && c.push(monaco.KeyCode["KEY_" + b.toUpperCase()]);
-      }return c;
-    }, b._initKeyBinding = function (a, b) {
-      void 0 === b && (b = a.defaultKey);var c = this.editorManager.getEditorAsMonaco();if (!this.editorManager.isTextarea(c) && !this.editorManager.isDiff(c)) {
-        var d = c.getAction(a.monacoKey);c.addAction({ id: a.monacoKey, label: a.name, run: function run() {
-            d.run();
-          }, keybindings: this._translateKeyCombination(b), precondition: d._precondition.expr.map(function (a) {
-            return a.key;
-          }).join("&&") });
-      }
-    }, b._initKeyBindings = function () {
-      for (var a, b = 0, c = this.keyBindings; b < c.length; b++) {
-        a = c[b], this._initKeyBinding(a);
-      }
-    }, b.editorLoaded = function () {
-      var a = this,
-          b = this.editorManager;b.getTypeHandler()[0].listen("metaChange", function (b, c) {
-        "main" === a.editorMode && (a.newSettings.value.metaTags = JSON.parse(JSON.stringify(c)).content);
-      }), this.$.mainEditorTab.classList.add("active"), this.$.backgroundEditorTab.classList.remove("active"), b.editor.getDomNode().classList.remove("stylesheet-edit-codeMirror"), b.editor.getDomNode().classList.add("script-edit-codeMirror"), b.editor.getDomNode().classList.add("small"), this.fullscreen && (this.$.editorFullScreen.children[0].innerHTML = "<path d=\"M10 32h6v6h4V28H10v4zm6-16h-6v4h10V10h-4v6zm12 22h4v-6h6v-4H28v10zm4-22v-6h-4v10h10v-4h-6z\"/>"), this._initKeyBindings();
-    }, b.loadEditor = function (a) {
-      return void 0 === a && (a = this.item.value.script), __awaiter(this, void 0, void 0, function () {
-        var b, c, d, e;return __generator(this, function (f) {
-          switch (f.label) {case 0:
-              return b = $(this.$.editor), this.editorHeight = b.height(), this.editorWidth = b.width(), window.app.settings.editor || (window.app.settings.editor = { theme: "dark", zoom: "100", keyBindings: { goToDef: this.keyBindings[0].defaultKey, rename: this.keyBindings[1].defaultKey }, cssUnderlineDisabled: !1, disabledMetaDataHighlight: !1 }), c = this.item.value.ts && this.item.value.ts.enabled, d = c ? this.$.editor.EditorMode.TS_META : this.$.editor.EditorMode.JS_META, e = this, [4, this.$.editor.create(d, { value: a, language: c ? "typescript" : "javascript", theme: "dark" === window.app.settings.editor.theme ? "vs-dark" : "vs", wordWrap: "off", fontSize: 14 * (~~window.app.settings.editor.zoom / 100), folding: !0 })];case 1:
-              return e.editorManager = f.sent(), this.editorLoaded(), [2];}
+    }, t.getKeyBindingsSync = function () {
+      return [{ name: this.___("options_editPages_code_goToDef"), defaultKey: "Ctrl-F12", monacoKey: "editor.action.goToTypeDefinition", storageKey: "goToDef" }, { name: this.___("options_editPages_code_rename"), defaultKey: "Ctrl-F2", monacoKey: "editor.action.rename", storageKey: "rename" }];
+    }, t.getKeyBindings = function () {
+      return __awaiter(this, void 0, void 0, function () {
+        var e, t, i;return __generator(this, function (o) {
+          switch (o.label) {case 0:
+              return e = {}, [4, this.__async("options_editPages_code_goToDef")];case 1:
+              return t = [(e.name = o.sent(), e.defaultKey = "Ctrl-F12", e.monacoKey = "editor.action.goToTypeDefinition", e.storageKey = "goToDef", e)], i = {}, [4, this.__async("options_editPages_code_rename")];case 2:
+              return [2, t.concat([(i.name = o.sent(), i.defaultKey = "Ctrl-F2", i.monacoKey = "editor.action.rename", i.storageKey = "rename", i)])];}
         });
       });
-    }, (b.init = function () {
-      var a = this;this._init(), this._CEBIinit(), this.$.dropdownMenu.init(), this.$.exportMenu.init(), this.$.exportMenu.$.dropdownSelected.innerText = "EXPORT AS", this.initDropdown(), this.selectorStateChange(0, this.newSettings.value.launchMode), window.app.$.editorToolsRibbonContainer.classList.remove("editingStylesheet"), window.app.$.editorToolsRibbonContainer.classList.add("editingScript"), window.scriptEdit = this, window.externalEditor.init(), window.app.storageLocal.recoverUnsavedData && (browserAPI.storage.local.set({ editing: { val: this.item.value.script, id: this.item.id, mode: this.editorMode, crmType: window.app.crmTypes } }), this.savingInterval = window.setInterval(function () {
-        if (a.active && a.editorManager) {
-          var b = a.editorManager.editor.getValue();browserAPI.storage.local.set({ editing: { val: b, id: a.item.id, mode: a.editorMode, crmType: window.app.crmTypes } })["catch"](function () {});
-        } else browserAPI.storage.local.set({ editing: !1 }), window.clearInterval(a.savingInterval);
+    }, t._translateKeyCombination = function (e) {
+      for (var t, i = [], o = 0, n = e.split("-"); o < n.length; o++) {
+        t = n[o], "Ctrl" === t ? i.push(monaco.KeyMod.CtrlCmd) : "Alt" === t ? i.push(monaco.KeyMod.Alt) : "Shift" === t ? i.push(monaco.KeyMod.Shift) : monaco.KeyCode["KEY_" + t.toUpperCase()] && i.push(monaco.KeyCode["KEY_" + t.toUpperCase()]);
+      }return i;
+    }, t._initKeyBinding = function (e, t) {
+      void 0 === t && (t = e.defaultKey);var i = this.editorManager.getEditorAsMonaco();if (!this.editorManager.isTextarea(i) && !this.editorManager.isDiff(i)) {
+        var o = i.getAction(e.monacoKey);i.addAction({ id: e.monacoKey, label: e.name, run: function run() {
+            o.run();
+          }, keybindings: this._translateKeyCombination(t), precondition: o._precondition.expr.map(function (e) {
+            return e.key;
+          }).join("&&") });
+      }
+    }, t._initKeyBindings = function () {
+      return __awaiter(this, void 0, void 0, function () {
+        var e, t, i, o;return __generator(this, function (n) {
+          switch (n.label) {case 0:
+              return [4, this.getKeyBindings()];case 1:
+              for (e = n.sent(), t = 0, i = e; t < i.length; t++) {
+                o = i[t], this._initKeyBinding(o);
+              }return [2];}
+        });
+      });
+    }, t.editorLoaded = function () {
+      return __awaiter(this, void 0, void 0, function () {
+        var e,
+            t = this;return __generator(this, function (i) {
+          switch (i.label) {case 0:
+              return e = this.editorManager, e.getTypeHandler()[0].listen("metaChange", function (e, i) {
+                "main" === t.editorMode && (t.newSettings.value.metaTags = JSON.parse(JSON.stringify(i)).content);
+              }), this.$.mainEditorTab.classList.add("active"), this.$.backgroundEditorTab.classList.remove("active"), e.editor.getDomNode().classList.remove("stylesheet-edit-codeMirror"), e.editor.getDomNode().classList.add("script-edit-codeMirror"), e.editor.getDomNode().classList.add("small"), this.fullscreen && (this.$.editorFullScreen.children[0].innerHTML = "<path d=\"M10 32h6v6h4V28H10v4zm6-16h-6v4h10V10h-4v6zm12 22h4v-6h6v-4H28v10zm4-22v-6h-4v10h10v-4h-6z\"/>"), [4, window.__.ready];case 1:
+              return i.sent(), this._initKeyBindings(), [2];}
+        });
+      });
+    }, t.prototype.onLangChanged = function () {
+      this._initKeyBindings();
+    }, t.loadEditor = function (e) {
+      return void 0 === e && (e = this.item.value.script), __awaiter(this, void 0, void 0, function () {
+        var t, i, o, n, r;return __generator(this, function (s) {
+          switch (s.label) {case 0:
+              return t = $(this.$.editor), this.editorHeight = t.height(), this.editorWidth = t.width(), [4, this.getKeyBindings()];case 1:
+              return i = s.sent(), window.app.settings.editor || (window.app.settings.editor = { theme: "dark", zoom: "100", keyBindings: { goToDef: i[0].defaultKey, rename: i[1].defaultKey }, cssUnderlineDisabled: !1, disabledMetaDataHighlight: !1 }), o = this.item.value.ts && this.item.value.ts.enabled, n = o ? this.$.editor.EditorMode.TS_META : this.$.editor.EditorMode.JS_META, r = this, [4, this.$.editor.create(n, { value: e, language: o ? "typescript" : "javascript", theme: "dark" === window.app.settings.editor.theme ? "vs-dark" : "vs", wordWrap: "off", fontSize: 14 * (~~window.app.settings.editor.zoom / 100), folding: !0 })];case 2:
+              return r.editorManager = s.sent(), this.editorLoaded(), [2];}
+        });
+      });
+    }, (t.init = function () {
+      var e = this;this._init(), this._CEBIinit(), this.$.dropdownMenu.init(), this.$.exportMenu.init(), this.$.exportMenu.$.dropdownSelected.innerText = "EXPORT AS", this.initDropdown(), this.selectorStateChange(0, this.newSettings.value.launchMode), window.app.$.editorToolsRibbonContainer.classList.remove("editingStylesheet"), window.app.$.editorToolsRibbonContainer.classList.add("editingScript"), window.scriptEdit = this, window.externalEditor.init(), window.app.storageLocal.recoverUnsavedData && (browserAPI.storage.local.set({ editing: { val: this.item.value.script, id: this.item.id, mode: this.editorMode, crmType: window.app.crmTypes } }), this.savingInterval = window.setInterval(function () {
+        if (e.active && e.editorManager) {
+          var t = e.editorManager.editor.getValue();browserAPI.storage.local.set({ editing: { val: t, id: e.item.id, mode: e.editorMode, crmType: window.app.crmTypes } })["catch"](function () {});
+        } else browserAPI.storage.local.set({ editing: !1 }), window.clearInterval(e.savingInterval);
       }, 5e3)), this.active = !0, setTimeout(function () {
-        a.loadEditor();
+        e.loadEditor();
       }, 750);
-    }, b.is = "script-edit", b.behaviors = [window.Polymer.NodeEditBehavior, window.Polymer.CodeEditBehavior], b.properties = a.scriptEditProperties, b._permissionDialogListeners = [], b.keyBindings = [{ name: "Go To Type Definition", defaultKey: "Ctrl-F12", monacoKey: "editor.action.goToTypeDefinition", storageKey: "goToDef" }, { name: "Rename Symbol", defaultKey: "Ctrl-F2", monacoKey: "editor.action.rename", storageKey: "rename" }], b);
-  }();a.SCE = b, a, window.objectify ? window.register(b) : window.addEventListener("RegisterReady", function () {
-    window.register(b);
+    }, t.is = "script-edit", t.behaviors = [window.Polymer.NodeEditBehavior, window.Polymer.CodeEditBehavior], t.properties = e.scriptEditProperties, t._permissionDialogListeners = [], t);
+  }();e.SCE = t, e, window.objectify ? window.register(t) : window.addEventListener("RegisterReady", function () {
+    window.register(t);
   });
 })(ScriptEditElement || (ScriptEditElement = {}));
 var CodeEditBehaviorNamespace,
@@ -7702,12 +7761,16 @@ var CodeEditBehaviorNamespace,
               c = a.unchangedEditorSettings.zoom;a.unchangedEditorSettings.zoom = b, JSON.stringify(a.unchangedEditorSettings) !== JSON.stringify(window.app.settings.editor) && a.reloadEditor(), b !== c && window.app.updateEditorZoom(), a.fullscreen && (a.$.settingsContainer.style.height = "345px", a.$.settingsContainer.style.overflowX = "hidden", a.$.bubbleCont.style.position = "absolute", a.$.bubbleCont.style.zIndex = "auto");
         } });
     }, a.fillEditorOptions = function (a) {
-      if ("script" === this.item.type) {
-        var b = this,
-            c = a;c.$.keyBindingsTemplate.items = b.keyBindings, c.$.keyBindingsTemplate.render(), window.app.settings.editor.keyBindings = window.app.settings.editor.keyBindings || { goToDef: b.keyBindings[0].defaultKey, rename: b.keyBindings[1].defaultKey }, Array.prototype.slice.apply(c.$.keyBindingsTemplate.querySelectorAll("paper-input")).forEach(function (a) {
-          a.setAttribute("data-prev-value", a.$$("input").value);
+      return __awaiter(this, void 0, void 0, function () {
+        var b, c, d;return __generator(this, function (e) {
+          switch (e.label) {case 0:
+              return "script" === this.item.type ? (b = this, c = a, [4, b.getKeyBindings()]) : [3, 2];case 1:
+              d = e.sent(), c.$.keyBindingsTemplate.items = d, c.$.keyBindingsTemplate.render(), window.app.settings.editor.keyBindings = window.app.settings.editor.keyBindings || { goToDef: d[0].defaultKey, rename: d[1].defaultKey }, Array.prototype.slice.apply(c.$.keyBindingsTemplate.querySelectorAll("paper-input")).forEach(function (a) {
+                a.setAttribute("data-prev-value", a.$$("input").value);
+              }), e.label = 2;case 2:
+              return "white" === window.app.settings.editor.theme ? a.$.editorThemeSettingWhite.classList.add("currentTheme") : a.$.editorThemeSettingWhite.classList.remove("currentTheme"), "dark" === window.app.settings.editor.theme ? a.$.editorThemeSettingDark.classList.add("currentTheme") : a.$.editorThemeSettingDark.classList.remove("currentTheme"), a.$.editorThemeFontSizeInput.$$("input").value = window.app.settings.editor.zoom || "100", [2];}
         });
-      }"white" === window.app.settings.editor.theme ? a.$.editorThemeSettingWhite.classList.add("currentTheme") : a.$.editorThemeSettingWhite.classList.remove("currentTheme"), "dark" === window.app.settings.editor.theme ? a.$.editorThemeSettingDark.classList.add("currentTheme") : a.$.editorThemeSettingDark.classList.remove("currentTheme"), a.$.editorThemeFontSizeInput.$$("input").value = window.app.settings.editor.zoom || "100";
+      });
     }, a._showFullscreenOptions = function () {
       window.app.$.fullscreenEditorToggle.style.display = "none", window.setTransform(window.app.$.fullscreenSettingsContainer, "translateX(0)");
     }, a.scrollbarsUpdate = function (a) {
@@ -7845,16 +7908,30 @@ var CodeEditBehaviorNamespace,
               return e.editorManager = f.sent(), this.editorLoaded(), [2];}
         });
       });
-    }, (b.init = function () {
-      var a = this;this._init(), this._CEBIinit(), this.$.dropdownMenu.init(), this.$.exportMenu.init(), this.$.exportMenu.$.dropdownSelected.innerText = "EXPORT AS", this.initDropdown(), this.selectorStateChange(0, this.newSettings.value.launchMode), window.app.$.editorToolsRibbonContainer.classList.remove("editingScript"), window.app.$.editorToolsRibbonContainer.classList.add("editingStylesheet"), window.stylesheetEdit = this, window.externalEditor.init(), window.app.storageLocal.recoverUnsavedData && (browserAPI.storage.local.set({ editing: { val: this.item.value.stylesheet, id: this.item.id, crmType: window.app.crmTypes } }), this.savingInterval = window.setInterval(function () {
-        if (a.active && a.editorManager) {
-          var b;try {
-            b = a.editorManager.editor.getValue(), browserAPI.storage.local.set({ editing: { val: b, id: a.item.id, crmType: window.app.crmTypes } });
-          } catch (a) {}
-        } else browserAPI.storage.local.set({ editing: !1 }), window.clearInterval(a.savingInterval);
-      }, 5e3)), this.active = !0, setTimeout(function () {
-        a._loadEditor();
-      }, 750);
+    }, (b.onLangChanged = function () {
+      return __awaiter(this, void 0, void 0, function () {
+        var a;return __generator(this, function (b) {
+          switch (b.label) {case 0:
+              return a = this.$.exportMenu.$.dropdownSelected, [4, this.__async("options_editPages_code_exportAs")];case 1:
+              return a.innerText = b.sent(), [2];}
+        });
+      });
+    }, b.init = function () {
+      return __awaiter(this, void 0, void 0, function () {
+        var a = this;return __generator(this, function (b) {
+          switch (b.label) {case 0:
+              return this._init(), this._CEBIinit(), this.$.dropdownMenu.init(), this.$.exportMenu.init(), [4, this.onLangChanged()];case 1:
+              return b.sent(), this.initDropdown(), this.selectorStateChange(0, this.newSettings.value.launchMode), window.app.$.editorToolsRibbonContainer.classList.remove("editingScript"), window.app.$.editorToolsRibbonContainer.classList.add("editingStylesheet"), window.stylesheetEdit = this, window.externalEditor.init(), window.app.storageLocal.recoverUnsavedData && (browserAPI.storage.local.set({ editing: { val: this.item.value.stylesheet, id: this.item.id, crmType: window.app.crmTypes } }), this.savingInterval = window.setInterval(function () {
+                if (a.active && a.editorManager) {
+                  var b;try {
+                    b = a.editorManager.editor.getValue(), browserAPI.storage.local.set({ editing: { val: b, id: a.item.id, crmType: window.app.crmTypes } });
+                  } catch (a) {}
+                } else browserAPI.storage.local.set({ editing: !1 }), window.clearInterval(a.savingInterval);
+              }, 5e3)), this.active = !0, setTimeout(function () {
+                a._loadEditor();
+              }, 750), [2];}
+        });
+      });
     }, b._showMainTab = function () {
       this.editorManager.switchToModel("default", this.newSettings.value.stylesheet, this.editorManager.EditorMode.CSS_META);
     }, b._parseVar = function (a) {
@@ -7955,6 +8032,8 @@ var TypeSwitcherElement;(function (a) {
   var b = function () {
     function a() {}return a.ready = function () {
       this.remainingTypes = [], this.onReady();
+    }, a.getTitle = function (a) {
+      return this.___('options_typeSwitcher_title', a);
     }, a.onReady = function () {
       (this.isScript = 'script' === this.type) ? (this.isLink = this.isMenu = this.isDivider = this.isStylesheet = !1, this.remainingTypes = ['link', 'divider', 'menu', 'stylesheet']) : (this.isLink = 'link' === this.type) ? (this.isMenu = this.isDivider = this.isStylesheet = !1, this.remainingTypes = ['script', 'divider', 'menu', 'stylesheet']) : (this.isStylesheet = 'stylesheet' === this.type) ? (this.isDivider = this.isMenu = !1, this.remainingTypes = ['link', 'script', 'divider', 'menu']) : (this.isMenu = 'menu' === this.type) ? (this.isDivider = !1, this.remainingTypes = ['link', 'script', 'divider', 'stylesheet']) : (this.isDivider = !0, this.remainingTypes = ['link', 'script', 'menu', 'stylesheet']), this.$.typeTxt.innerHTML = this.type;
     }, a.colorTypeChoices = function () {
@@ -7997,13 +8076,13 @@ var TypeSwitcherElement;(function (a) {
             g.value = null, g.triggers = g.triggers || [{ url: '*://*.example.com/*', not: !1 }];break;case 'menu':
             g.value = null, g.triggers = g.triggers || [{ url: '*://*.example.com/*', not: !1 }];break;case 'stylesheet':
             j = j || g.triggers || [{ url: '*://*.example.com/*', not: !1 }], g.value = window.app.templates.getDefaultStylesheetValue();}
-      }f.type = g.type, f.calculateType(), this.onReady();var k,
+      }f.type = g.type, f.calculateType(), f.updateName(g.name), this.onReady();var k,
           i = Array.prototype.slice.apply(this.shadowRoot.querySelectorAll('.typeSwitchChoice'));for (k = 0; k < this.remainingTypes.length; k++) {
         i[k].setAttribute('type', this.remainingTypes[k]);
       }if ('menu' === h) {
         var l = this.parentElement.parentElement.parentNode.host.parentElement,
             m = l.parentElement.parentElement;m = $(m).next()[0], this.shadowColumns(m, !1), window.app.shadowStart = l.index + 1;
-      }this.closeTypeSwitchContainer(!0), window.app.upload(), window.app.uploading.showRevertPointToast(b, 1.5e5);
+      }this.closeTypeSwitchContainer(!0), window.app.upload(), window.app.uploading.showRevertPointToast(b, 15000);
     }, a.is = 'type-switcher', a.isLink = !1, a.isScript = !1, a.isDivider = !1, a.isMenu = !1, a.isStylesheet = !1, a.toggledOpen = !1, a.colored = !1, a);
   }();a.TS = b, window.objectify ? window.register(b) : window.addEventListener('RegisterReady', function () {
     window.register(b);
@@ -12353,7 +12432,7 @@ var __assign = undefined && undefined.__assign || function () {
         };
       });
     }, t._getPageTitle = function () {
-      return this._isDemo() ? "Demo, actual right-click menu does NOT work in demo" : this.___("generic_app_title");
+      return this._isDemo() ? "Demo, actual right-click menu does NOT work in demo" : this.___("generic_appTitle");
     }, t._isOldChrome = function () {
       return 30 > this.getChromeVersion();
     }, t._getChromeAge = function () {
@@ -13470,7 +13549,7 @@ var __assign = undefined && undefined.__assign || function () {
       }, e.getScriptPermissions = function () {
         return ["alarms", "activeTab", "background", "bookmarks", "browsingData", "clipboardRead", "clipboardWrite", "contentSettings", "cookies", "contentSettings", "contextMenus", "declarativeContent", "desktopCapture", "downloads", "history", "identity", "idle", "management", "pageCapture", "power", "privacy", "printerProvider", "sessions", "system.cpu", "system.memory", "system.storage", "topSites", "tabs", "tabCapture", "tts", "webNavigation", "webRequest", "webRequestBlocking", "crmGet", "crmWrite", "crmRun", "crmContextmenu", "chrome", "browser", "GM_info", "GM_deleteValue", "GM_getValue", "GM_listValues", "GM_setValue", "GM_getResourceText", "GM_getResourceURL", "GM_addStyle", "GM_log", "GM_openInTab", "GM_registerMenuCommand", "GM_setClipboard", "GM_xmlhttpRequest", "unsafeWindow"];
       }, e.getPermissionDescription = function (e) {
-        var t = { alarms: this.parent().___("permissions_alarms"), activeTab: this.parent().___("permissions_activeTab"), background: this.parent().___("permissions_background"), bookmarks: this.parent().___("permissions_bookmarks"), browsingData: this.parent().___("permissions_browsingData"), clipboardRead: this.parent().___("permissions_clipboardRead"), clipboardWrite: this.parent().___("permissions_clipboardWrite"), cookies: this.parent().___("permissions_cookies"), contentSettings: this.parent().___("permissions_contentSettings"), contextMenus: this.parent().___("permissions_contextMenus"), declarativeContent: this.parent().___("permissions_declarativeContent"), desktopCapture: this.parent().___("permissions_desktopCapture"), downloads: this.parent().___("permissions_downloads"), history: this.parent().___("permissions_history"), identity: this.parent().___("permissions_identity"), idle: this.parent().___("permissions_idle"), management: this.parent().___("permissions_management"), notifications: this.parent().___("permissions_notifications"), pageCapture: this.parent().___("permissions_pageCapture"), power: this.parent().___("permissions_power"), privacy: this.parent().___("permissions_privacy"), printerProvider: this.parent().___("permissions_printerProvider"), sessions: this.parent().___("permissions_sessions"), "system.cpu": this.parent().___("permissions_systemcpu"), "system.memory": this.parent().___("permissions_systemmemory"), "system.storage": this.parent().___("permissions_systemstorage"), topSites: this.parent().___("permissions_topSites"), tabCapture: this.parent().___("permissions_tabCapture"), tabs: this.parent().___("permissions_tabs"), tts: this.parent().___("permissions_tts"), webNavigation: this.parent().___("permissions_webNavigation") + " (https://developer.chrome.com/extensions/webNavigation)", webRequest: this.parent().___("permissions_webRequest"), webRequestBlocking: this.parent().___("permissions_webRequestBlocking"), crmGet: this.parent().___("permissions_crmGet"), crmWrite: this.parent().___("permissions_crmWrite"), crmRun: this.parent().___("permissions_crmRun"), crmContextmenu: this.parent().___("permissions_crmContextmenu"), chrome: this.parent().___("permissions_chrome"), browser: this.parent().___("permissions_browser"), GM_addStyle: this.parent().___("permissions_GM_addStyle"), GM_deleteValue: this.parent().___("permissions_GM_deleteValue"), GM_listValues: this.parent().___("permissions_GM_listValues"), GM_addValueChangeListener: this.parent().___("permissions_GM_addValueChangeListener"), GM_removeValueChangeListener: this.parent().___("permissions_GM_removeValueChangeListener"), GM_setValue: this.parent().___("permissions_GM_setValue"), GM_getValue: this.parent().___("permissions_GM_getValue"), GM_log: this.parent().___("permissions_GM_log"), GM_getResourceText: this.parent().___("permissions_GM_getResourceText"), GM_getResourceURL: this.parent().___("permissions_GM_getResourceURL"), GM_registerMenuCommand: this.parent().___("permissions_GM_registerMenuCommand"), GM_unregisterMenuCommand: this.parent().___("permissions_GM_unregisterMenuCommand"), GM_openInTab: this.parent().___("permissions_GM_openInTab"), GM_xmlhttpRequest: this.parent().___("permissions_GM_xmlhttpRequest"), GM_download: this.parent().___("permissions_GM_download"), GM_getTab: this.parent().___("permissions_GM_getTab"), GM_saveTab: this.parent().___("permissions_GM_saveTab"), GM_getTabs: this.parent().___("permissions_GM_getTabs"), GM_notification: this.parent().___("permissions_GM_notification"), GM_setClipboard: this.parent().___("permissions_GM_setClipboard"), GM_info: this.parent().___("permissions_GM_info"), unsafeWindow: this.parent().___("permissions_unsafeWindow") };return t[e];
+        var t = { alarms: this.parent().___("permissions_alarms"), activeTab: this.parent().___("permissions_activeTab"), background: this.parent().___("permissions_background"), bookmarks: this.parent().___("permissions_bookmarks"), browsingData: this.parent().___("permissions_browsingData"), clipboardRead: this.parent().___("permissions_clipboardRead"), clipboardWrite: this.parent().___("permissions_clipboardWrite"), cookies: this.parent().___("permissions_cookies"), contentSettings: this.parent().___("permissions_contentSettings"), contextMenus: this.parent().___("permissions_contextMenus"), declarativeContent: this.parent().___("permissions_declarativeContent"), desktopCapture: this.parent().___("permissions_desktopCapture"), downloads: this.parent().___("permissions_downloads"), history: this.parent().___("permissions_history"), identity: this.parent().___("permissions_identity"), idle: this.parent().___("permissions_idle"), management: this.parent().___("permissions_management"), notifications: this.parent().___("permissions_notifications"), pageCapture: this.parent().___("permissions_pageCapture"), power: this.parent().___("permissions_power"), privacy: this.parent().___("permissions_privacy"), printerProvider: this.parent().___("permissions_printerProvider"), sessions: this.parent().___("permissions_sessions"), "system.cpu": this.parent().___("permissions_systemcpu"), "system.memory": this.parent().___("permissions_systemmemory"), "system.storage": this.parent().___("permissions_systemstorage"), topSites: this.parent().___("permissions_topSites"), tabCapture: this.parent().___("permissions_tabCapture"), tabs: this.parent().___("permissions_tabs"), tts: this.parent().___("permissions_tts"), webNavigation: this.parent().___("permissions_webNavigation") + " (https://developer.chrome.com/extensions/webNavigation)", webRequest: this.parent().___("permissions_webRequest"), webRequestBlocking: this.parent().___("permissions_webRequestBlocking"), crmGet: this.parent().___("permissions_crmGet"), crmWrite: this.parent().___("permissions_crmWrite"), crmRun: this.parent().___("permissions_crmRun"), crmContextmenu: this.parent().___("permissions_crmContextmenu"), chrome: this.parent().___("permissions_chrome"), browser: this.parent().___("permissions_browser"), GM_addStyle: this.parent().___("permissions_GMAddStyle"), GM_deleteValue: this.parent().___("permissions_GMDeleteValue"), GM_listValues: this.parent().___("permissions_GMListValues"), GM_addValueChangeListener: this.parent().___("permissions_GMAddValueChangeListener"), GM_removeValueChangeListener: this.parent().___("permissions_GMRemoveValueChangeListener"), GM_setValue: this.parent().___("permissions_GMSetValue"), GM_getValue: this.parent().___("permissions_GMGetValue"), GM_log: this.parent().___("permissions_GMLog"), GM_getResourceText: this.parent().___("permissions_GMGetResourceText"), GM_getResourceURL: this.parent().___("permissions_GMGetResourceURL"), GM_registerMenuCommand: this.parent().___("permissions_GMRegisterMenuCommand"), GM_unregisterMenuCommand: this.parent().___("permissions_GMUnregisterMenuCommand"), GM_openInTab: this.parent().___("permissions_GMOpenInTab"), GM_xmlhttpRequest: this.parent().___("permissions_GMXmlhttpRequest"), GM_download: this.parent().___("permissions_GMDownload"), GM_getTab: this.parent().___("permissions_GMGetTab"), GM_saveTab: this.parent().___("permissions_GMSaveTab"), GM_getTabs: this.parent().___("permissions_GMGetTabs"), GM_notification: this.parent().___("permissions_GMNotification"), GM_setClipboard: this.parent().___("permissions_GMSetClipboard"), GM_info: this.parent().___("permissions_GMInfo"), unsafeWindow: this.parent().___("permissions_unsafeWindow") };return t[e];
       }, (e.parent = function () {
         return window.app;
       }, e);

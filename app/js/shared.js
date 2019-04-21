@@ -163,6 +163,7 @@ var _this = this;
                 this._languageChangeListeners = [];
                 this.ready = (function () { return __awaiter(_this, void 0, void 0, function () {
                     var _a, _b;
+                    var _this = this;
                     return __generator(this, function (_c) {
                         switch (_c.label) {
                             case 0:
@@ -176,6 +177,8 @@ var _this = this;
                                 _b._currentLangFile = _c.sent();
                                 this._listeners.forEach(function (listener) {
                                     listener.langReady = true;
+                                    listener.onLangChanged &&
+                                        listener.onLangChanged.call(listener, _this._lang, null);
                                 });
                                 return [2];
                         }
@@ -316,14 +319,20 @@ var _this = this;
             };
             Lang.prototype.setLang = function (lang) {
                 return __awaiter(this, void 0, void 0, function () {
+                    var prevLang;
                     var _this = this;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
-                            case 0: return [4, browserAPI.storage.local.set({
-                                    lang: lang
-                                })];
+                            case 0: return [4, this.getLang()];
                             case 1:
+                                prevLang = _a.sent();
+                                return [4, browserAPI.storage.local.set({
+                                        lang: lang
+                                    })];
+                            case 2:
                                 _a.sent();
+                                this._listeners.forEach(function (l) { return l.onLangChange &&
+                                    l.onLangChange.call(l, lang, prevLang); });
                                 this.ready = (function () { return __awaiter(_this, void 0, void 0, function () {
                                     var _a;
                                     var _this = this;
@@ -339,6 +348,9 @@ var _this = this;
                                                     listener.lang = lang;
                                                     listener.langReady = true;
                                                     _this._languageChangeListeners.forEach(function (fn) { return fn(); });
+                                                    _this._listeners
+                                                        .forEach(function (l) { return l.onLangChanged &&
+                                                        l.onLangChanged.call(l, lang, prevLang); });
                                                 });
                                                 return [2];
                                         }

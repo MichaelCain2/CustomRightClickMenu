@@ -131,10 +131,37 @@ var PaperLibrariesSelectorElement;
             });
             this.selected = selected;
         };
+        PLS._displayLibraries = function (anonymous, libraries) {
+            var _this = this;
+            var anonymousLibraries = [];
+            anonymous.forEach(function (item) {
+                var itemCopy = {
+                    isLibrary: true,
+                    name: item.url + " (" + _this.___("options_tools_paperLibrariesSelector_anonymous") + ")",
+                    classes: 'library iron-selected anonymous',
+                    selected: 'true'
+                };
+                anonymousLibraries.push(itemCopy);
+            });
+            anonymousLibraries.sort(this.sortByName);
+            libraries = libraries.concat(anonymousLibraries);
+            libraries.push({
+                name: this.___("options_tools_paperLibrariesSelector_addOwn"),
+                classes: 'library addLibrary',
+                selected: 'false',
+                isLibrary: false
+            });
+            this.libraries = libraries;
+        };
+        PLS.onLangChanged = function () {
+            if (!this._viewLibs)
+                return;
+            this._displayLibraries(this._viewLibs.anonymous, this._viewLibs.libraries);
+        };
         PLS.init = function (cancelOpen) {
             if (cancelOpen === void 0) { cancelOpen = false; }
             return __awaiter(this, void 0, void 0, function () {
-                var _a, anonymous, selectedObj, libraries, anonymousLibraries;
+                var _a, anonymous, selectedObj, libraries;
                 return __generator(this, function (_b) {
                     switch (_b.label) {
                         case 0:
@@ -154,25 +181,10 @@ var PaperLibrariesSelectorElement;
                             _a = this.categorizeLibraries(), anonymous = _a.anonymous, selectedObj = _a.selectedObj;
                             libraries = this._getLibraries(selectedObj);
                             this._setSelectedLibraries(libraries);
-                            anonymousLibraries = [];
-                            anonymous.forEach(function (item) {
-                                var itemCopy = {
-                                    isLibrary: true,
-                                    name: item.url + " (anonymous)",
-                                    classes: 'library iron-selected anonymous',
-                                    selected: 'true'
-                                };
-                                anonymousLibraries.push(itemCopy);
-                            });
-                            anonymousLibraries.sort(this.sortByName);
-                            libraries = libraries.concat(anonymousLibraries);
-                            libraries.push({
-                                name: 'Add your own',
-                                classes: 'library addLibrary',
-                                selected: 'false',
-                                isLibrary: false
-                            });
-                            this.libraries = libraries;
+                            this._viewLibs = {
+                                anonymous: anonymous, libraries: libraries
+                            };
+                            this._displayLibraries(anonymous, libraries);
                             return [2];
                     }
                 });
@@ -375,49 +387,80 @@ var PaperLibrariesSelectorElement;
             }
         };
         PLS._addLibraryHandler = function () {
-            var _this = this;
-            var input = window.doc.addedLibraryName;
-            var name = input.$$('input').value;
-            var taken = false;
-            for (var i = 0; i < this.installedLibraries.length; i++) {
-                if (this.installedLibraries[i].name === name) {
-                    taken = true;
-                }
-            }
-            if (name !== '' && !taken) {
-                input.invalid = false;
-                if (window.doc.addLibraryRadios.selected === 'url') {
-                    var libraryInput_1 = window.doc.addLibraryUrlInput;
-                    var url_1 = libraryInput_1.$$('input').value;
-                    if (url_1[0] === '/' && url_1[1] === '/') {
-                        url_1 = 'http:' + url_1;
+            return __awaiter(this, void 0, void 0, function () {
+                var input, name, taken, i, libraryInput_1, url_1, _a, _b;
+                var _this = this;
+                return __generator(this, function (_c) {
+                    switch (_c.label) {
+                        case 0:
+                            input = window.doc.addedLibraryName;
+                            name = input.$$('input').value;
+                            taken = false;
+                            for (i = 0; i < this.installedLibraries.length; i++) {
+                                if (this.installedLibraries[i].name === name) {
+                                    taken = true;
+                                }
+                            }
+                            if (!(name !== '' && !taken)) return [3, 1];
+                            input.invalid = false;
+                            if (window.doc.addLibraryRadios.selected === 'url') {
+                                libraryInput_1 = window.doc.addLibraryUrlInput;
+                                url_1 = libraryInput_1.$$('input').value;
+                                if (url_1[0] === '/' && url_1[1] === '/') {
+                                    url_1 = 'http:' + url_1;
+                                }
+                                window.app.util.xhr(url_1, false).then(function (data) {
+                                    _this.confirmLibraryFile(name, window.doc.addLibraryIsTS.checked, data, url_1);
+                                })["catch"](function (statusCode) { return __awaiter(_this, void 0, void 0, function () {
+                                    var statusMsg, msg, _a;
+                                    return __generator(this, function (_b) {
+                                        switch (_b.label) {
+                                            case 0:
+                                                statusMsg = this._getStatusCodeDescr(statusCode);
+                                                if (!statusMsg) return [3, 2];
+                                                return [4, this.__async("options_tools_paperLibrariesSelector_xhrFailedMsg", statusCode, statusMsg)];
+                                            case 1:
+                                                _a = _b.sent();
+                                                return [3, 4];
+                                            case 2: return [4, this.__async("options_tools_paperLibrariesSelector_xhrFailed", statusCode)];
+                                            case 3:
+                                                _a = _b.sent();
+                                                _b.label = 4;
+                                            case 4:
+                                                msg = _a;
+                                                window.app.util.showToast(msg);
+                                                libraryInput_1.setAttribute('invalid', 'true');
+                                                return [2];
+                                        }
+                                    });
+                                }); });
+                            }
+                            else {
+                                this.addLibraryFile(name, window.doc.addLibraryIsTS.checked, window.doc.addLibraryManualInput
+                                    .$$('iron-autogrow-textarea')
+                                    .$$('textarea').value);
+                            }
+                            return [3, 6];
+                        case 1:
+                            if (!taken) return [3, 3];
+                            _a = input;
+                            return [4, this.__async("options_tools_paperLibrariesSelector_nameTaken")];
+                        case 2:
+                            _a.errorMessage = _c.sent();
+                            return [3, 5];
+                        case 3:
+                            _b = input;
+                            return [4, this.__async("options_tools_paperLibrariesSelector_nameMissing")];
+                        case 4:
+                            _b.errorMessage = _c.sent();
+                            _c.label = 5;
+                        case 5:
+                            input.invalid = true;
+                            _c.label = 6;
+                        case 6: return [2];
                     }
-                    window.app.util.xhr(url_1, false).then(function (data) {
-                        _this.confirmLibraryFile(name, window.doc.addLibraryIsTS.checked, data, url_1);
-                    })["catch"](function (statusCode) {
-                        var statusMsg = _this._getStatusCodeDescr(statusCode);
-                        var msg = statusMsg ?
-                            "Failed with status code " + statusCode + " \"" + statusMsg + "\"" :
-                            "Failed with status code " + statusCode + "\";";
-                        window.app.util.showToast(msg);
-                        libraryInput_1.setAttribute('invalid', 'true');
-                    });
-                }
-                else {
-                    this.addLibraryFile(name, window.doc.addLibraryIsTS.checked, window.doc.addLibraryManualInput
-                        .$$('iron-autogrow-textarea')
-                        .$$('textarea').value);
-                }
-            }
-            else {
-                if (taken) {
-                    input.errorMessage = 'That name is already taken';
-                }
-                else {
-                    input.errorMessage = 'Please enter a name';
-                }
-                input.invalid = true;
-            }
+                });
+            });
         };
         PLS._addNewLibrary = function () {
             window.doc.addedLibraryName.$$('input').value = '';
@@ -538,46 +581,61 @@ var PaperLibrariesSelectorElement;
             });
         };
         PLS._genOverlayWidget = function () {
-            var _this = this;
-            var container = document.createElement('div');
-            container.style.backgroundColor = 'white';
-            container.style.padding = '10px';
-            window.setDisplayFlex(container);
-            var cancelButton = document.createElement('paper-button');
-            cancelButton.innerText = 'Cancel';
-            var saveButton = document.createElement('paper-button');
-            saveButton.innerText = 'Save';
-            saveButton.style.marginLeft = '15px';
-            cancelButton.addEventListener('click', function () {
-                _this._discardLibEditChanges();
-            });
-            saveButton.addEventListener('click', function () {
-                _this._saveLibEditChanges();
-            });
-            container.appendChild(cancelButton);
-            container.appendChild(saveButton);
-            var editor = window.scriptEdit.fullscreenEditorManager.editor;
-            if (!window.scriptEdit.fullscreenEditorManager.isDiff(editor)) {
-                editor.addOverlayWidget({
-                    getId: function () {
-                        return 'library.exit.buttons';
-                    },
-                    getDomNode: function () {
-                        return container;
-                    },
-                    getPosition: function () {
-                        return {
-                            preference: monaco.editor.OverlayWidgetPositionPreference.BOTTOM_RIGHT_CORNER
-                        };
+            return __awaiter(this, void 0, void 0, function () {
+                var container, cancelButton, _a, saveButton, _b, editor;
+                var _this = this;
+                return __generator(this, function (_c) {
+                    switch (_c.label) {
+                        case 0:
+                            container = document.createElement('div');
+                            container.style.backgroundColor = 'white';
+                            container.style.padding = '10px';
+                            window.setDisplayFlex(container);
+                            cancelButton = document.createElement('paper-button');
+                            _a = cancelButton;
+                            return [4, this.___("generic_cancel")];
+                        case 1:
+                            _a.innerText = _c.sent();
+                            saveButton = document.createElement('paper-button');
+                            _b = saveButton;
+                            return [4, this.___("generic_save")];
+                        case 2:
+                            _b.innerText = _c.sent();
+                            saveButton.style.marginLeft = '15px';
+                            cancelButton.addEventListener('click', function () {
+                                _this._discardLibEditChanges();
+                            });
+                            saveButton.addEventListener('click', function () {
+                                _this._saveLibEditChanges();
+                            });
+                            container.appendChild(cancelButton);
+                            container.appendChild(saveButton);
+                            editor = window.scriptEdit.fullscreenEditorManager.editor;
+                            if (!window.scriptEdit.fullscreenEditorManager.isDiff(editor)) {
+                                editor.addOverlayWidget({
+                                    getId: function () {
+                                        return 'library.exit.buttons';
+                                    },
+                                    getDomNode: function () {
+                                        return container;
+                                    },
+                                    getPosition: function () {
+                                        return {
+                                            preference: monaco.editor.OverlayWidgetPositionPreference.BOTTOM_RIGHT_CORNER
+                                        };
+                                    }
+                                });
+                            }
+                            return [2];
                     }
                 });
-            }
+            });
         };
         PLS._openLibraryEditor = function (library) {
             return __awaiter(this, void 0, void 0, function () {
-                var wasFullscreen, name, installedLibrary, isTs;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
+                var wasFullscreen, name, _a, installedLibrary, isTs;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
                         case 0:
                             wasFullscreen = window.scriptEdit.fullscreen;
                             name = window.app.$.ribbonScriptName.innerText;
@@ -586,42 +644,53 @@ var PaperLibrariesSelectorElement;
                                 name: name,
                                 library: library
                             };
-                            window.app.$.ribbonScriptName.innerText = 'Editing library ' + library.name;
-                            return [4, window.scriptEdit.enterFullScreen()];
+                            _a = window.app.$.ribbonScriptName;
+                            return [4, this.___("options_tools_paperLibrariesSelector_editing", library.name)];
                         case 1:
-                            _a.sent();
-                            return [4, this._getInstalledLibrary(library)];
+                            _a.innerText = _b.sent();
+                            return [4, window.scriptEdit.enterFullScreen()];
                         case 2:
-                            installedLibrary = _a.sent();
+                            _b.sent();
+                            return [4, this._getInstalledLibrary(library)];
+                        case 3:
+                            installedLibrary = _b.sent();
                             isTs = installedLibrary.ts && installedLibrary.ts.enabled;
                             window.scriptEdit.fullscreenEditorManager.switchToModel('libraryEdit', installedLibrary.code, isTs ?
                                 window.scriptEdit.fullscreenEditorManager.EditorMode.TS :
                                 window.scriptEdit.fullscreenEditorManager.EditorMode.JS);
                             window.app.$.fullscreenEditorToggle.style.display = 'none';
-                            this._genOverlayWidget();
+                            return [4, this._genOverlayWidget()];
+                        case 4:
+                            _b.sent();
                             return [2];
                     }
                 });
             });
         };
         PLS._edit = function (e) {
-            var manager = window.codeEditBehavior.getEditor();
-            if (manager.isTextarea(manager.getEditorAsMonaco())) {
-                window.app.util.showToast('Please update your chrome (at least chrome 30) to use this feature');
-                return;
-            }
-            var parentNode = null;
-            if (e.target.tagName.toLowerCase() === 'path') {
-                parentNode = e.target.parentElement.parentElement.parentElement;
-            }
-            else if (e.target.tagName.toLowerCase() === 'svg') {
-                parentNode = e.target.parentElement.parentElement;
-            }
-            else {
-                parentNode = e.target.parentElement;
-            }
-            var library = parentNode.dataLib;
-            this._openLibraryEditor(library);
+            return __awaiter(this, void 0, void 0, function () {
+                var manager, parentNode, library;
+                return __generator(this, function (_a) {
+                    manager = window.codeEditBehavior.getEditor();
+                    if (manager.isTextarea(manager.getEditorAsMonaco())) {
+                        window.app.util.showToast(this.___("options_tools_paperLibrariesSelector_pleaseUpdate"));
+                        return [2];
+                    }
+                    parentNode = null;
+                    if (e.target.tagName.toLowerCase() === 'path') {
+                        parentNode = e.target.parentElement.parentElement.parentElement;
+                    }
+                    else if (e.target.tagName.toLowerCase() === 'svg') {
+                        parentNode = e.target.parentElement.parentElement;
+                    }
+                    else {
+                        parentNode = e.target.parentElement;
+                    }
+                    library = parentNode.dataLib;
+                    this._openLibraryEditor(library);
+                    return [2];
+                });
+            });
         };
         PLS._remove = function (e) {
             var parentNode = null;
@@ -664,6 +733,7 @@ var PaperLibrariesSelectorElement;
         PLS._editingInstance = null;
         PLS._eventListeners = [];
         PLS._srcNode = null;
+        PLS._viewLibs = null;
         PLS.behaviors = [window.Polymer.PaperDropdownBehavior];
         return PLS;
     }());

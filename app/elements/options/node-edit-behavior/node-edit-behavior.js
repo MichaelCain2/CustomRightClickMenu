@@ -307,10 +307,10 @@ var NodeEditBehaviorNamespace;
         };
         NEB.selectorStateChange = function (prevState, state) {
             return __awaiter(this, void 0, void 0, function () {
-                var newStates, oldStates;
+                var newStates, oldStates, _a, _b;
                 var _this = this;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
+                return __generator(this, function (_c) {
+                    switch (_c.label) {
                         case 0:
                             newStates = {
                                 showContentTypeChooser: (state === 0 || state === 3),
@@ -325,15 +325,28 @@ var NodeEditBehaviorNamespace;
                             if (!(oldStates.showTriggers !== newStates.showTriggers)) return [3, 2];
                             return [4, this.animateTriggers(newStates.showTriggers)];
                         case 1:
-                            _a.sent();
-                            _a.label = 2;
+                            _c.sent();
+                            _c.label = 2;
                         case 2:
                             if (oldStates.showContentTypeChooser !== newStates.showContentTypeChooser) {
                                 this.animateContentTypeChooser(newStates.showContentTypeChooser);
                             }
-                            if (newStates.showInsteadOfExecute !== oldStates.showInsteadOfExecute) {
-                                this.$['showOrExecutetxt'].innerText = (newStates.showInsteadOfExecute ? 'Show' : 'Execute');
-                            }
+                            if (!(newStates.showInsteadOfExecute !== oldStates.showInsteadOfExecute)) return [3, 7];
+                            _a = this.$['showOrExecutetxt'];
+                            if (!newStates.showInsteadOfExecute) return [3, 4];
+                            return [4, this.___("options_editPages_code_showOn")];
+                        case 3:
+                            _b = _c.sent();
+                            return [3, 6];
+                        case 4: return [4, this.___("options_editPages_code_executeOn")];
+                        case 5:
+                            _b = _c.sent();
+                            _c.label = 6;
+                        case 6:
+                            _a.innerText =
+                                (_b);
+                            _c.label = 7;
+                        case 7:
                             this.async(function () {
                                 if (_this.editorManager) {
                                     _this.editorManager.editor.layout();

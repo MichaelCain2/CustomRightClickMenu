@@ -109,7 +109,7 @@ var LogConsoleElement;
                                         switch (_b.label) {
                                             case 0:
                                                 _a = window.logConsole.$.genericToast;
-                                                return [4, this.__async("logging_tab_closed")];
+                                                return [4, this.__async("logging_tabClosed")];
                                             case 1:
                                                 _a.text = _b.sent();
                                                 window.logConsole.$.genericToast.show();
@@ -138,7 +138,7 @@ var LogConsoleElement;
                                                 if (!window.chrome.runtime.lastError) return [3, 2];
                                                 console.log(window.chrome.runtime.lastError);
                                                 _b = (_a = console).log;
-                                                return [4, this.__async("logging_something_went_wrong")];
+                                                return [4, this.__async("logging_somethingWentWrong")];
                                             case 1:
                                                 _b.apply(_a, [_c.sent()]);
                                                 _c.label = 2;

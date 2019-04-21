@@ -26,7 +26,7 @@ var CrmEditPageElement;
         CEP.nodeInfoSource = function () {
             return this.___(this.isLocal(this.nodeInfo.source) ?
                 "options_crmEditPage_createdOn" :
-                "options_crmEditPage_installedOn", "<b title=\"" + this.getInstallDateTextFormat() + "\">" + this.nodeInfo.installDate + "</b>");
+                "options_crmEditPage_installedOn", "<b title=\"" + this.getInstallDate() + "\">" + this.nodeInfo.installDate + "</b>");
         };
         CEP.isLocal = function (source) {
             if (!source) {
@@ -170,9 +170,10 @@ var CrmEditPageElement;
             chooseDialog.open();
         };
         ;
-        CEP.getInstallDateTextFormat = function () {
-            if (window.Intl && typeof window.Intl === 'object' && this.nodeInfo) {
-                var format = (new Date('1-13-2016').toLocaleDateString() === '1-13-2016' ? 'eu' : 'na');
+        CEP.getInstallDate = function () {
+            if (window.Intl && typeof window.Intl === 'object' && this.nodeInfo &&
+                this.nodeInfo.installDate) {
+                var format = (new Date(2016, 1, 13).toLocaleDateString() === '13-2-2016' ? 'eu' : 'na');
                 var date = void 0;
                 if (format === 'eu') {
                     date = this.nodeInfo.installDate.split('-');

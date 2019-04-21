@@ -186,27 +186,27 @@ var InstallConfirmElement;
                 crmContextmenu: this.___("permissions_crmContextmenu"),
                 chrome: this.___("permissions_chrome"),
                 browser: this.___("permissions_browser"),
-                GM_addStyle: this.___("permissions_GM_addStyle"),
-                GM_deleteValue: this.___("permissions_GM_deleteValue"),
-                GM_listValues: this.___("permissions_GM_listValues"),
-                GM_addValueChangeListener: this.___("permissions_GM_addValueChangeListener"),
-                GM_removeValueChangeListener: this.___("permissions_GM_removeValueChangeListener"),
-                GM_setValue: this.___("permissions_GM_setValue"),
-                GM_getValue: this.___("permissions_GM_getValue"),
-                GM_log: this.___("permissions_GM_log"),
-                GM_getResourceText: this.___("permissions_GM_getResourceText"),
-                GM_getResourceURL: this.___("permissions_GM_getResourceURL"),
-                GM_registerMenuCommand: this.___("permissions_GM_registerMenuCommand"),
-                GM_unregisterMenuCommand: this.___("permissions_GM_unregisterMenuCommand"),
-                GM_openInTab: this.___("permissions_GM_openInTab"),
-                GM_xmlhttpRequest: this.___("permissions_GM_xmlhttpRequest"),
-                GM_download: this.___("permissions_GM_download"),
-                GM_getTab: this.___("permissions_GM_getTab"),
-                GM_saveTab: this.___("permissions_GM_saveTab"),
-                GM_getTabs: this.___("permissions_GM_getTabs"),
-                GM_notification: this.___("permissions_GM_notification"),
-                GM_setClipboard: this.___("permissions_GM_setClipboard"),
-                GM_info: this.___("permissions_GM_info"),
+                GM_addStyle: this.___("permissions_GMAddStyle"),
+                GM_deleteValue: this.___("permissions_GMDeleteValue"),
+                GM_listValues: this.___("permissions_GMListValues"),
+                GM_addValueChangeListener: this.___("permissions_GMAddValueChangeListener"),
+                GM_removeValueChangeListener: this.___("permissions_GMRemoveValueChangeListener"),
+                GM_setValue: this.___("permissions_GMSetValue"),
+                GM_getValue: this.___("permissions_GMGetValue"),
+                GM_log: this.___("permissions_GMLog"),
+                GM_getResourceText: this.___("permissions_GMGetResourceText"),
+                GM_getResourceURL: this.___("permissions_GMGetResourceURL"),
+                GM_registerMenuCommand: this.___("permissions_GMRegisterMenuCommand"),
+                GM_unregisterMenuCommand: this.___("permissions_GMUnregisterMenuCommand"),
+                GM_openInTab: this.___("permissions_GMOpenInTab"),
+                GM_xmlhttpRequest: this.___("permissions_GMXmlhttpRequest"),
+                GM_download: this.___("permissions_GMDownload"),
+                GM_getTab: this.___("permissions_GMGetTab"),
+                GM_saveTab: this.___("permissions_GMSaveTab"),
+                GM_getTabs: this.___("permissions_GMGetTabs"),
+                GM_notification: this.___("permissions_GMNotification"),
+                GM_setClipboard: this.___("permissions_GMSetClipboard"),
+                GM_info: this.___("permissions_GMInfo"),
                 unsafeWindow: this.___("permissions_unsafeWindow")
             };
             return descriptions[permission];
@@ -315,7 +315,7 @@ var InstallConfirmElement;
                         case 4:
                             _b.trys.push([4, 6, , 7]);
                             if (!(browserAPI.permissions)) {
-                                window.app.util.showToast(this.___("install_confirm_not_asking", permission));
+                                window.app.util.showToast(this.___("install_confirm_notAsking", permission));
                                 return [2];
                             }
                             return [4, browserAPI.permissions.request({

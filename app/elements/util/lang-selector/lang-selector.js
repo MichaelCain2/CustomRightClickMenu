@@ -96,7 +96,7 @@ var LangSelectorElement;
                                                 _d.label = 4;
                                             case 4: return [2, (_a.name = _b,
                                                     _a.code = lang,
-                                                    _a.url = "../../images/country_flags/" + lang + ".svg",
+                                                    _a.url = "../images/country_flags/" + lang + ".svg",
                                                     _a.selected = lang === currentLang,
                                                     _a)];
                                         }
@@ -109,7 +109,7 @@ var LangSelectorElement;
                 });
             });
         };
-        LS.update = function () {
+        LS.onLangChanged = function () {
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
@@ -124,12 +124,8 @@ var LangSelectorElement;
         };
         LS.ready = function () {
             return __awaiter(this, void 0, void 0, function () {
-                var _this = this;
                 return __generator(this, function (_a) {
-                    window.__.addListener(function () {
-                        _this.update();
-                    });
-                    this.update();
+                    this.onLangChanged();
                     return [2];
                 });
             });

@@ -104,9 +104,22 @@ var ScriptEditElement;
             window.open(docsUrl, '_blank');
         };
         SCE.onKeyBindingKeyDown = function (e) {
-            var input = window.app.util.findElementWithTagname(e, 'paper-input');
-            var index = ~~input.getAttribute('data-index');
-            this._createKeyBindingListener(input, this.keyBindings[index]);
+            return __awaiter(this, void 0, void 0, function () {
+                var input, index, _a, _b;
+                return __generator(this, function (_c) {
+                    switch (_c.label) {
+                        case 0:
+                            input = window.app.util.findElementWithTagname(e, 'paper-input');
+                            index = ~~input.getAttribute('data-index');
+                            _a = this._createKeyBindingListener;
+                            _b = [input];
+                            return [4, this.getKeyBindings()];
+                        case 1:
+                            _a.apply(this, _b.concat([(_c.sent())[index]]));
+                            return [2];
+                    }
+                });
+            });
         };
         SCE.clearTriggerAndNotifyMetaTags = function (e) {
             if (this.shadowRoot.querySelectorAll('.executionTrigger').length === 1) {
@@ -495,36 +508,83 @@ var ScriptEditElement;
         ;
         SCE._createKeyBindingListener = function (element, keyBinding) {
             var _this = this;
-            return function (event) {
-                event.preventDefault();
-                if (event.keyCode < 16 || event.keyCode > 18) {
-                    if (event.altKey || event.shiftKey || event.ctrlKey) {
-                        var values = [];
-                        if (event.ctrlKey) {
-                            values.push('Ctrl');
-                        }
-                        if (event.altKey) {
-                            values.push('Alt');
-                        }
-                        if (event.shiftKey) {
-                            values.push('Shift');
-                        }
-                        values.push(String.fromCharCode(event.keyCode));
-                        var value = element.value = values.join('-');
-                        element.setAttribute('data-prev-value', value);
-                        window.app.settings.editor.keyBindings = window.app.settings.editor.keyBindings || {
-                            goToDef: _this.keyBindings[0].defaultKey,
-                            rename: _this.keyBindings[1].defaultKey
-                        };
-                        window.app.settings.editor.keyBindings[keyBinding.storageKey] = value;
-                        _this._initKeyBinding(keyBinding);
+            return function (event) { return __awaiter(_this, void 0, void 0, function () {
+                var values, value, keyBindings;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            event.preventDefault();
+                            if (!(event.keyCode < 16 || event.keyCode > 18)) return [3, 2];
+                            if (!(event.altKey || event.shiftKey || event.ctrlKey)) return [3, 2];
+                            values = [];
+                            if (event.ctrlKey) {
+                                values.push('Ctrl');
+                            }
+                            if (event.altKey) {
+                                values.push('Alt');
+                            }
+                            if (event.shiftKey) {
+                                values.push('Shift');
+                            }
+                            values.push(String.fromCharCode(event.keyCode));
+                            value = element.value = values.join('-');
+                            element.setAttribute('data-prev-value', value);
+                            return [4, this.getKeyBindings()];
+                        case 1:
+                            keyBindings = _a.sent();
+                            window.app.settings.editor.keyBindings = window.app.settings.editor.keyBindings || {
+                                goToDef: keyBindings[0].defaultKey,
+                                rename: keyBindings[1].defaultKey
+                            };
+                            window.app.settings.editor.keyBindings[keyBinding.storageKey] = value;
+                            this._initKeyBinding(keyBinding);
+                            _a.label = 2;
+                        case 2:
+                            element.value = element.getAttribute('data-prev-value') || '';
+                            return [2];
                     }
-                }
-                element.value = element.getAttribute('data-prev-value') || '';
-                return;
-            };
+                });
+            }); };
         };
         ;
+        SCE.getKeyBindingsSync = function () {
+            return [{
+                    name: this.___("options_editPages_code_goToDef"),
+                    defaultKey: 'Ctrl-F12',
+                    monacoKey: 'editor.action.goToTypeDefinition',
+                    storageKey: 'goToDef'
+                }, {
+                    name: this.___("options_editPages_code_rename"),
+                    defaultKey: 'Ctrl-F2',
+                    monacoKey: 'editor.action.rename',
+                    storageKey: 'rename'
+                }];
+        };
+        SCE.getKeyBindings = function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var _a, _b, _c;
+                return __generator(this, function (_d) {
+                    switch (_d.label) {
+                        case 0:
+                            _a = {};
+                            return [4, this.__async("options_editPages_code_goToDef")];
+                        case 1:
+                            _b = [(_a.name = _d.sent(),
+                                    _a.defaultKey = 'Ctrl-F12',
+                                    _a.monacoKey = 'editor.action.goToTypeDefinition',
+                                    _a.storageKey = 'goToDef',
+                                    _a)];
+                            _c = {};
+                            return [4, this.__async("options_editPages_code_rename")];
+                        case 2: return [2, _b.concat([(_c.name = _d.sent(),
+                                    _c.defaultKey = 'Ctrl-F2',
+                                    _c.monacoKey = 'editor.action.rename',
+                                    _c.storageKey = 'rename',
+                                    _c)])];
+                    }
+                });
+            });
+        };
         SCE._translateKeyCombination = function (keys) {
             var monacoKeys = [];
             for (var _i = 0, _a = keys.split('-'); _i < _a.length; _i++) {
@@ -565,47 +625,76 @@ var ScriptEditElement;
             }
         };
         SCE._initKeyBindings = function () {
-            for (var _i = 0, _a = this.keyBindings; _i < _a.length; _i++) {
-                var keyBinding = _a[_i];
-                this._initKeyBinding(keyBinding);
-            }
+            return __awaiter(this, void 0, void 0, function () {
+                var keyBindings, _i, keyBindings_1, keyBinding;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4, this.getKeyBindings()];
+                        case 1:
+                            keyBindings = _a.sent();
+                            for (_i = 0, keyBindings_1 = keyBindings; _i < keyBindings_1.length; _i++) {
+                                keyBinding = keyBindings_1[_i];
+                                this._initKeyBinding(keyBinding);
+                            }
+                            return [2];
+                    }
+                });
+            });
         };
         ;
         SCE.editorLoaded = function () {
-            var _this = this;
-            var editorManager = this.editorManager;
-            editorManager.getTypeHandler()[0].listen('metaChange', function (_oldMetaTags, newMetaTags) {
-                if (_this.editorMode === 'main') {
-                    _this.newSettings.value.metaTags = JSON.parse(JSON.stringify(newMetaTags)).content;
-                }
+            return __awaiter(this, void 0, void 0, function () {
+                var editorManager;
+                var _this = this;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            editorManager = this.editorManager;
+                            editorManager.getTypeHandler()[0].listen('metaChange', function (_oldMetaTags, newMetaTags) {
+                                if (_this.editorMode === 'main') {
+                                    _this.newSettings.value.metaTags = JSON.parse(JSON.stringify(newMetaTags)).content;
+                                }
+                            });
+                            this.$.mainEditorTab.classList.add('active');
+                            this.$.backgroundEditorTab.classList.remove('active');
+                            editorManager.editor.getDomNode().classList.remove('stylesheet-edit-codeMirror');
+                            editorManager.editor.getDomNode().classList.add('script-edit-codeMirror');
+                            editorManager.editor.getDomNode().classList.add('small');
+                            if (this.fullscreen) {
+                                this.$.editorFullScreen.children[0].innerHTML = '<path d="M10 32h6v6h4V28H10v4zm6-16h-6v4h10V10h-4v6zm12 22h4v-6h6v-4H28v10zm4-22v-6h-4v10h10v-4h-6z"/>';
+                            }
+                            return [4, window.__.ready];
+                        case 1:
+                            _a.sent();
+                            this._initKeyBindings();
+                            return [2];
+                    }
+                });
             });
-            this.$.mainEditorTab.classList.add('active');
-            this.$.backgroundEditorTab.classList.remove('active');
-            editorManager.editor.getDomNode().classList.remove('stylesheet-edit-codeMirror');
-            editorManager.editor.getDomNode().classList.add('script-edit-codeMirror');
-            editorManager.editor.getDomNode().classList.add('small');
-            if (this.fullscreen) {
-                this.$.editorFullScreen.children[0].innerHTML = '<path d="M10 32h6v6h4V28H10v4zm6-16h-6v4h10V10h-4v6zm12 22h4v-6h6v-4H28v10zm4-22v-6h-4v10h10v-4h-6z"/>';
-            }
-            this._initKeyBindings();
         };
         ;
+        SCE.prototype.onLangChanged = function () {
+            this._initKeyBindings();
+        };
         SCE.loadEditor = function (content) {
             if (content === void 0) { content = this.item.value.script; }
             return __awaiter(this, void 0, void 0, function () {
-                var placeHolder, isTs, type, _a;
+                var placeHolder, keyBindings, isTs, type, _a;
                 return __generator(this, function (_b) {
                     switch (_b.label) {
                         case 0:
                             placeHolder = $(this.$.editor);
                             this.editorHeight = placeHolder.height();
                             this.editorWidth = placeHolder.width();
+                            return [4, this.getKeyBindings()];
+                        case 1:
+                            keyBindings = _b.sent();
                             !window.app.settings.editor && (window.app.settings.editor = {
                                 theme: 'dark',
                                 zoom: '100',
                                 keyBindings: {
-                                    goToDef: this.keyBindings[0].defaultKey,
-                                    rename: this.keyBindings[1].defaultKey
+                                    goToDef: keyBindings[0].defaultKey,
+                                    rename: keyBindings[1].defaultKey
                                 },
                                 cssUnderlineDisabled: false,
                                 disabledMetaDataHighlight: false
@@ -622,7 +711,7 @@ var ScriptEditElement;
                                     fontSize: (~~window.app.settings.editor.zoom / 100) * 14,
                                     folding: true
                                 })];
-                        case 1:
+                        case 2:
                             _a.editorManager = _b.sent();
                             this.editorLoaded();
                             return [2];
@@ -682,18 +771,6 @@ var ScriptEditElement;
         SCE.behaviors = [window.Polymer.NodeEditBehavior, window.Polymer.CodeEditBehavior];
         SCE.properties = ScriptEditElement.scriptEditProperties;
         SCE._permissionDialogListeners = [];
-        SCE.keyBindings = [{
-                name: 'Go To Type Definition',
-                defaultKey: 'Ctrl-F12',
-                monacoKey: 'editor.action.goToTypeDefinition',
-                storageKey: 'goToDef'
-            }, {
-                name: 'Rename Symbol',
-                defaultKey: 'Ctrl-F2',
-                monacoKey: 'editor.action.rename',
-                storageKey: 'rename'
-            }
-        ];
         return SCE;
     }());
     ScriptEditElement.SCE = SCE;

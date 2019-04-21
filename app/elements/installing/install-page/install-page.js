@@ -132,7 +132,7 @@ var InstallPageElement;
                             resolve(xhr.responseText);
                         }
                         else {
-                            reject(new Error("install_page_failed_xhr"));
+                            reject(new Error("install_page_failedXhr"));
                         }
                     }
                 };
@@ -217,12 +217,27 @@ var InstallPageElement;
                 });
             }); });
         };
-        IP.ready = function () {
-            this.userscriptUrl = this.getUserscriptUrl();
+        IP.onLangChanged = function () {
             this.$.title.innerHTML = this.___("install_page_installing", this.userscriptUrl);
-            this.fetchUserscript(this.userscriptUrl);
-            window.installPage = this;
-            this._initSettings();
+        };
+        IP.ready = function () {
+            return __awaiter(this, void 0, void 0, function () {
+                var _a;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            this.userscriptUrl = this.getUserscriptUrl();
+                            this.fetchUserscript(this.userscriptUrl);
+                            window.installPage = this;
+                            this._initSettings();
+                            _a = this.$.title;
+                            return [4, this.__async("install_page_installing", this.userscriptUrl)];
+                        case 1:
+                            _a.innerHTML = _b.sent();
+                            return [2];
+                    }
+                });
+            });
         };
         IP.is = 'install-page';
         IP.properties = InstallPageElement.installPageProperties;

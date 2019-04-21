@@ -115,12 +115,22 @@ var PaperSearchWebsiteDialog;
             }));
         };
         PSWD.applySearchWebsite = function () {
-            if (this.outputType === 'script') {
-                this.insertCode();
-            }
-            else {
-                this.createSearchWebsiteLinkNode();
-            }
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            if (!(this.outputType === 'script')) return [3, 2];
+                            return [4, this.insertCode()];
+                        case 1:
+                            _a.sent();
+                            return [3, 3];
+                        case 2:
+                            this.createSearchWebsiteLinkNode();
+                            _a.label = 3;
+                        case 3: return [2];
+                    }
+                });
+            });
         };
         PSWD.switchToWindow = function (dialogWindow) {
             return __awaiter(this, void 0, void 0, function () {
@@ -128,7 +138,7 @@ var PaperSearchWebsiteDialog;
                     switch (_a.label) {
                         case 0:
                             this.hideAllWindows(dialogWindow);
-                            if (!(dialogWindow === 'successWindow')) return [3, 2];
+                            if (!(dialogWindow === 'successWindow')) return [3, 3];
                             this.$.successWindow.setAttribute('style', 'display:block;');
                             this.$.successWindow.classList.add('visible');
                             this.$.successWindow.querySelector('.checkmark').classList.add('animateIn');
@@ -138,17 +148,19 @@ var PaperSearchWebsiteDialog;
                                 duration: 300,
                                 easing: 'easeOutCubic'
                             });
-                            this.applySearchWebsite();
-                            return [4, window.app.util.wait(2500)];
+                            return [4, this.applySearchWebsite()];
                         case 1:
                             _a.sent();
-                            this.doHide();
-                            return [3, 3];
+                            return [4, window.app.util.wait(2500)];
                         case 2:
+                            _a.sent();
+                            this.doHide();
+                            return [3, 4];
+                        case 3:
                             this.$[dialogWindow].style.display = 'block';
                             this.$[dialogWindow].classList.add('visible');
-                            _a.label = 3;
-                        case 3:
+                            _a.label = 4;
+                        case 4:
                             this.windowPath.push(this.windows.indexOf(dialogWindow));
                             this.fit();
                             return [2];
@@ -189,10 +201,22 @@ var PaperSearchWebsiteDialog;
         };
         ;
         PSWD.insertCode = function () {
-            var code = "var search = crmAPI.getSelection() || prompt('Please enter a search query');\nvar url = '" + this.chosenUrl + "';\nvar toOpen = url.replace(/%s/g,search);\n" + (this.$.howToOpenLink.selected === 'currentTab' ?
-                "location.href = toOpen;" :
-                "window.open(toOpen, '_blank');");
-            window.scriptEdit.insertSnippet(window.scriptEdit, code, true);
+            return __awaiter(this, void 0, void 0, function () {
+                var code, _a;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            _a = "var search = crmAPI.getSelection() || prompt('";
+                            return [4, this.__async("options_tools_paperSearchWebsiteDialog_enterSearchQuery")];
+                        case 1:
+                            code = _a + (_b.sent()) + "');\nvar url = '" + this.chosenUrl + "';\nvar toOpen = url.replace(/%s/g,search);\n" + (this.$.howToOpenLink.selected === 'currentTab' ?
+                                "location.href = toOpen;" :
+                                "window.open(toOpen, '_blank');");
+                            window.scriptEdit.insertSnippet(window.scriptEdit, code, true);
+                            return [2];
+                    }
+                });
+            });
         };
         ;
         PSWD.backFromManualInput = function () {
@@ -253,13 +277,25 @@ var PaperSearchWebsiteDialog;
         };
         ;
         PSWD.confirmManualSearchListInput = function () {
-            var checkedButton = this.$.listInputSearchList.querySelector('paper-radio-button[checked]');
-            if (!checkedButton) {
-                window.app.util.showToast('Please select something');
-                return;
-            }
-            this.chosenUrl = checkedButton.url;
-            this.switchToWindow('confirmationWindow');
+            return __awaiter(this, void 0, void 0, function () {
+                var checkedButton, _a, _b;
+                return __generator(this, function (_c) {
+                    switch (_c.label) {
+                        case 0:
+                            checkedButton = this.$.listInputSearchList.querySelector('paper-radio-button[checked]');
+                            if (!!checkedButton) return [3, 2];
+                            _b = (_a = window.app.util).showToast;
+                            return [4, this.__async("options_tools_paperSearchWebsiteDialog_selectSomething")];
+                        case 1:
+                            _b.apply(_a, [_c.sent()]);
+                            return [2];
+                        case 2:
+                            this.chosenUrl = checkedButton.url;
+                            this.switchToWindow('confirmationWindow');
+                            return [2];
+                    }
+                });
+            });
         };
         ;
         PSWD.cancelAllRadiobuttons = function (e) {

@@ -1201,7 +1201,7 @@ export var Storages;
                                     return __generator(this, function (_a) {
                                         switch (_a.label) {
                                             case 0:
-                                                window.logAsync(window.__("background_storages_sync_upload_error"), err);
+                                                window.logAsync(window.__("background_storages_syncUploadError"), err);
                                                 Storages.modules.storages.storageLocal.useStorageSync = false;
                                                 return [4, browserAPI.storage.local.set({
                                                         useStorageSync: false
@@ -1455,7 +1455,7 @@ export var Storages;
                                 }
                             });
                         }); })["catch"](function (e) {
-                            window.logAsync(window.__("background_storages_local_upload_error"), e);
+                            window.logAsync(window.__("background_storages_localUploadError"), e);
                             if (e.message.indexOf('MAX_WRITE_OPERATIONS_PER_MINUTE') > -1 ||
                                 e.message.indexOf('MAX_WRITE_OPERATIONS_PER_HOUR') > -1) {
                                 cachedWrite = JSON.stringify(Storages.modules.storages.settingsStorage);
@@ -1516,7 +1516,7 @@ export var Storages;
                                 return __generator(this, function (_a) {
                                     switch (_a.label) {
                                         case 0:
-                                            window.logAsync(window.__("background_storages_sync_upload_error"), err);
+                                            window.logAsync(window.__("background_storages_syncUploadError"), err);
                                             Storages.modules.storages.storageLocal.useStorageSync = false;
                                             return [4, browserAPI.storage.local.set({
                                                     useStorageSync: false
@@ -1673,7 +1673,7 @@ export var Storages;
                 switch (_e.label) {
                     case 0:
                         _b = (_a = window).info;
-                        return [4, window.__("background_storages_setting_global_data")];
+                        return [4, window.__("background_storages_settingGlobalData")];
                     case 1:
                         _b.apply(_a, [_e.sent()]);
                         Storages.modules.storages.storageLocal = storageLocalCopy;
@@ -1689,7 +1689,7 @@ export var Storages;
                         Storages.modules.storages.resourceKeys = setIfNotSet(chromeStorageLocal, 'resourceKeys', []);
                         Storages.modules.storages.urlDataPairs = toMap(setIfNotSet(chromeStorageLocal, 'urlDataPairs', {}));
                         _d = (_c = window).info;
-                        return [4, window.__("background_storages_building_crm")];
+                        return [4, window.__("background_storages_buildingCrm")];
                     case 2:
                         _d.apply(_c, [_e.sent()]);
                         return [4, Storages.modules.CRMNodes.updateCRMValues()];
@@ -1745,7 +1745,7 @@ export var Storages;
                 switch (_r.label) {
                     case 0:
                         _b = (_a = window).info;
-                        return [4, window.__("background_storages_loading_sync")];
+                        return [4, window.__("background_storages_loadingSync")];
                     case 1:
                         _b.apply(_a, [_r.sent()]);
                         if (!supportsStorageSync()) return [3, 3];
@@ -1759,14 +1759,14 @@ export var Storages;
                     case 4:
                         storageSync = _c;
                         _e = (_d = window).info;
-                        return [4, window.__("background_storages_loading_local")];
+                        return [4, window.__("background_storages_loadingLocal")];
                     case 5:
                         _e.apply(_d, [_r.sent()]);
                         return [4, browserAPI.storage.local.get()];
                     case 6:
                         storageLocal = _r.sent();
                         _g = (_f = window).info;
-                        return [4, window.__("background_storages_checking_first")];
+                        return [4, window.__("background_storages_checkingFirst")];
                     case 7:
                         _g.apply(_f, [_r.sent()]);
                         return [4, isFirstTime(storageLocal)];
@@ -1787,7 +1787,7 @@ export var Storages;
                             storageLocal = result.storageLocal;
                         }
                         _j = (_h = window).info;
-                        return [4, window.__("background_storages_parsing_data")];
+                        return [4, window.__("background_storages_parsingData")];
                     case 12:
                         _j.apply(_h, [_r.sent()]);
                         storageLocalCopy = JSON.parse(JSON.stringify(storageLocal));
@@ -1828,7 +1828,7 @@ export var Storages;
                             }
                         }
                         _o = (_m = window).info;
-                        return [4, window.__("background_storages_checking_updates")];
+                        return [4, window.__("background_storages_checkingUpdates")];
                     case 20:
                         _o.apply(_m, [_r.sent()]);
                         checkForStorageSyncUpdates(settingsStorage, storageLocal);
@@ -2236,7 +2236,7 @@ export var Storages;
                             }];
                     case 5:
                         _b = (_a = window).info;
-                        return [4, window.__("background_storages_initializing_first")];
+                        return [4, window.__("background_storages_initializingFirst")];
                     case 6:
                         _b.apply(_a, [_c.sent()]);
                         return [2, {

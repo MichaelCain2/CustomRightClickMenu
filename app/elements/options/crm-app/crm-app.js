@@ -325,10 +325,10 @@ var CRMAppElement;
                 }
             });
         };
-        CA._getPageTitle = function (_lang, _langReady) {
+        CA._getPageTitle = function () {
             return this._isDemo() ?
                 'Demo, actual right-click menu does NOT work in demo' :
-                this.___("generic_app_title");
+                this.___("generic_appTitle");
         };
         CA._isOldChrome = function () {
             return this.getChromeVersion() < 30;
@@ -905,9 +905,9 @@ var CRMAppElement;
         ;
         CA.refreshPage = function () {
             return __awaiter(this, void 0, void 0, function () {
-                var dialog;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
+                var dialog, _a;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
                         case 0:
                             if (window.app.item) {
                                 dialog = window[window.app.item.type + 'Edit'];
@@ -920,30 +920,33 @@ var CRMAppElement;
                             window.Storages.clearStorages();
                             return [4, window.Storages.loadStorages()];
                         case 1:
-                            _a.sent();
+                            _b.sent();
                             return [3, 4];
                         case 2: return [4, browserAPI.runtime.sendMessage({
                                 type: '_resetSettings'
                             })];
                         case 3:
-                            _a.sent();
-                            _a.label = 4;
+                            _b.sent();
+                            _b.label = 4;
                         case 4: return [4, this._setup.setupStorages()];
                         case 5:
-                            _a.sent();
+                            _b.sent();
                             this._setup.initCheckboxes(window.app.storageLocal);
                             Array.prototype.slice.apply(this.shadowRoot.querySelectorAll('default-link')).forEach(function (link) {
                                 link.reset();
                             });
                             window.doc.URISchemeFilePath.value = 'C:\\files\\my_file.exe';
-                            window.doc.URISchemeSchemeName.value = this.___("crmApp_uriScheme_example");
+                            _a = window.doc.URISchemeSchemeName;
+                            return [4, this.__async("crmApp_uriScheme_example")];
+                        case 6:
+                            _a.value = _b.sent();
                             Array.prototype.slice.apply(this.shadowRoot.querySelectorAll('paper-dialog')).forEach(function (dialog) {
                                 dialog.opened && dialog.close();
                             });
                             this.upload(true);
                             return [4, window.onExistsChain(window, 'app', 'settings', 'crm')];
-                        case 6:
-                            _a.sent();
+                        case 7:
+                            _b.sent();
                             return [2];
                     }
                 });
@@ -4069,27 +4072,27 @@ var CRMAppElement;
                     crmContextmenu: this.parent().___("permissions_crmContextmenu"),
                     chrome: this.parent().___("permissions_chrome"),
                     browser: this.parent().___("permissions_browser"),
-                    GM_addStyle: this.parent().___("permissions_GM_addStyle"),
-                    GM_deleteValue: this.parent().___("permissions_GM_deleteValue"),
-                    GM_listValues: this.parent().___("permissions_GM_listValues"),
-                    GM_addValueChangeListener: this.parent().___("permissions_GM_addValueChangeListener"),
-                    GM_removeValueChangeListener: this.parent().___("permissions_GM_removeValueChangeListener"),
-                    GM_setValue: this.parent().___("permissions_GM_setValue"),
-                    GM_getValue: this.parent().___("permissions_GM_getValue"),
-                    GM_log: this.parent().___("permissions_GM_log"),
-                    GM_getResourceText: this.parent().___("permissions_GM_getResourceText"),
-                    GM_getResourceURL: this.parent().___("permissions_GM_getResourceURL"),
-                    GM_registerMenuCommand: this.parent().___("permissions_GM_registerMenuCommand"),
-                    GM_unregisterMenuCommand: this.parent().___("permissions_GM_unregisterMenuCommand"),
-                    GM_openInTab: this.parent().___("permissions_GM_openInTab"),
-                    GM_xmlhttpRequest: this.parent().___("permissions_GM_xmlhttpRequest"),
-                    GM_download: this.parent().___("permissions_GM_download"),
-                    GM_getTab: this.parent().___("permissions_GM_getTab"),
-                    GM_saveTab: this.parent().___("permissions_GM_saveTab"),
-                    GM_getTabs: this.parent().___("permissions_GM_getTabs"),
-                    GM_notification: this.parent().___("permissions_GM_notification"),
-                    GM_setClipboard: this.parent().___("permissions_GM_setClipboard"),
-                    GM_info: this.parent().___("permissions_GM_info"),
+                    GM_addStyle: this.parent().___("permissions_GMAddStyle"),
+                    GM_deleteValue: this.parent().___("permissions_GMDeleteValue"),
+                    GM_listValues: this.parent().___("permissions_GMListValues"),
+                    GM_addValueChangeListener: this.parent().___("permissions_GMAddValueChangeListener"),
+                    GM_removeValueChangeListener: this.parent().___("permissions_GMRemoveValueChangeListener"),
+                    GM_setValue: this.parent().___("permissions_GMSetValue"),
+                    GM_getValue: this.parent().___("permissions_GMGetValue"),
+                    GM_log: this.parent().___("permissions_GMLog"),
+                    GM_getResourceText: this.parent().___("permissions_GMGetResourceText"),
+                    GM_getResourceURL: this.parent().___("permissions_GMGetResourceURL"),
+                    GM_registerMenuCommand: this.parent().___("permissions_GMRegisterMenuCommand"),
+                    GM_unregisterMenuCommand: this.parent().___("permissions_GMUnregisterMenuCommand"),
+                    GM_openInTab: this.parent().___("permissions_GMOpenInTab"),
+                    GM_xmlhttpRequest: this.parent().___("permissions_GMXmlhttpRequest"),
+                    GM_download: this.parent().___("permissions_GMDownload"),
+                    GM_getTab: this.parent().___("permissions_GMGetTab"),
+                    GM_saveTab: this.parent().___("permissions_GMSaveTab"),
+                    GM_getTabs: this.parent().___("permissions_GMGetTabs"),
+                    GM_notification: this.parent().___("permissions_GMNotification"),
+                    GM_setClipboard: this.parent().___("permissions_GMSetClipboard"),
+                    GM_info: this.parent().___("permissions_GMInfo"),
                     unsafeWindow: this.parent().___("permissions_unsafeWindow")
                 };
                 return descriptions[permission];

@@ -94,13 +94,13 @@ export var GlobalDeclarations;
                 }
             });
             if (matches.length === 0) {
-                window.logAsync(window.__("background_globalDeclarations_getID_no_matches"));
+                window.logAsync(window.__("background_globalDeclarations_getID_noMatches"));
             }
             else if (matches.length === 1) {
-                window.logAsync(window.__("background_globalDeclarations_getID_one_match", matches[0].id), matches[0].node);
+                window.logAsync(window.__("background_globalDeclarations_getID_oneMatch", matches[0].id), matches[0].node);
             }
             else {
-                window.logAsync(window.__("background_globalDeclarations_getID_multiple_matches"));
+                window.logAsync(window.__("background_globalDeclarations_getID_multipleMatches"));
                 matches.forEach(function (match) {
                     window.logAsync(window.__("crm_id") + ":", match.id, ", " + window.__("crm_node") + ":", match.node);
                 });

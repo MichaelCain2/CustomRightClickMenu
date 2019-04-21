@@ -254,7 +254,7 @@ export var Resources;
                 switch (_c.label) {
                     case 0:
                         _b = (_a = window).info;
-                        return [4, window.__("background_init_resource_update")];
+                        return [4, window.__("background_init_resourceUpdate")];
                     case 1:
                         _b.apply(_a, [_c.sent()]);
                         compareResource(resourceKey);

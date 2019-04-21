@@ -9,6 +9,10 @@ var EchoHtmlElement;
         makelink: {
             type: Boolean,
             value: false
+        },
+        inline: {
+            type: Boolean,
+            value: false
         }
     };
     var EH = (function () {
@@ -33,6 +37,9 @@ var EchoHtmlElement;
         ;
         EH.ready = function () {
             this.htmlChanged();
+            if (this.inline) {
+                this.$.content.classList.add('inline');
+            }
         };
         EH.is = 'echo-html';
         EH.properties = EchoHtmlElement.echoHtmlProperties;

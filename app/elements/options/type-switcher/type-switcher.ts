@@ -2,6 +2,7 @@
 
 import { EditCrmItem } from '../edit-crm-item/edit-crm-item';
 import { Polymer } from '../../../../tools/definitions/polymer';
+import { I18NKeys } from '../../../_locales/i18n-keys';
 
 namespace TypeSwitcherElement {
 	export class TS {
@@ -55,6 +56,10 @@ namespace TypeSwitcherElement {
 		static ready(this: TypeSwitcher) {
 			this.remainingTypes = [];
 			this.onReady();
+		}
+
+		static getTitle(this: TypeSwitcher, type: CRM.NodeType) {
+			return this.___(I18NKeys.options.typeSwitcher.title, type);
 		}
 
 		static onReady(this: TypeSwitcher) {
@@ -257,6 +262,7 @@ namespace TypeSwitcherElement {
 			//Update color
 			editCrmEl.type = item.type;
 			editCrmEl.calculateType();
+			editCrmEl.updateName(item.name);
 			this.onReady();
 
 			let i;
@@ -281,7 +287,7 @@ namespace TypeSwitcherElement {
 			this.closeTypeSwitchContainer(true);
 			window.app.upload();
 
-			window.app.uploading.showRevertPointToast(revertPoint, 150000);
+			window.app.uploading.showRevertPointToast(revertPoint, 15000);
 		}
 	}
 

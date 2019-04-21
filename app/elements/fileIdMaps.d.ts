@@ -483,6 +483,7 @@ interface SelectorMap {
 	".bugReportingCont": HTMLDivElement;
 	".bugReportingDescr": HTMLDivElement;
 	".buttons": HTMLDivElement;
+	".capitalized": HTMLSpanElement;
 	".capture captureCont": HTMLImageElement;
 	".centerVertical": HTMLDivElement;
 	".centerVertical active": HTMLDivElement;
@@ -584,8 +585,6 @@ interface SelectorMap {
 	".infoPermissionContainer": HTMLDivElement;
 	".infoPermissionExtraText": HTMLDivElement;
 	".infoPermissionToggleContainer": HTMLDivElement;
-	".infoSvg": SVGElement;
-	".infoSvg triangleInfoSvg": SVGElement;
 	".infoValue": HTMLDivElement|HTMLTableDataCellElement|HTMLTemplateElement;
 	".initialWindowChoice": HTMLPaperRadioButtonElement;
 	".installButton": HTMLPaperButtonElement;
@@ -1200,6 +1199,7 @@ interface ClassMap {
 	"bugReportingCont": HTMLDivElement;
 	"bugReportingDescr": HTMLDivElement;
 	"buttons": HTMLDivElement;
+	"capitalized": HTMLSpanElement;
 	"capture captureCont": HTMLImageElement;
 	"centerVertical": HTMLDivElement;
 	"centerVertical active": HTMLDivElement;
@@ -1301,8 +1301,6 @@ interface ClassMap {
 	"infoPermissionContainer": HTMLDivElement;
 	"infoPermissionExtraText": HTMLDivElement;
 	"infoPermissionToggleContainer": HTMLDivElement;
-	"infoSvg": SVGElement;
-	"infoSvg triangleInfoSvg": SVGElement;
 	"infoValue": HTMLDivElement|HTMLTableDataCellElement|HTMLTemplateElement;
 	"initialWindowChoice": HTMLPaperRadioButtonElement;
 	"installButton": HTMLPaperButtonElement;

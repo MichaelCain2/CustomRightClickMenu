@@ -25,6 +25,7 @@ namespace EditCrmElement {
 		isSelecting: boolean;
 		isAdding: boolean;
 		isAddingOrSelecting: boolean;
+		appExists: boolean;
 	} = {
 		crm: {
 			type: Array,
@@ -78,6 +79,14 @@ namespace EditCrmElement {
 			value: false,
 			notify: true,
 			computed: '_isAddingOrSelecting(isAdding, isSelecting)'
+		},
+		/**
+		 * Whether the window.app element is registered yet
+		 */
+		appExists: {
+			type: Boolean,
+			value: false,
+			notify: true
 		}
 	} as any;
 
@@ -244,9 +253,12 @@ namespace EditCrmElement {
 		};
 
 		static _addNodeType(this: EditCrm, nodeType: CRM.NodeType) {
-				return this.___(I18NKeys.options.editCrm.addNodeType,
-					window.app.crm.getI18NNodeType(nodeType));
-			}
+			return this.___(I18NKeys.options.editCrm.addNodeType,
+				window.app ?
+					window.app.crm.getI18NNodeType(nodeType) :
+					`{{${nodeType}}}`
+				);
+		}
 
 		static _isColumnEmpty(this: EditCrm, column: CRMColumn): boolean {
 			return column.list.length === 0 && !this.isAdding;
@@ -257,7 +269,7 @@ namespace EditCrmElement {
 		};
 
 		static _getAriaLabel(this: EditCrm, item: CRM.Node): string {
-			return 'Edit item "' + item.name + '"';
+			return this.___(I18NKeys.options.editCrm.editItem, item.name);
 		};
 
 		static _isAddingOrSelecting(this: EditCrm) {
@@ -691,6 +703,7 @@ namespace EditCrmElement {
 		static ready(this: EditCrm) {
 			window.onExists('app').then(() => {
 				window.app.editCRM = this;
+				this.appExists = true;
 				window.app.addEventListener('crmTypeChanged', () => {
 					this._typeChanged();
 				});
@@ -698,11 +711,11 @@ namespace EditCrmElement {
 			});
 		};
 
-		static addToPosition(this: EditCrm, e: Polymer.ClickEvent) {
+		static async addToPosition(this: EditCrm, e: Polymer.ClickEvent) {
 			const node = window.app.util.findElementWithClassName(e, 'addingItemPlaceholder');
 
 			const menuPath = JSON.parse(node.getAttribute('data-path'));
-			this._addItem(menuPath, this.addingType);
+			await this._addItem(menuPath, this.addingType);
 			this.isAdding = false;
 		};
 
@@ -766,7 +779,7 @@ namespace EditCrmElement {
 			});
 		}
 
-		private static _addItem(this: EditCrm, path: number[], type: CRM.NodeType) {
+		private static async _addItem(this: EditCrm, path: number[], type: CRM.NodeType) {
 			const newItem = window.app.templates.getDefaultNodeOfType(type, {
 				id: window.app.generateItemId() as CRM.NodeId<any>
 			});
@@ -774,7 +787,8 @@ namespace EditCrmElement {
 			window.app.uploading.createRevertPoint();
 			const container = window.app.crm.lookup(path, true);
 			if (container === null) {
-				window.app.util.showToast(`Failed to add ${type}`);
+				window.app.util.showToast(await this.__async(I18NKeys.options.editCrm.addFail,
+					type));
 				window.app.util.wait(5000).then(() => {
 					window.app.listeners.hideGenericToast();
 				});
